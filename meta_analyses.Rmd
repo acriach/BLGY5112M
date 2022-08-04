@@ -1,0 +1,63 @@
+---
+title: "Meta-Analyses"
+---
+
+# Lecture
+
+## Background
+
+What is a meta-analysis?
+
+> A meta-analysis is a quantitative summary of studies on the same topic. 
+Why do we want to perform a meta-analysis?
+
+a. Finding generalities
+b. Increasing power and precision
+c. Exploring differences between studies
+d. Settling controversies from conflicting studies (testing hypotheses)
+e. Generating new hypotheses
+
+
+
+**The process of meta-analysis**
+
+How many steps involved in meta-analysis?
+
+One answer is 5 steps
+
+i. Formulating questions & hypothesis or finding a topic
+ii. Literature search & paper collection
+iii. Data extraction & coding
+iv. Meta-analysis & publication bias tests
+v. Reporting & publication
+
+We only consider the step iv in this tutorial. You will need to learn the other steps elsewhere. To get you started, we recently wrote an overview paper which divides the process of meta-analysis into 10 questions [(Nakagawa *et al.* 2017)](https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7). The 10 questions will guide you through judging the quality of a meta-analysis. 
+
+1. Is the search systematic and transparently documented?
+2. What question and what effect size?
+3. Is non-independence taken into account?
+4. Which meta-analytic model?
+5. Is the level of consistency among studies reported?
+6. Are the causes of variation among studies investigated?
+7. Are effects interpreted in terms of biological importance?
+8. Has publication bias been considered?
+9. Are results really robust and unbiased?
+10. Is the current state (and lack) of knowledge summarized?
+
+
+### Metafor for meta-analysis
+
+
+
+
+### Calculating 'standardized' effect sizes
+
+
+
+
+Source
+Licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+
+Adapted from EnvironmentalComputing https://github.com/nicercode/EnvironmentalComputing
+
+# Practical

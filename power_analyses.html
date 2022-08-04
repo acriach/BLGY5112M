@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Power Analyses</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BLGY5112M</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Advanced Statistics</a>
+</li>
+<li>
+  <a href="power_analyses.html">Power Analysis</a>
+</li>
+<li>
+  <a href="multivariate_methods.html">Multivariate Methods</a>
+</li>
+<li>
+  <a href="spatial_data.html">Spatial Data</a>
+</li>
+<li>
+  <a href="meta_analyses.html">Meta-analyses</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Power Analyses</h1>
+
+</div>
+
+
+<div id="what-is-power-analysis-and-why-is-it-important"
+class="section level2" number="0.1">
+<h2><span class="header-section-number">0.1</span> What is power
+analysis and why is it important?</h2>
+<p>You collect data to answer a question, usually with the aim of
+detecting a particular effect (e.g., treatment effect). The power of
+your test is <em>the probability of detecting an effect (i.e., getting a
+p-value &lt; 0.05) with the experimental design you have and the effect
+size that you expect or consider meaningful</em>.</p>
+<p>I’ll start by simulating a dataset which has an effect (a difference
+between the control and treatment), and we’ll see if we can detect the
+effect. We’ll do a simple <a href="../t-tests/two-sample-t-test">two
+sample t-test</a> for illustration.</p>
+<pre class="r"><code>set.seed(1)
+N &lt;- 20 # the sample size
+trt.effect &lt;- 0.2 # difference between control and treatment means
+sigma &lt;- 0.5 # standard deviation of control and treatment groups
+mean.con &lt;- 0 # mean of control group
+mean.trt &lt;- mean.con + trt.effect # mean of treatment group
+control &lt;- rnorm(N, mean.con, sigma) # 20 data points for the control group taken from a normal distribution with known sample size, mean and s.d.
+treatment &lt;- rnorm(N, mean.trt, sigma) # data for the treatment group
+t.test(control, treatment)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  control and treatment
+## t = -0.71923, df = 37.917, p-value = 0.4764
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3872163  0.1842117
+## sample estimates:
+##  mean of x  mean of y 
+## 0.09526194 0.19676424</code></pre>
+<p>We can view the differences between the groups with a boxplot and
+test for those differences with a t-test:</p>
+<pre class="r"><code>boxplot(cbind(control, treatment))</code></pre>
+<p><img src="power_analyses_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>t.test(control, treatment)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  control and treatment
+## t = -0.71923, df = 37.917, p-value = 0.4764
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3872163  0.1842117
+## sample estimates:
+##  mean of x  mean of y 
+## 0.09526194 0.19676424</code></pre>
+<p>We know there is an effect of treatment, with effect size 0.2, but
+the test was not able to detect it.This is known as a type II error.
+Let’s redo the same experiment with exactly the same setup.</p>
+<pre class="r"><code>#
+set.seed(3)
+N &lt;- 20
+trt.effect &lt;- 0.2
+sigma &lt;- 0.5
+mean.con &lt;- 0
+mean.trt &lt;- mean.con + trt.effect
+control &lt;- rnorm(N, mean.con, sigma)
+treatment &lt;- rnorm(N, mean.trt, sigma)
+boxplot(cbind(control, treatment))</code></pre>
+<p><img src="power_analyses_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>t.test(control, treatment)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  control and treatment
+## t = -2.3471, df = 37.416, p-value = 0.02432
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.57817515 -0.04253493
+## sample estimates:
+##   mean of x   mean of y 
+## -0.08359522  0.22675982</code></pre>
+<p>This time we did detect an effect. This always happens, no matter
+what your experimental design, if an effect is present, you have some
+chance of detecting it, this is called power. So as not to waste time
+and money, we should only conduct experiments that have high power,
+i.e. high probability of detecting an effect if there is one. We can
+calculate the power of this experiment.</p>
+</div>
+<div id="simple-power-analysis-with-pwr" class="section level2"
+number="0.2">
+<h2><span class="header-section-number">0.2</span> Simple power analysis
+with ‘pwr’</h2>
+<p>There are various packages which do power analysis in R. <a
+href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a>
+does simple stuff up to <code>lm</code> and <a
+href="https://cran.r-project.org/web/packages/simr/index.html">simR</a>
+does more complex <a href="../mixed-models">mixed models</a> and <a
+href="../glms">glms</a>.</p>
+<p>First, download and install the package.</p>
+<pre class="r"><code>library(pwr)</code></pre>
+<p>To do power calculations in pwr, you leave one of the values as NULL
+and enter all the others. It then gives you the value for the one you
+left out.</p>
+<p>Here I will use the function <code>pwr.t.test</code> and leave out
+power. It will calculate the power for the experimental design givne the
+specified sample size and effect size. Be careful; the d variable, which
+in the help file is called the effect size, is our treatment effect
+(difference between means) divided by the standard deviation.</p>
+<pre class="r"><code>pwr.t.test(n = 20, d = trt.effect / sigma, sig.level = 0.05, power = NULL)</code></pre>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 20
+##               d = 0.4
+##       sig.level = 0.05
+##           power = 0.2343494
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>Whoops, power is only about 25%. This means that given the effect we
+expect, and with this sample size, we will only detect that effect 25%
+of the time. So, it’s probably not worth doing this experiment. We could
+increase the sample size to increase power.</p>
+<p>We can now use our power calculations to find out what sample size
+will give us good power, where 80% is the usual cutoff. We redo the
+calculation but now with N left blank and power = 0.8.</p>
+<pre class="r"><code>pwr.t.test(n = NULL, d = trt.effect / sigma, sig.level = 0.05, power = 0.8)</code></pre>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 99.08032
+##               d = 0.4
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>This tells us that to we need a sample size (for each group) of 100
+to achieve 80% power of detecting our effect. This is obviously
+important to know if replicate measures are expensive or time consuming
+to collect.</p>
+<p>We can also plot power for various sample sizes. Here is some code
+that calculates and plots power for samples sizes from 2 to 200.</p>
+<pre class="r"><code>nvals &lt;- seq(2, 200, length.out = 200)
+powvals &lt;- sapply(nvals, function(x) pwr.2p.test(h = trt.effect / sigma, n = x, sig.level = 0.05)$power)
+plot(nvals, powvals,
+  xlab = &quot;sample size&quot;, ylab = &quot;power&quot;,
+  main = &quot;Power curve for sample size for difference in proportions&quot;,
+  lwd = 2, col = &quot;red&quot;, type = &quot;l&quot;
+)
+abline(h = 0.8)</code></pre>
+<p><img src="power_analyses_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>The <em>pwr</em> package has a bunch of functions, but they all
+pretty much work the same way.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwr.2p.test</code></td>
+<td>two proportions (equal n)</td>
+</tr>
+<tr class="even">
+<td><code>pwr.2p2n.test</code></td>
+<td>two proportions (unequal n)</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.anova.test</code></td>
+<td>balanced one way ANOVA</td>
+</tr>
+<tr class="even">
+<td><code>pwr.chisq.test</code></td>
+<td>chi-square test</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.f2.test</code></td>
+<td>general linear model</td>
+</tr>
+<tr class="even">
+<td><code>pwr.p.test</code></td>
+<td>proportion (one sample)</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.r.test</code></td>
+<td>correlation</td>
+</tr>
+<tr class="even">
+<td><code>pwr.t.test</code></td>
+<td>t-tests (one sample, 2 sample, paired)</td>
+</tr>
+<tr class="odd">
+<td><code>pwr.t2n.test</code></td>
+<td>t-test (two samples with unequal n)</td>
+</tr>
+</tbody>
+</table>
+<p>It is generally a bit tricky to specify effect size, you can find a
+good guide for this package <a
+href="http://www.statmethods.net/stats/power.html">here</a>.</p>
+<p>Note that specifying effect size is not a statistical question, it’s
+an ecological question of what effect size is meaningful for your
+particular study? For example, do you want to be able to detect a 10%
+decline in the abundance of a rare animal or would you be happy with a
+sampling design able to detect a 25% decline?</p>
+<p>Source Licensed under a Creative Commons Attribution-ShareAlike 4.0
+International License</p>
+<p>Adapted from EnvironmentalComputing <a
+href="https://github.com/nicercode/EnvironmentalComputing"
+class="uri">https://github.com/nicercode/EnvironmentalComputing</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

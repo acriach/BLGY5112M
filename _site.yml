@@ -1,0 +1,22 @@
+name: "BLGY5112M"
+navbar:
+  title: "BLGY5112M"
+  left:
+    - text: "Advanced Statistics"
+      href: index.html
+    - text: "Power Analysis"
+      href: power_analyses.html
+    - text: "Multivariate Methods"
+      href: multivariate_methods.html
+    - text: "Spatial Data"
+      href: spatial_data.html
+    - text: "Meta-analyses"
+      href: meta_analyses.html
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    number_sections: true
+    css: styles.css
+output_dir: "."

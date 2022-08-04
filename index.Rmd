@@ -1,0 +1,18 @@
+---
+title: "index"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+picture here of converyor belt ![]
+
+## Advanced Statistics
+
+The lectures and practicals for the topics below can be found using the menus.
+
+Power analyses
+Multivariate Methods
+Spatial staitstics
+Meta-analyses

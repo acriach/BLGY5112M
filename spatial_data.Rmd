@@ -1,0 +1,9 @@
+---
+title: "Spatial Data"
+---
+
+plot a set of long and lat points on a map
+
+raster data
+
+autocorrelation problems

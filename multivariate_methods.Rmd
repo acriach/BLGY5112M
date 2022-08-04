@@ -1,0 +1,23 @@
+---
+title: "multivariate methods"
+---
+
+## PCA
+
+
+
+## Running the analysis
+ 
+
+
+  
+
+## Interpreting the results
+ 
+
+
+  
+Source
+Licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+
+Adapted from EnvironmentalComputing https://github.com/nicercode/EnvironmentalComputing
