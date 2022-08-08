@@ -1,52 +1,145 @@
 ---
 title: "Power Analyses"
 ---
-## What is power analysis and why is it important?
-You collect data to answer a question, usually with the aim of detecting a particular effect (e.g., treatment effect). The power of your test is *the probability of detecting an effect (i.e., getting a p-value < 0.05) with the experimental design you have and the effect size that you expect or consider meaningful*.
 
-I'll start by simulating a dataset which has an effect (a difference between the control and treatment), and we'll see if we can detect the effect. We'll do a simple [two sample t-test](../t-tests/two-sample-t-test) for illustration.
-
-```{r}
-set.seed(1)
-N <- 20 # the sample size
-trt.effect <- 0.2 # difference between control and treatment means
-sigma <- 0.5 # standard deviation of control and treatment groups
-mean.con <- 0 # mean of control group
-mean.trt <- mean.con + trt.effect # mean of treatment group
-control <- rnorm(N, mean.con, sigma) # 20 data points for the control group taken from a normal distribution with known sample size, mean and s.d.
-treatment <- rnorm(N, mean.trt, sigma) # data for the treatment group
-t.test(control, treatment)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 ```
 
-We can view the differences between the groups with a boxplot and test for those differences with a t-test:
+# Some Concepts to understand
 
-```{r}
-boxplot(cbind(control, treatment))
-t.test(control, treatment)
-```
+## Effect Size
 
-We know there is an effect of treatment, with effect size 0.2, but the test was not able to detect it.This is known as a type II error. Let's redo the same experiment with exactly the same setup.
+![alt.text=Two geese swimming on blue water with a swan swimming in the background.](./images/geese_and_swan.jpg)
 
-```{r}
-#
-set.seed(3)
-N <- 20
-trt.effect <- 0.2
-sigma <- 0.5
-mean.con <- 0
-mean.trt <- mean.con + trt.effect
-control <- rnorm(N, mean.con, sigma)
-treatment <- rnorm(N, mean.trt, sigma)
-boxplot(cbind(control, treatment))
-t.test(control, treatment)
-```
+![alt.text=A robin sitting on the post of a fence with snow on the fence and surrounding foliage](./images/robin.jpg)
 
-This time we did detect an effect. This always happens, no matter what your experimental design, if an effect is present, you have some chance of detecting it, this is called power. So as not to waste time and money, we should only conduct experiments that have high power, i.e. high probability of detecting an effect if there is one. We can calculate the power of this experiment.
-  
+Experiment 1 Measures the weights of **geese** and **swans**.
 
-## Simple power analysis with 'pwr'
- 
-There are various packages which do power analysis in R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) does simple stuff up to `lm` and [simR](https://cran.r-project.org/web/packages/simr/index.html) does more complex [mixed models](../mixed-models) and [glms](../glms).
+Experiment 2 Measures the weights of **geese** and **robins**.
+
+**What experiment is most likely to find a significant difference in weight between species?**
+
+<details>
+  <summary>**Answer**</summary>
+
+Experiment 2 because the difference between geese and robin weight is bigger. The **effect size** is bigger.
+
+<br>
+
+</details>
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+Effect sizes can be measured. The effect size in a correlation is r. In a t test, it is a number which is given the letter d.  
+::::
+
+<br>
+
+## Sample Size (n)
+
+![alt.text=A giraffe striding across a grassy landscape.](./images/giraffe.jpg)
+
+Experiment 1 - Measures the heights of **10** female and **10** male giraffes.
+
+Experiment 2 - Measures the heights of **100** female and **100** male giraffes.
+
+**What experiment is most likely to find a significant difference in height?**
+
+<details>
+  <summary>**Answer**</summary>
+
+Experiment 2 because more of the population is sampled.
+
+</details>
+
+<br>
+
+## Significance (alpha) Level
+
+All student projects in group A compare p values to an significance level of **0.05**.
+
+All student projects in group B compare p values to an significance level of **0.01**.
+
+**What group are most likely to find a significant result?**
+
+<details>
+  <summary>***Answer***</summary>
+
+Cohort A because the p values do not have to be as small to be below 0.05 and to reject the null hypothesis.
+
+</details>
+
+<br>
+
+## Type I Errors
+
+![alt.text=Table of error types. If null hypothesis is true and the decision about null hypothesis is don't reject, then this is the correct inference (true negative) (probability = 1 - alpha). If null hypothesis is true and the decision about the null hypothesis is reject, this is a type 1 error (false positive) (probability = alpha). If null hypothesis is false and the decision about null hypothesis is don't reject, then this is a type two error (false negative) (probability = beta). If null hypothesis is false and the decision about the null hypothesis is reject, this is the correct inference (true positive) (probability = 1 - beta).](./images/error_table.png)
+
+
+
+A type one error is when you find a significant result but in reality there is no significant effect or difference.
+
+> Example: a student project finds there is a difference in maths performance between girls and boys. But in reality
+> this is unlikely to be the case since other researchers have not found this ([Li et al., 2018](https://doi.org/10.1111/bjep.12203), [Lindberg et al., 2010](https://doi.org/10.1037/A0021276), [Reilly et al., 2019](https://doi.org/10.1007/s11165-017-9630-6)). The 
+> student would have made a **type 1 error**.
+
+<br>
+
+All student projects in group A compare p values to an alpha level of 0.05.
+
+All student projects in group B compare p values to an alpha level of 0.01.
+
+**Which cohort is most likely to make type 1 errors in their projects?**
+
+<details>
+  <summary>**Answer**</summary>
+
+Group A because the higher alpha level means they are more likely to reject the null hypothesis. They are therefore more likely to mistakenly reject a null hypothesis that in reality is true.
+
+</details>
+
+<br>
+
+## Type II Errors
+
+A type two error is when you mistakenly accept the null hypothesis. You conclude there is no difference or effect when there really is. 
+
+![alt.text=A big silverback gorilla sitting in the foreground with a smaller gorilla walking behind.](./images/gorillas.jpg)
+
+> Example: you measure the weights of male and female gorillas and find no significant difference. In reality males are a 
+> lot heavier. You would have made a **type two error**.
+
+<br>
+
+We want to reduce the risk of both type 1 and 2 errors. While it is debatable how to do this, there is a convention established that we use a significance level of **0.05** and **0.8** power. 
+
+## Power
+
+Power is the chance that a study will detect an effect if one exists. 
+
+A **power analysis** can tell us how many samples will give us 80% power (80% is 0.8 as a percentage). 
+
+In other words, you use an **alpha level of 0.05**, estimate your **effect size**, then choose a **sample size** that gives you **0.8 power**.
+
+A power analysis can also be used to determine how high the power of an analysis was that has already been done.
+
+<br>
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+In the future (and already in some disciplines) conventions might change to use, for example, a significance level of 0.01 and 96% power. If you want to know more search for "the replication crisis" on the internet.  
+::::
+
+<br>
+
+# Power analyses in R
+
+There are various packages which do power analysis in R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) does simpler analyses up to `lm` and [simR](https://cran.r-project.org/web/packages/simr/index.html) does more complex mixed models and glms.
 
 First, download and install the package.
 
@@ -54,37 +147,30 @@ First, download and install the package.
 library(pwr)
 ```
 
-To do power calculations in pwr, you leave one of the values as NULL and enter all the others. It then gives you the value for the one you left out. 
 
-Here I will use the function `pwr.t.test` and leave out power. It will calculate the power for the experimental design givne the specified sample size and effect size. Be careful; the d variable, which in the help file is called the effect size, is our treatment effect (difference between means) divided by the standard deviation. 
+## Power analyses to find out sample size
 
-```{r,}
-pwr.t.test(n = 20, d = trt.effect / sigma, sig.level = 0.05, power = NULL)
-```
+You want to know how many rats you should weigh, to detect an effect of a drug compared to a placebo where the effect size is 0.5, using a significance level of 0.05 and 0.8 power. 
 
-Whoops, power is only about 25%. This means that given the effect we expect, and with this sample size, we will only detect that effect 25% of the time. So, it's probably not worth doing this experiment. We could increase the sample size to increase power. 
-
-We can now use our power calculations to find out what sample size will give us good power, where 80% is the usual cutoff. We redo the calculation but now with N left blank and power = 0.8.
-
+To do power calculations in `pwr`, you leave out sample size (n) but enter effect size (d), significance level and power:
 ```{r}
-pwr.t.test(n = NULL, d = trt.effect / sigma, sig.level = 0.05, power = 0.8)
+pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8)
 ```
 
-This tells us that to we need a sample size (for each group) of 100 to achieve 80% power of detecting our effect. This is obviously important to know if replicate measures are expensive or time consuming to collect.
+We need 128 rats.
 
-We can also plot power for various sample sizes. Here is some code that calculates and plots power for samples sizes from 2 to 200.
+<br>
 
-```{r}
-nvals <- seq(2, 200, length.out = 200)
-powvals <- sapply(nvals, function(x) pwr.2p.test(h = trt.effect / sigma, n = x, sig.level = 0.05)$power)
-plot(nvals, powvals,
-  xlab = "sample size", ylab = "power",
-  main = "Power curve for sample size for difference in proportions",
-  lwd = 2, col = "red", type = "l"
-)
-abline(h = 0.8)
-```
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
 
+If you have a good reason to expect a difference in a particular **direction**, which is whether the treatment group is higher or lower than the control, you set `alternative = "greater"` or `alternative = "less"` - it doesn’t matter which you choose for this pwr.t.test command. If you cannot be sure if the treatment will be higher or lower weight, you set `alternative = "two.sided"`. 
+::::
+
+<br>
+
+## Other Statistical Tests
 
 The *pwr* package has a bunch of functions, but they all pretty much work the same way. 
 
@@ -100,12 +186,127 @@ Function       | Description
 `pwr.t.test`     | t-tests (one sample, 2 sample, paired)
 `pwr.t2n.test`   | t-test (two samples with unequal n)
 
+<br>
 
-It is generally a bit tricky to specify effect size, you can find a good guide for this package [here](http://www.statmethods.net/stats/power.html).
+**Challenge**
 
-Note that specifying effect size is not a statistical question, it's an ecological question of what effect size is meaningful for your particular study? For example, do you want to be able to detect a 10% decline in the abundance of a rare animal or would you be happy with a sampling design able to detect a 25% decline?
+The function `pwr.anova.test()` performs a power analysis for a balanced anova (balanced is when all the groups have the same sample size). k is the number of groups to be compared and f is the effect size.
+
+You are planning a project to measure the pollution concentration in fish from three lakes (three groups). Use an effect size of 0.2, significance level of 0.05 and power of 0.8.  How many fish do you need to catch from each lake?
+
+![alt.text=A view looking into swallow water with 4 trout swimming.](./images/rainbow_trout.jpg)
+
+<details>
+  <summary>**Answer**</summary>
+
+```{r}
+pwr.anova.test(f=0.2,k=3,power=0.80,sig.level=0.05)
+```
+You need to catch 81 fish from each lake, 243 in total.
+
+</details>
+
+<br>
+
+## Choosing an Effect Size Before the Experiment
+
+If you really have nothing else to go on, assume an effect size of 0.5. However, you can normally do better than that, by looking at previous experiments you, or other people, have run.  
+
+Keep in mind that specifying effect size is not a statistical question, it's an ecological question of what effect size is meaningful for your particular study? For example, do you want to be able to detect a 25% decline in the abundance of a rare animal or would you be happy detecting a 1% decline? For more explanation read the blog post [The Effect Size: The Most difficult Step in Calculating Sample Size Estimates](https://www.theanalysisfactor.com/sample-size-most-difficult-step/). 
+
+<br>
+
+## Power Analysis for Estimating Power
+
+Imagine this experiment has already taken place. A new treatment was tested on 40 mice (20 in the control group and 20 in the treatment group) and measurements of success taken. The effect size was found to be 0.3.
+
+**Challenge**
+
+Use the function `pwr.t.test` and calculate what power the t test had. Use a significance level of 0.05.
+
+<details>
+  <summary>***Answer***</summary>
+
+```{r}
+pwr.t.test(n = 20, d = 0.3, sig.level = 0.05, power = NULL)
+```
+Power was only about 15%. This means that given the effect size, and sample size, we only detected that effect 15% of the time. So, it probably was not worth doing this experiment! 
+
+</details>
+
+<br>
+
+
+How big would the sample sizes in the experiment above have had to be to achieve 80% power? We can try n = 30: 
+```{r,}
+pwr.t.test(n = 30, d = 0.3, sig.level = 0.05, power = NULL)
+```
+
+Power improves to around 20%. Instead of manually plugging in different values for n, we could make R run the power analysis for many different sample sizes. This code calculates and plots power for samples sizes from 2 to 200.
+```{r}
+nvals <- seq(2, 200, length.out = 200)
+powvals <- sapply(nvals, function(x) pwr.t.test(d = 0.3, n = x, sig.level = 0.05)$power)
+plot(nvals, powvals,
+  xlab = "sample size", ylab = "power",
+  main = "Power curve for sample size for difference in proportions",
+  lwd = 2, col = "red", type = "l"
+)
+abline(h = 0.8)
+```
+
+<details>
+  <summary>**Explanation of code**</summary>
   
-Source
-Licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+`nvals` is an object made to store a sequence `seq()` of numbers from 2 to 200  
+`powvals` is an object that will store the calculated powers retrieved using `$power`  
+`sapply()` takes each number x in `nval`s and uses it in the function `pwr.t.test()`  
+`plot()` graphs the numbers stored in `nvals` and `powvals` against each other  
+`xlab`, `ylab` and `main` are the x and y axes labels and main plot title  
+`lwd` is line width, `col` is line colour and `type =1` is a solid line  
+`abline()` draws horizontal (h) line at 0.8
+</details>
 
-Adapted from EnvironmentalComputing https://github.com/nicercode/EnvironmentalComputing
+<br>
+
+Now we can see that a sample size of around 175 for each group would have given enough power.
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+Effect sizes should be reported in results. If a effect size is not given, it can sometimes be calculates. For example, d can be calculated if the means and standard deviations are given.  
+::::
+
+<br>
+
+**Challenge**
+
+Calculate the power for the t test in one of these studies.
+
+Study 1 If you remember doing a t test for a project you did in the past and you have the results or data saved, calculate power for that study
+
+Study 2 Imagine you are planning to measure ***inhibitory control*** of zebra finches while in either a quiet environment or exposed to traffic noise. Decide how many birds you might have the resources to test and use that as n. Use a significance level of 0.05. Then estimate an effect size from the first paragraph of the Results section of [Osbrink et al, 2021](https://doi.org/10.1098/rspb.2020.2851). Use these numbers to calculate what the power would be for a t test.
+
+Would you change the number of birds that you initially thought you would test after doing a power analysis?
+
+![alt.text=A small bird with bright red beak, orange check, dull boay and black and white tail.](./images/zebra_finch.jpg)
+
+<details>
+  <summary>**Possible Answer to Study 2**</summary>
+
+Suppose you planned to test 50 birds (n = 25 per group). And used the effect size d = 0.29 as reported in [Osbrink et al, 2021](https://doi.org/10.1098/rspb.2020.2851).
+```{r}
+pwr.t.test(n = 25, d = 0.29, sig.level = 0.05, power = NULL)
+```
+Power would be 0.17 so it would only be worthwhile doing the study if it was feasible to increase the number of birds.
+
+</details>
+
+<br>  
+  
+<br>
+
+[Source](https://github.com/acriach/BLGY5112M)  
+[CC Licensed](https://creativecommons.org/)
+
+Adapted from [Statistical Power](https://www.andywills.info/rminr/power.html) by Andy Wills, Clare Walsh and Chris Longmore and [EnvironmentalComputing](https://github.com/nicercode/EnvironmentalComputing).

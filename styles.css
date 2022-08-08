@@ -1,8 +1,8 @@
-.darkorchidbox {
+.cadetbluebox {
   padding: 1em;
-  background: DarkOrchid;
+  background: CadetBlue;
   color: white;
-  border: 2px DarkOrchid;
+  border: 2px CadetBlue;
   border-radius: 10px;
 }
 .center {
@@ -12,6 +12,6 @@
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
     z-index: 2;
     color: #fff;
-    background-color: Green;
+    background-color: BlueViolet;
     border-color: #337ab7;
 }

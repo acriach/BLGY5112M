@@ -6,13 +6,11 @@ title: "index"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-picture here of converyor belt ![]
+![Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”](./images/tidydata_5.jpg)
 
 ## Advanced Statistics
 
-The lectures and practicals for the topics below can be found using the menus.
-
 Power analyses
 Multivariate Methods
-Spatial staitstics
+Spatial Data
 Meta-analyses
