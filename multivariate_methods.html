@@ -354,21 +354,258 @@ div.tocify {
 </div>
 
 
-<div id="pca" class="section level2" number="0.1">
-<h2><span class="header-section-number">0.1</span> PCA</h2>
+<div id="pca" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> PCA</h1>
+<p>Principal Components Analysis (PCA) is used when there is a large
+number of continuous variables that define the samples. It makes the
+large number of variables into a smaller number of derived variables.
+For example, PCA might be used to:</p>
+<ul>
+<li>group species according to shape using many different measurements
+of their bodies<br />
+</li>
+<li>quantify the qualities of habitats using different measures such as
+plant species cover, tree density, distance from human disturbance, air
+quality, noise pollution<br />
+</li>
+<li>compare the chemistry of different rivers based on multiple chemical
+variables<br />
+</li>
+<li>understand hundreds of gene expression measurements</li>
+</ul>
+<p>The new, smaller set of variables (principle components, PCs) created
+by PCA, can be used in other statistical analyses, but most commonly are
+plotted on graphs.</p>
+<p>Think of the first principal component (PC1) as a line of best fit in
+multivariate space. It explains the maximum amount of variation in the
+data. The amount of variation is given as a %. The second PC (PC2) is
+fitted at right angles to the first (i.e., orthogonally) such that it
+explains as much of the remaining variation as possible. Additional PCs,
+which must be orthogonal to existing PCs, can then be fitted by the same
+process.</p>
+<p>Visualising this in two dimensions helps to understand the approach:
+<img src="multivariate_methods_files/figure-html/unnamed-chunk-1-1.png" width="480" /></p>
+<p>Now imagine fitting those lines in more than three dimensions!</p>
+<p><br></p>
+<div id="leaf-example" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Leaf Example</h2>
+<p>Consider a plant physiologist attempting to quantify differences in
+leaf shape between two species of tree. They record total length (leaf +
+petiole), leaf length, width at the widest point, width half way along
+the leaf and petiole length from ten leaves of each species. These data
+are five dimensional (i.e., five measured variables) and we can use PCA
+to extract two new variables (PCs) that will allow us to visualise the
+data in fewer dimensions.</p>
+<p><img src="images/leaf.png"
+alt="alt.text=A grenn leaf with double ended arrows indicating the total length, leaf length, width at the widest point, width half way along the leaf and petiole length." /></p>
+<p>It is highly likely that there are strong relationships between
+variables in our example data set (e.g., leaf length vs total length).
+This means that the principal components are likely to explain a fair
+bit of the variation (imagine fitting a straight line along a
+sausage-shaped collection of points in multivariate space). If all
+variables were completely uncorrelated with each other, then PCA is not
+going to work very well (imagine trying to fit a line of best fit along
+a ball-shaped collection of points in multivariate space).</p>
+<p><br></p>
 </div>
-<div id="running-the-analysis" class="section level2" number="0.2">
-<h2><span class="header-section-number">0.2</span> Running the
+<div id="running-the-analysis" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Running the
 analysis</h2>
+<p>Your data should be formatted with variables as columns and
+observations as rows. Save the leaf shape data set, <a
+href="./data/leafshape.csv">leafshape.csv.</a>, in a file called
+<code>data</code> in your R project and import into R to see the
+required format.</p>
+<pre class="r"><code>Leaf_shape &lt;- read.csv(file = &quot;data/leafshape.csv&quot;, header = TRUE)</code></pre>
+<p>The first column is a categorical variable that labels the leaves by
+species (A or B). We need to assign that to a new object (Species) that
+we can use later for plotting, and make a new data frame (Leaf_data)
+with just the variables to be analysed by PCA (columns 2-6).</p>
+<pre class="r"><code>Species &lt;- Leaf_shape$Species
+Leaf_data &lt;- Leaf_shape[, 2:6]</code></pre>
+<p>There are a number of functions and packages in R available for
+conducting PCA, one of the simplest is the <code>princomp()</code>
+function in base R (packages already comes with R). To run a PCA, we
+use:</p>
+<pre class="r"><code>Leaf_PCA &lt;- princomp(Leaf_data)</code></pre>
+<p>Calling the <code>plot()</code> function on the <code>princomp</code>
+output object produces a score plot. This is the ordination of all 20
+leaf samples in the new two-dimensional space defined by PC1 and PC2.
+Here, we can also label the samples by species with the colour argument,
+and add a legend.</p>
+<pre class="r"><code>plot(Leaf_PCA$scores, pch = 16, col = as.factor(Species))
+legend(0, 0.4, c(&quot;Species A&quot;, &quot;Species B&quot;), pch = 16, col = c(&quot;black&quot;, &quot;red&quot;))</code></pre>
+<img src="multivariate_methods_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<details>
+<summary>
+<strong>Code Explanation</strong>
+</summary>
+<ul>
+<li>The square brackets used in
+<code>Leaf_data &lt;- Leaf_shape[, 2:6]</code> are called indexing and
+reference the second to sixth column<br />
+</li>
+<li><code>pch</code> is the size of the points<br />
+</li>
+<li><code>col</code> is what variable to use to colour points<br />
+</li>
+<li><code>as.factor()</code> ensures R treats the Species data as a
+categorical variable<br />
+</li>
+<li>The arguments in <code>legend</code> specify the position of it on
+the graph, the labels, size and colour</li>
+</ul>
+</details>
+<p><br></p>
+<div id="interpreting-the-results" class="section level3"
+number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Interpreting the
+results</h3>
+<p>Points that are close together have similar values for the original
+variables.</p>
+<p>PCA produces a lot of graphical and numerical output. To interpret
+the results you need to understand several things:</p>
+<p><strong>1)</strong> How much variance is explained by each component.
+This can be found by passing the PCA object through
+<code>summary</code>.</p>
+<pre class="r"><code>summary(Leaf_PCA)</code></pre>
+<pre><code>## Importance of components:
+##                           Comp.1     Comp.2     Comp.3    Comp.4       Comp.5
+## Standard deviation     0.8302248 0.22418865 0.11987329 0.1035367 0.0089705579
+## Proportion of Variance 0.9013599 0.06572552 0.01879107 0.0140183 0.0001052315
+## Cumulative Proportion  0.9013599 0.96708539 0.98587647 0.9998948 1.0000000000</code></pre>
+<p>The <code>Proportion of Variance</code> in the second row is the
+variance each PC (Comp.) explains. In this example, PC1 explains 90% of
+the variation between the two species with PC2 explaining a further
+6.6%. Together, those two axes (the ones you plotted) explain 96.7% of
+the variance (the <code>Cumulative Proportion</code> row). This means
+that those original data in five dimensions can be placed almost
+perfectly on this new two-dimensional plane.</p>
+<p>The variance explained by each PC (component) can also be visualised
+by a <strong>scree plot</strong>. The variance explained always declines
+with the number of the component. In this example, there is not much
+difference between PC2 and PC3, meaning PC3 does not explain much more
+of the variance. Therefore, we only need to use PC1 and 2 to visualise
+the data.</p>
+<pre class="r"><code>screeplot(Leaf_PCA, type = &quot;lines&quot;)</code></pre>
+<p><img src="multivariate_methods_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><strong>2</strong> How are the original variables related to the
+principal components?</p>
+<p>These relationships are stored as numbers and can be obtained by
+extracting the <strong>loadings</strong> from the PCA object.</p>
+<pre class="r"><code>loadings(Leaf_PCA)</code></pre>
+<pre><code>## 
+## Loadings:
+##                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+## Total_length           0.772  0.244         0.582
+## Petiole_length         0.458 -0.169  0.647 -0.586
+## Leaf_length            0.320  0.428 -0.627 -0.564
+## Width1         -0.949  0.160 -0.215 -0.163       
+## Width2         -0.300 -0.259  0.826  0.400       
+## 
+##                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+## SS loadings       1.0    1.0    1.0    1.0    1.0
+## Proportion Var    0.2    0.2    0.2    0.2    0.2
+## Cumulative Var    0.2    0.4    0.6    0.8    1.0</code></pre>
+<p>The loadings are correlations between the principal components and
+the original variables (Pearson’s <em>r</em>). Values closest to 1
+(positive) or -1 (negative) will represent the strongest relationships,
+with zero being uncorrelated.</p>
+<p>You can see that PC1 is positively correlated with the two width
+variables. R doesn’t bother printing very low correlations, so you can
+also see that PC1 is uncorrelated with the three length variables. Given
+the two species are split along the x-axis (PC1) in the score plot, we
+now know that it is leaf widths which cause this separation. We also
+know that leaves toward the top of the plot are the longest due to the
+positive correlations between PC2 and the three length variables (but
+this does not separate the two species on the plot).</p>
+<p>You can also produce a <strong>biplot</strong> with the relationships
+between the original variables and the principal components overlaid on
+the score plot.</p>
+<pre class="r"><code>biplot(Leaf_PCA)</code></pre>
+<p><img src="multivariate_methods_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>The original variables (in red) will have a strong relationship with
+one of the principal components if they are parallel to that component
+(eg Width 1 and PC1) and longer arrows represent stronger
+correlations.</p>
 </div>
-<div id="interpreting-the-results" class="section level2" number="0.3">
-<h2><span class="header-section-number">0.3</span> Interpreting the
+</div>
+<div id="assumptions-to-check" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Assumptions to
+check</h2>
+<p><strong>Linearity.</strong> PCA works best when the relationship
+between variables are approximately linear. In the absence of linearity
+it is best to transform variables (e.g., log transform) prior to the
+analysis.</p>
+<p><strong>Correlation vs covariance matrices.</strong> You can run PCA
+using a covariance matrix, which is appropriate when all variables are
+measured on the same scale, or a correlation matrix, which is
+appropriate if variables are measured on very different scales. These
+will produce different output because using a covariance matrix is
+affected by differences in the size of variances among the variables.
+Researchers also commonly standardise variables prior to the analysis if
+they would like variables that were measured on different scales to have
+an equal influence on the output.</p>
+<p>Change between these two options with the <code>cor</code> argument
+in the <code>princomp</code> function.</p>
+<pre class="r"><code>Leaf_PCA &lt;- princomp(Leaf_data, cor = FALSE) # uses a covariance matrix
+Leaf_PCA2 &lt;- princomp(Leaf_data, cor = TRUE) # uses a correlation matrix</code></pre>
+<p><strong>Outliers.</strong> Outliers can have big influence on the
+results of PCA, especially when using a covariance matrix.</p>
+<p><br></p>
+</div>
+<div id="communicating-the-results" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Communicating the
 results</h2>
-<p>Source Licensed under a Creative Commons Attribution-ShareAlike 4.0
-International License</p>
-<p>Adapted from EnvironmentalComputing <a
-href="https://github.com/nicercode/EnvironmentalComputing"
-class="uri">https://github.com/nicercode/EnvironmentalComputing</a></p>
+<p><strong>Written.</strong> In the results section, it would be typical
+to state the amount of variation explained by the first two (or more)
+PCs and the contribution of different variables to those PCs. In this
+example, you would state that the first principal component explained
+90% of the variation in leaf morphology and was most strongly related to
+leaf width at the widest point.</p>
+<p><strong>Visual.</strong> PCA results are best presented visually as a
+2-dimensional plot of PCs. It is common to label the points in some way
+to seek patterns on the plot (like how we labelled leaves by species
+above).</p>
+<p><br></p>
+</div>
+<div id="further-help" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Further help</h2>
+<p>Type <code>?princomp</code> to get the R help for this function.</p>
+<p>An nice <a
+href="http://setosa.io/ev/principal-component-analysis/">interactive
+page</a> to help you understand what PCA is doing.</p>
+<p><br></p>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Choose dataset 1) or 2)</p>
+<p><strong>1) Blue whale genomic data</strong></p>
+<p>The citation below takes you to a website where you can download a
+.txt file with 42 measurements of gene expression in female and male
+whales found in Antartica or Australia.</p>
+<p>Attard, Catherine R. M. et al. (2012), Data from: Hybridization of
+Southern Hemisphere blue whale subspecies and a sympatric area off
+Antarctica: impacts of whaling or climate change?, Dryad, Dataset, <a
+href="https://doi.org/10.5061/dryad.8m0t6">https://doi.org/10.5061/dryad.8m0t6</a></p>
+<p>Save and read the text file into R and run a pca.</p>
+<p><strong>2) Animal skulls</strong></p>
+<p><a href="http://skullbase.info/">Skull Base</a> lists skull length,
+width, height and weight for many species. For each skull record the
+measurements on an excel spreadsheet to save as a csv file. Format the
+data so that you can run a PCA.</p>
+<p>You can choose what skull groups to compare. Some suggestions are: *
+Felidae versus Canidae or Mustelidae<br />
+* Suidae, Cervidae and Bovidae within Artiodactyla<br />
+* Rodentia versus Lagomorpha or Soricomorpha<br />
+* You could compare dog breeds using categorises such as sporting,
+working, hounds, toy etc.</p>
+<p><br></p>
+<p><br></p>
+<p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />
+<a href="https://creativecommons.org/">CC Licensed</a></p>
+<p>Adapted from <a
+href="https://github.com/nicercode/EnvironmentalComputing">EnvironmentalComputing</a>.</p>
+</div>
 </div>
 
 

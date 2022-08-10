@@ -143,7 +143,7 @@ There are various packages which do power analysis in R. [pwr](https://cran.r-pr
 
 First, download and install the package.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=TRUE}
 library(pwr)
 ```
 
