@@ -354,71 +354,728 @@ div.tocify {
 </div>
 
 
-<div id="lecture" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Lecture</h1>
-<div id="background" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Background</h2>
-<p>What is a meta-analysis?</p>
-<blockquote>
-<p>A meta-analysis is a quantitative summary of studies on the same
-topic. Why do we want to perform a meta-analysis?</p>
-</blockquote>
-<ol style="list-style-type: lower-alpha">
-<li>Finding generalities</li>
-<li>Increasing power and precision</li>
-<li>Exploring differences between studies</li>
-<li>Settling controversies from conflicting studies (testing
-hypotheses)</li>
-<li>Generating new hypotheses</li>
-</ol>
+<div id="calculating-effect-sizes" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Calculating effect
+sizes</h1>
+<p><img src="images/metanalysis.jpg"
+alt="alt.text=Two diagrams. Left diagram has three silouhettes of insects above a graph with four horizontal lines with points in the middle of each labbelled female, male mixed sex and hermaphrodite. None of the four lines overlap the reference vertical dotted line. Right diagram has seven silouhettes of insects above a graph with four horizontal lines with points in the middle of each labbelled female, male mixed sex and hermaphrodite. On this graph all four lines overlap the reference vertical dotted line." /></p>
 <p><strong>The process of meta-analysis</strong></p>
-<p>How many steps involved in meta-analysis?</p>
-<p>One answer is 5 steps</p>
-<ol style="list-style-type: lower-roman">
-<li>Formulating questions &amp; hypothesis or finding a topic</li>
-<li>Literature search &amp; paper collection</li>
-<li>Data extraction &amp; coding</li>
-<li>Meta-analysis &amp; publication bias tests</li>
-<li>Reporting &amp; publication</li>
-</ol>
-<p>We only consider the step iv in this tutorial. You will need to learn
-the other steps elsewhere. To get you started, we recently wrote an
-overview paper which divides the process of meta-analysis into 10
-questions <a
+<p>There are many steps involve in a meta-analysis. For guidance on how
+to do a meta-analysis see <a
 href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7">(Nakagawa
-<em>et al.</em> 2017)</a>. The 10 questions will guide you through
-judging the quality of a meta-analysis.</p>
-<ol style="list-style-type: decimal">
-<li>Is the search systematic and transparently documented?</li>
-<li>What question and what effect size?</li>
-<li>Is non-independence taken into account?</li>
-<li>Which meta-analytic model?</li>
-<li>Is the level of consistency among studies reported?</li>
-<li>Are the causes of variation among studies investigated?</li>
-<li>Are effects interpreted in terms of biological importance?</li>
-<li>Has publication bias been considered?</li>
-<li>Are results really robust and unbiased?</li>
-<li>Is the current state (and lack) of knowledge summarized?</li>
-</ol>
-<div id="metafor-for-meta-analysis" class="section level3"
-number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Metafor for
-meta-analysis</h3>
+<em>et al.</em> 2017)</a> which divides the process of meta-analysis
+into 10 questions.</p>
+<p>This lesson only considers how to do the statistics part of the
+meta-analysis &amp; publication bias.</p>
+<p><br></p>
+<div id="metafor-for-meta-analysis" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> <code>Metafor</code>
+for meta-analysis</h2>
+<p>First, install and load the <code>metafor</code> package.</p>
+<pre class="r"><code>library(metafor)</code></pre>
+<p><br></p>
+<p>Have a look at the data set named <code>dat.curtis1998</code>
+included in the package.</p>
+<pre class="r"><code>dat &lt;- dat.curtis1998
+str(dat)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    102 obs. of  20 variables:
+##  $ id      : int  21 22 27 32 35 38 44 63 86 87 ...
+##  $ paper   : int  44 44 121 121 121 121 159 183 209 209 ...
+##  $ genus   : chr  &quot;ALNUS&quot; &quot;ALNUS&quot; &quot;ACER&quot; &quot;QUERCUS&quot; ...
+##  $ species : chr  &quot;RUBRA&quot; &quot;RUBRA&quot; &quot;RUBRUM&quot; &quot;PRINUS&quot; ...
+##  $ fungrp  : chr  &quot;N2FIX&quot; &quot;N2FIX&quot; &quot;ANGIO&quot; &quot;ANGIO&quot; ...
+##  $ co2.ambi: num  350 350 350 350 350 350 350 395 350 350 ...
+##  $ co2.elev: num  650 650 700 700 700 700 700 795 700 700 ...
+##  $ units   : chr  &quot;ul/l&quot; &quot;ul/l&quot; &quot;ppm&quot; &quot;ppm&quot; ...
+##  $ time    : int  47 47 59 70 64 50 730 365 365 365 ...
+##  $ pot     : chr  &quot;0.5&quot; &quot;0.5&quot; &quot;2.6&quot; &quot;2.6&quot; ...
+##  $ method  : chr  &quot;GC&quot; &quot;GC&quot; &quot;GH&quot; &quot;GH&quot; ...
+##  $ stock   : chr  &quot;SEED&quot; &quot;SEED&quot; &quot;SEED&quot; &quot;SEED&quot; ...
+##  $ xtrt    : chr  &quot;FERT&quot; &quot;FERT&quot; &quot;NONE&quot; &quot;NONE&quot; ...
+##  $ level   : chr  &quot;HIGH&quot; &quot;CONTROL&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ m1i     : num  6.82 2.6 2.99 5.91 4.61 ...
+##  $ sd1i    : num  1.77 0.667 0.856 1.742 1.407 ...
+##  $ n1i     : int  3 5 5 5 4 5 3 3 20 16 ...
+##  $ m2i     : num  3.94 2.25 1.93 6.62 4.1 ...
+##  $ sd2i    : num  1.116 0.328 0.552 1.631 1.257 ...
+##  $ n2i     : int  5 5 5 5 4 3 3 3 20 16 ...</code></pre>
+<p><br></p>
+<p>This data set is from the paper by Curtis and Wang (1998). They
+looked at the effect of increased CO<span
+class="math inline">\(_2\)</span> on plant traits (mainly changes in
+biomass). There is experimental details including species (sometimes
+called moderators) along with means (m), standard deviations (sd) and
+sample sizes (n) for the control group (1) and experimental group (2) in
+the last few columns.</p>
+<p><img src="images/forest.jpg"
+alt="alt.text=A photo of tree trunks, bushes and ferns." /></p>
+<p><br></p>
 </div>
-<div id="calculating-standardized-effect-sizes" class="section level3"
-number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Calculating
-‘standardized’ effect sizes</h3>
-<p>Source Licensed under a Creative Commons Attribution-ShareAlike 4.0
-International License</p>
-<p>Adapted from EnvironmentalComputing <a
-href="https://github.com/nicercode/EnvironmentalComputing"
-class="uri">https://github.com/nicercode/EnvironmentalComputing</a></p>
+<div id="calculating-standardized-effect-sizes" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Calculating
+‘standardized’ effect sizes</h2>
+<p>To compare the effect of increased CO<span
+class="math inline">\(_2\)</span> across multiple studies, we first need
+to calculate an <strong>effect size</strong> for each study - a metric
+that quantifies the difference between our control and experimental
+groups.</p>
+There are several ‘standardized’ effect sizes. When we have two groups
+to compare, we have a choice of two types of effect size statistics we
+could use. The first one is standardized mean difference (SMD also known
+as Cohen’s <span class="math inline">\(d\)</span> or Hedge’s <span
+class="math inline">\(d\)</span> or <span
+class="math inline">\(g\)</span>; there are some subtle differences
+between them, but we do not worry about them for now.
+<details>
+<summary>
+<strong>Formula for calculating SMD</strong>
+</summary>
+<p>In the formula below:<br />
+* <span class="math inline">\(\bar{x}_{C}\)</span> and <span
+class="math inline">\(\bar{x}_{E}\)</span> are the means of the control
+and experimental group, respectively<br />
+* <span class="math inline">\(sd\)</span> is sample standard
+deviation<br />
+* <span class="math inline">\(n\)</span> is sample size</p>
+<p><span class="math display">\[\begin{equation}
+\mathrm{SMD}=\frac{\bar{x}_{E}-\bar{x}_{C}}{\sqrt{\frac{(n_{C}-1)sd^2_{C}+(n_{E}-1)sd^2_{E}}{n_{C}+n_{E}-2}}}
+\end{equation}\]</span></p>
+</details>
+<p><br></p>
+We also need to calculate the SMD’s sample error variance for each
+study.
+<details>
+<summary>
+<strong>Formula for calculating sample error variance</strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+se^2_{\mathrm{SMD}}=
+\frac{n_{C}+n_{E}}{n_{C}n_{E}}+\frac{\mathrm{SMD}^2}{2(n_{C}+n_{E})}
+\end{equation}\]</span></p>
+</details>
+<p><br></p>
+<p>The square root of this is referred to as ‘standard error’. The
+inverse of this (the inverse of a number is when you divide 1 by it
+e.g.<span class="math inline">\(1/se^2\)</span>) is used as ‘weight’
+(studies with bigger sample sizes will have bigger ‘weight’ in the
+analysis)</p>
+<p><br></p>
+The second option of standardised effect size is called ‘response
+ratio’, which is usually presented in its natural logarithm form (lnRR).
+<details>
+<summary>
+<strong>Formula for lnRR</strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+\mathrm{lnRR}=\ln\left({\frac{\bar{x}_{E}}{\bar{x}_{C}}}\right)
+\end{equation}\]</span></p>
+</details>
+<p><br></p>
+The sampling error variance for lnRR is also needed.
+<details>
+<summary>
+<strong>Formula for lnRR</strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+se^2_\mathrm{lnRR}=\frac{sd^2_{C}}{n_{C}\bar{x}^2_{C}}+\frac{sd^2_{E}}{n_{E}\bar{x}^2_{E}}
+\end{equation}\]</span></p>
+</details>
+<p><br></p>
+<p>We can get R to calculate these numbers for each study using the
+function <code>escalc()</code> in <code>metafor</code>. To obtain the
+standardised mean difference (SMD), we use:</p>
+<pre class="r"><code># SMD
+SMD &lt;- escalc(
+  measure = &quot;SMD&quot;, n1i = dat$n1i, n2i = dat$n2i,
+  m1i = dat$m1i, m2i = dat$m2i,
+  sd1i = dat$sd1i, sd2i = dat$sd2i
+)</code></pre>
+<details>
+<summary>
+<strong>Code Explained</strong>
+</summary>
+<p>Note: in the example dataset <code>dat</code> the columns for the
+sample sizes, means and standard deviation have been given the same name
+as the arguments that are used in <code>escalc()</code></p>
+<ul>
+<li><code>n1i</code> and <code>n2i</code> are the sample sizes</li>
+<li><code>m1i</code> and <code>m2i</code> are the means</li>
+<li><code>sd1i</code> and <code>sd2i</code> the standard deviations from
+each study</li>
+</ul>
+</details>
+<p><br></p>
+<p>The <code>SMD</code> object created has an effect size (yi) and its
+variance (vi) for each study.</p>
+<pre><code>## 
+##        yi     vi 
+## 1  1.8222 0.7408 
+## 2  0.5922 0.4175 
+## 3  1.3286 0.4883 
+## 4 -0.3798 0.4072 
+## 5  0.3321 0.5069 
+## 6  2.5137 0.9282</code></pre>
+<p><br></p>
+<p>To obtain the alternative response ratio (lnRR), we would change the
+<code>measure =</code>:</p>
+<pre class="r"><code>lnRR &lt;- escalc(
+  measure = &quot;ROM&quot;, n1i = dat$n1i, n2i = dat$n2i,
+  m1i = dat$m1i, m2 = dat$m2i,
+  sd1i = dat$sd1i, sd2i = dat$sd2i
+)</code></pre>
+<p><br></p>
+<p>The original paper used lnRR so we will use it, but you will repeat
+the analysis in the <strong>Challenge</strong> below using SMD to see
+whether results are consistent.</p>
+<p><br></p>
+<p>Add the effect sizes to the original data set with
+<code>bind_cols</code> from the package <code>dplyr</code> or
+<code>cbind</code></p>
+<pre class="r"><code>library(dplyr)
+dat &lt;- bind_cols(dat, lnRR)</code></pre>
+<p><br></p>
+<p>You should see yi (effect size) and vi (sampling variance) are
+added.</p>
+<pre><code>## &#39;data.frame&#39;:    102 obs. of  22 variables:
+##  $ id      : int  21 22 27 32 35 38 44 63 86 87 ...
+##  $ paper   : int  44 44 121 121 121 121 159 183 209 209 ...
+##  $ genus   : chr  &quot;ALNUS&quot; &quot;ALNUS&quot; &quot;ACER&quot; &quot;QUERCUS&quot; ...
+##  $ species : chr  &quot;RUBRA&quot; &quot;RUBRA&quot; &quot;RUBRUM&quot; &quot;PRINUS&quot; ...
+##  $ fungrp  : chr  &quot;N2FIX&quot; &quot;N2FIX&quot; &quot;ANGIO&quot; &quot;ANGIO&quot; ...
+##  $ co2.ambi: num  350 350 350 350 350 350 350 395 350 350 ...
+##  $ co2.elev: num  650 650 700 700 700 700 700 795 700 700 ...
+##  $ units   : chr  &quot;ul/l&quot; &quot;ul/l&quot; &quot;ppm&quot; &quot;ppm&quot; ...
+##  $ time    : int  47 47 59 70 64 50 730 365 365 365 ...
+##  $ pot     : chr  &quot;0.5&quot; &quot;0.5&quot; &quot;2.6&quot; &quot;2.6&quot; ...
+##  $ method  : chr  &quot;GC&quot; &quot;GC&quot; &quot;GH&quot; &quot;GH&quot; ...
+##  $ stock   : chr  &quot;SEED&quot; &quot;SEED&quot; &quot;SEED&quot; &quot;SEED&quot; ...
+##  $ xtrt    : chr  &quot;FERT&quot; &quot;FERT&quot; &quot;NONE&quot; &quot;NONE&quot; ...
+##  $ level   : chr  &quot;HIGH&quot; &quot;CONTROL&quot; &quot;.&quot; &quot;.&quot; ...
+##  $ m1i     : num  6.82 2.6 2.99 5.91 4.61 ...
+##  $ sd1i    : num  1.77 0.667 0.856 1.742 1.407 ...
+##  $ n1i     : int  3 5 5 5 4 5 3 3 20 16 ...
+##  $ m2i     : num  3.94 2.25 1.93 6.62 4.1 ...
+##  $ sd2i    : num  1.116 0.328 0.552 1.631 1.257 ...
+##  $ n2i     : int  5 5 5 5 4 3 3 3 20 16 ...
+##  $ yi      : num  0.547 0.143 0.438 -0.113 0.117 ...
+##   ..- attr(*, &quot;ni&quot;)= int [1:102] 8 10 10 10 8 8 6 6 40 32 ...
+##   ..- attr(*, &quot;measure&quot;)= chr &quot;ROM&quot;
+##  $ vi      : num  0.0385 0.0175 0.0328 0.0295 0.0468 ...</code></pre>
+<p><br></p>
+</div>
+<div id="forest-plots" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Forest Plots</h2>
+<p>Forest plots are a common way of visualising the effect sizes and
+their 95% confidence intervals, also known as CIs, (based on sampling
+error variance) for each of the studies in the meta-analysis. The
+<code>forest()</code> function can create this plot.</p>
+<pre class="r"><code>forest(dat$yi, dat$vi)</code></pre>
+<p><img src="meta_analyses_files/figure-html/forest-1.png" width="672" />
+<br></p>
+<p>Unless you have a large screen, you may not be able to see the detail
+in this forest plot. Let’s look at just the first 12 studies.</p>
+<pre class="r"><code>forest(dat$yi[1:12], dat$vi[1:12])</code></pre>
+<p><img src="meta_analyses_files/figure-html/forest2-1.png" width="672" /></p>
+<p><br></p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>We can calculate many different kinds of effect sizes with
+<code>escalc</code>; other common effect size statistics include <span
+class="math inline">\(Zr\)</span> (Fisher’s z-transformed correlation)
+which you would use if the meta-analysis was analysing studies that
+reported correlations oppose to comparing two groups.</p>
+</div>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Do an internet search to find out how to interpret forest plots. What
+do the squares mean? Why is there a dotted line at 0? What does the
+diamond that you see on some forest plots represent?</p>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Now add the SMD values (the alternative ones to lnRR) to
+<code>dat</code> and create a forest plot with them. Compare the two
+forest plots.</p>
+<details>
+<summary>
+<strong>Solution</strong>
+</summary>
+<p>add solution to adding SMD, noting the renaming R does and forest
+plot and how can view previous forest plot using arrows in plots area or
+by storing as an object and pointing out the differences.</p>
+</details>
+<p><br></p>
+<p><br></p>
 </div>
 </div>
+<div id="calculating-the-overall-effect-size" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Calculating the overall
+effect size</h1>
+<p>After calculating effect sizes, we can run statistical models to
+estimate mean effect size and the influence of moderator variables.</p>
+<p>There are two main models for meta-analysis: 1) the fixed-effect
+model and 2) the <strong>random-effect</strong> model (actually there’s
+3 types, but the third one is the extension of the second model).
+Because fixed effects mean something different in another statistical
+context, this naming is a bit confusing. So people now call the first
+model <strong>‘common-effect’</strong> model.</p>
+<div class="cadetbluebox">
+<div class="center">
+
 </div>
-<div id="practical" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Practical</h1>
+<p>Section Q4 and Fig. 4 in <a
+href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7">Nakagawa
+et al. 2017</a> gives a longer explanation and visual representation of
+the different models.</p>
+</div>
+<p><br></p>
+<div id="common-effect-model" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Common-effect
+model</h2>
+<p>This model estimates the overall mean while considering weights.
+Weights are used so that different studies with smaller or larger sample
+sizes have less or more influence in the calculation of the overall
+effect size.</p>
+<details>
+<summary>
+<strong>Common-effect model formula and explanation</strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+y_i=b_0+e_i,
+\\
+e_i\sim \mathcal{N}(0,v_i),
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(y_i\)</span> is the <span
+class="math inline">\(i\)</span>th effect size (from <span
+class="math inline">\(i\)</span>th study), <span
+class="math inline">\(b_0\)</span> is the overall mean (or meta-analytic
+mean), <span class="math inline">\(e_i\)</span> is a deviation from the
+overall mean. <span class="math inline">\(e_i\)</span> is equivalent to
+a normal distribution with a mean of 0 and variance of <span
+class="math inline">\(v_i\)</span>. <span
+class="math inline">\(v_i\)</span> is the study specific sampling
+variance. Note that weights for this model are <span
+class="math inline">\(1/v_i\)</span>.</p>
+</details>
+<p><br></p>
+<p>This model assumes that all the studies sampled from the same
+population and therefore there is a common mean for all studies. For
+example, all studies used the same species. This is rare in
+meta-analysis as the Curtis and Wang 1998 data shows where studies span
+many different species.</p>
+<p><br></p>
+</div>
+<div id="random-effects-model" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Random-effects
+model</h2>
+<p>A random-effect model does not make this assumption and therefore can
+be used when studies have been sampled from different populations.</p>
+<details>
+<summary>
+<strong>Random-effect model formula and explanation</strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+y_i=b_0+s_i+e_i,
+\\
+s_i\sim \mathcal{N}(0,\tau^2),\
+\\
+e_i\sim \mathcal{N}(0,v_i),\
+\end{equation}\]</span>e_i(0,v_i),<br />
+\end{equation}</p>
+<p>where <span class="math inline">\(s_i\)</span> is a study-specific
+deviation from the overall mean for <span
+class="math inline">\(i\)</span>th study. As the second formula
+indicates, <span class="math inline">\(s_i\)</span> is normally
+distributed with the between-study variance which is <span
+class="math inline">\(\tau^2\)</span>. Note that weights for this model
+are <span class="math inline">\(1/(\tau^2+v_i)\)</span>. We revisit this
+point.</p>
+</details>
+<p><br></p>
+<p>Unlike the common-effect model, a random-effect model assumes that
+different studies have different population means.</p>
+<p><br></p>
+</div>
+<div id="running-a-common-effect-model" class="section level2"
+number="2.3">
+<h2><span class="header-section-number">2.3</span> Running a
+common-effect model</h2>
+<p>Let’s use the function <code>rma</code> from <code>metafor</code> to
+run a common-effect model using the effect sizes <code>yi</code> and
+variances <code>vi</code> we calculated earlier.</p>
+<pre class="r"><code>common_m &lt;- rma(yi = yi, vi = vi, method = &quot;FE&quot;, data = dat)</code></pre>
+<p>We specify the effect size (yi), its variance (vi), the method (“FE”
+for fixed-effect) and the data frame (dat).</p>
+<p><br></p>
+<p>To see the output, use <code>summary</code> on the model object:</p>
+<pre class="r"><code>summary(common_m)</code></pre>
+<pre><code>## 
+## Fixed-Effects Model (k = 102)
+## 
+##    logLik   deviance        AIC        BIC       AICc  ​ 
+## -245.9580   769.0185   493.9160   496.5410   493.9560   
+## 
+## I^2 (total heterogeneity / total variability):   86.87%
+## H^2 (total variability / sampling variability):  7.61
+## 
+## Test for Heterogeneity:
+## Q(df = 101) = 769.0185, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub     ​ 
+##   0.2088  0.0054  38.3374  &lt;.0001  0.1982  0.2195  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The overall mean is statistically significant (under
+<code>Model Results</code> look at <code>pval</code>). This indicates it
+is significantly different from 0 and therefore there is an effect of
+the CO<span class="math inline">\(_2\)</span> treatment on plant
+biomass.</p>
+<p>The overall mean is under <code>estimate</code> and it’s around 0.2.
+What does 0.2 mean? The effect sizes were response ratios on a
+logarithmic scale (lnRR). We can use <code>exp()</code> to convert this
+back into a response ratio of the control and experimental means.</p>
+<pre class="r"><code>exp(0.2)</code></pre>
+<pre><code>## [1] 1.221403</code></pre>
+<p>We can say that the plant trait (i.e. biomass) was 22% larger in the
+experimental group (RR<span
+class="math inline">\(=\bar{x}_{E}/\bar{x}_{C}\)</span>), which seems
+like a pretty large effect (remember to interpret results in a
+biological meaningful way).</p>
+<p><br></p>
+<div id="running-a-random-effects-model" class="section level3"
+number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Running a
+random-effects model</h3>
+<p>Now, we move onto the random-effects model - a more realistic model
+because these studies were on different species. Again, we use the
+<code>rma</code> function, but this time change the method to REML which
+is the default and the best method for the random-effect
+meta-analysis.</p>
+<pre class="r"><code>random_m &lt;- rma(yi = yi, vi = vi, method = &quot;REML&quot;, data = dat)
+summary(random_m)</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 102; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc  ​ 
+##   7.0449  -14.0898  -10.0898   -4.8596   -9.9674   
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0262 (SE = 0.0053)
+## tau (square root of estimated tau^2 value):      0.1619
+## I^2 (total heterogeneity / total variability):   88.90%
+## H^2 (total variability / sampling variability):  9.01
+## 
+## Test for Heterogeneity:
+## Q(df = 101) = 769.0185, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub     ​ 
+##   0.2553  0.0198  12.8899  &lt;.0001  0.2165  0.2941  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Compare the overall mean from this model with the common-effect
+model. Oh, the overall mean of the random-effects model is actually
+bigger than that of the fixed-effect model! OK, that sometimes happens
+(we will find out that this probably is an over-estimation later in the
+publication bias section).</p>
+<p>We expect the 95% CI (under <code>ci.lb</code> and
+<code>ci.ub</code>) to be wider (i.e. more realistic) in this
+random-effects model as this model has a better assumption than the
+common-effect model.</p>
+<p><br></p>
+</div>
+</div>
+<div id="understanding-heterogeneity" class="section level2"
+number="2.4">
+<h2><span class="header-section-number">2.4</span> Understanding
+heterogeneity</h2>
+<p>There are other numbers in the output. We have <code>tau^2</code>
+(<span class="math inline">\(\tau^2\)</span>) and <code>I^2</code>
+(<span class="math inline">\(I^2\)</span>), two very common measures of
+heterogeneity (note that <code>H^2</code>, or <span
+class="math inline">\(H^2\)</span> is a transformation of <span
+class="math inline">\(I^2\)</span>).</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Heterogeneity is variation in effect sizes, which is not accounted
+for by the sampling error variance/random chance. In other words, how
+consistent the results are across all the studies. This is real
+variation in the data.</p>
+<p><br></p>
+</div>
+<p><span class="math inline">\(I^2\)</span> is an important index as it
+can tell the percentage of real variation in your meta-analytic
+data.</p>
+<details>
+<summary>
+<strong>Formula for <span class="math inline">\(I^2\)</span></strong>
+</summary>
+<p><span class="math display">\[\begin{equation}
+I^2=\frac{\tau^2}{(\tau^2+\bar{v})},
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\bar{v}\)</span> is a
+representative value of <span class="math inline">\(v_i\)</span> (or
+think <span class="math inline">\(\bar{v}\)</span> as the average of
+<span class="math inline">\(v_i\)</span> although it is not quite it).
+Note that the denominator is the whole variance which exists in the
+data.</p>
+</details>
+<p><br></p>
+<p>The benchmark values for <span class="math inline">\(I^2\)</span> are
+25, 50 and 75% for low, moderate and high heterogeneity, respectively
+(<a href="https://pubmed.ncbi.nlm.nih.gov/12958120/">Higgins et al.,
+2003</a>.)</p>
+<p>Our <span class="math inline">\(I^2\)</span> value is 88.9% so very
+high. The output also shows a <code>Test for Heterogeneity</code> or a
+<span class="math inline">\(Q\)</span> test. As you might expect, <span
+class="math inline">\(I^2\)</span> is statistically significant meaning
+there is heterogeniety.</p>
+<p><br></p>
+<p><a
+href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecy.1591">Senior
+et al. 2016</a> did a meta-analysis of meta-analyses looking at what is
+the average value of <span class="math inline">\(I^2\)</span> in the
+field of ecology and evolution. The average value was 92%! This
+indicates that we usually need to fit the random-effects model rather
+than the common-effect model because the latter assumes heterogeneity to
+be zero or <span class="math inline">\(\tau^2=0\)</span> and <span
+class="math inline">\(I^2 = 0\)</span>. Or is it really? We find this
+out later.</p>
+<p><br></p>
+</div>
+<div id="meta-regression-the-random-effects-model"
+class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Meta-regression (the
+random-effects model)</h2>
+<p>The existence of heterogeneity sets a scene for meta-regression. This
+means that we now put predictors (‘moderators’ in the meta-analytic
+terminology) into our model to explain heterogeneity (equivalent to
+normal regression models).</p>
+<p>In this example, let’s fit three moderators that were collected by
+the authors: 1) <code>time</code> (how long the experiment was), 2)
+<code>method</code> (different ways of increasing CO<span
+class="math inline">\(_2\)</span>), and 3) <code>fungroup</code>
+(functional group, i.e., angiosperm, gymnosperm or N<span
+class="math inline">\(_2\)</span> fixer).</p>
+<p>We use <code>rma()</code> again, but add a model statement.</p>
+<pre class="r"><code>metareg &lt;- rma(yi = yi, vi = vi, mod = ~ time + method + fungrp, method = &quot;REML&quot;, data = dat)
+summary(metareg)</code></pre>
+<pre><code>## 
+## Mixed-Effects Model (k = 102; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc  ​ 
+##   5.1938  -10.3876    3.6124   21.5628    4.8851   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0267 (SE = 0.0056)
+## tau (square root of estimated tau^2 value):             0.1634
+## I^2 (residual heterogeneity / unaccounted variability): 87.16%
+## H^2 (unaccounted variability / sampling variability):   7.79
+## R^2 (amount of heterogeneity accounted for):            0.00%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 96) = 658.4083, p-val &lt; .0001
+## 
+## Test of Moderators (coefficients 2:6):
+## QM(df = 5) = 2.9089, p-val = 0.7140
+## 
+## Model Results:
+## 
+##              estimate      se     zval    pval    ci.lb   ci.ub     ​ 
+## intrcpt        0.3043  0.0516   5.8934  &lt;.0001   0.2031  0.4055  *** 
+## time          -0.0001  0.0001  -1.0509  0.2933  -0.0002  0.0001      
+## methodGH      -0.0369  0.0567  -0.6501  0.5157  -0.1481  0.0743      
+## methodOTC      0.0308  0.0902   0.3410  0.7331  -0.1461  0.2076      
+## fungrpGYMNO   -0.0454  0.0605  -0.7501  0.4532  -0.1640  0.0732      
+## fungrpN2FIX    0.0044  0.1701   0.0258  0.9794  -0.3291  0.3379      
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Look at the <code>$R^2$</code> value - the moderators do not explain
+anything! Also, the <code>Test of Moderators</code> (again the Q value)
+say they are not significant. A terrible model! So we give up here (in a
+real meta-analysis, you need to do this more systematically, preferably
+based on your priori hypotheses).</p>
+<p><br></p>
+</div>
+<div id="checking-for-publication-bias" class="section level2"
+number="2.6">
+<h2><span class="header-section-number">2.6</span> Checking for
+publication bias</h2>
+<p>It seems like an CO<span class="math inline">\(_2\)</span> increase
+promotes plant growth, but this is assuming the data set we have does
+not suffer from <strong>publication bias</strong>.</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Publication bias in its simplest form is that significant results are
+more likely to be published than non-significant results</p>
+</div>
+<p><br></p>
+<p>There are several methods people use to assess if there is
+publication bias. Two commonest methods, often used as a set, are: 1)
+funnel plot, which one uses to detect a funnel asymmetry (a sign of
+publication bias), and 2) Egger’s regression test with which you test
+funnel asymmetry statistically.</p>
+<p><br></p>
+</div>
+<div id="funnel-plot" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Funnel plot</h2>
+<p>To create a funnel plot:</p>
+<pre class="r"><code>funnel(random_m)</code></pre>
+<p><img src="meta_analyses_files/figure-html/funnel-1.png" width="672" /></p>
+<p>The x axis is effect size. The overall effect size is plotted as a
+dotted vertical line. Each point shows a study’s effect size and
+standard error on the y axis. Note the y axis has 0 at the top.</p>
+<p>What am I talking about by ‘funnel asymmetry’? We expect to see a
+symmetrical up-side-down funnel, where effect sizes with low <span
+class="math inline">\(se\)</span> are more tightly clustered than effect
+sizes with high <span class="math inline">\(se\)</span>. But if we have
+publication bias, we should see funnel asymmetry. This is because
+studies with small sample sizes (i.e. high <span
+class="math inline">\(se\)</span>, which leads to non-significance) are
+less likely to be published.</p>
+<p><br></p>
+</div>
+<div id="eggers-test" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> Egger’s test</h2>
+<p>To run Egger’s test:</p>
+<pre class="r"><code># Note that the orignal Egger&#39;s test is regtest(random_m, model=&quot;lm&quot;)
+regtest(random_m)</code></pre>
+<pre><code>## 
+## Regression Test for Funnel Plot Asymmetry
+## 
+## Model:     mixed-effects meta-regression model
+## Predictor: standard error
+## 
+## Test for Funnel Plot Asymmetry: z = 3.2046, p = 0.0014
+## Limit Estimate (as sei -&gt; 0):   b = 0.1584 (CI: 0.0890, 0.2278)</code></pre>
+<p>The Egger’s test p value is significant suggesting asymetry. But we
+need to be careful. Funnel asymmetry can be caused not only by
+publication bias, but also by heterogeneity (one or more undetected
+moderators are distorting a funnel shape). Given we have a lot of
+unexplained variance (i.e. heterogeneity), we cannot be sure what is
+causing this asymmetry.</p>
+<p><br></p>
+</div>
+<div id="trim-and-fill" class="section level2" number="2.9">
+<h2><span class="header-section-number">2.9</span> Trim-and-fill</h2>
+<p>We can use the alternative trim-and-fill method through the function
+<code>trimfill()</code>. We get a funnel plot by passing the result
+through <code>funnel()</code></p>
+<pre class="r"><code>tf_m &lt;- trimfill(random_m)
+tf_m</code></pre>
+<pre><code>## 
+## Estimated number of missing studies on the left side: 13 (SE = 6.5629)
+## 
+## Random-Effects Model (k = 115; tau^2 estimator: REML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0421 (SE = 0.0076)
+## tau (square root of estimated tau^2 value):      0.2053
+## I^2 (total heterogeneity / total variability):   92.06%
+## H^2 (total variability / sampling variability):  12.59
+## 
+## Test for Heterogeneity:
+## Q(df = 114) = 872.7669, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se    zval    pval   ci.lb   ci.ub     ​ 
+##   0.2166  0.0227  9.5234  &lt;.0001  0.1721  0.2612  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>funnel(tf_m)</code></pre>
+<p><img src="meta_analyses_files/figure-html/trimfill-1.png" width="672" /></p>
+<p>As you can see this method uses the asymmetry to add more points and
+provide a revised overall mean, which is smaller than that of the
+original random-effect model. Although this effect is still significant,
+this method could turn a significant overall mean into a non-significant
+one. But rather than taking this as a real estimate of the overall mean,
+we need to see this as a part of our sensitivity analysis.</p>
+<p><br></p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Sensitivity analyses involve various statistical methods that test
+how the overall effect size changes depending on the decisions made
+during the meta-analysis. These decisions will have affected what
+studies and data was included in the calculation.</p>
+</div>
+<p><br></p>
+<p>There are more methods for publication bias tests, none of which are
+perfect, but it is important to do some of these tests (for more see <a
+href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7">Nakagawa
+et al., 2017</a> and references therein).</p>
+<p><br></p>
+</div>
+<div id="further-help-and-references" class="section level2"
+number="2.10">
+<h2><span class="header-section-number">2.10</span> Further help and
+references</h2>
+<p>Worked examples on the <a
+href="http://www.metafor-project.org/doku.php">metafor package’s
+website</a>. There you’ll find many worked examples.</p>
+<p>Curtis, P. S., and X. Z. Wang. 1998. A meta-analysis of elevated CO2
+effects on woody plant mass, form, and physiology. <em>Oecologia</em>
+113:299-313.</p>
+<p>Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M.
+Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological
+and evolutionary applications and beyond. <em>Methods in Ecology and
+Evolution</em> 6:143-152.</p>
+<p>Viechtbauer, W. 2010. Conducting meta-analyses in R with the metafor
+package. <em>Journal of Statistical Software</em> 36:1-48.</p>
+<div id="further-help-references" class="section level3"
+number="2.10.1">
+<h3><span class="header-section-number">2.10.1</span> Further help
+(references)</h3>
+<p style="margin-left:.5in;text-indent:-.5in">
+Henmi, M., and J. B. Copas. 2010. Confidence intervals for random
+effects meta-analysis and robustness to publication bias. <em>Statistics
+in Medicine</em> 29:2969-2983.
+</p>
+<p style="margin-left:.5in;text-indent:-.5in">
+Higgins, J. P. T., S. G. Thompson, J. J. Deeks, and D. G. Altman. 2003.
+Measuring inconsistency in meta-analyses. <em>British Medical
+Journal</em> 327:557-560.
+</p>
+<p style="margin-left:.5in;text-indent:-.5in">
+Nakagawa, S., D. W. A. Noble, A. M. Senior, and M. Lagisz. 2017.
+Meta-evaluation of meta-analysis: ten appraisal questions for
+biologists. <em>BMC Biology</em> 15:18.
+</p>
+<p style="margin-left:.5in;text-indent:-.5in">
+Senior, A. M., C. E. Grueber, T. Kamiya, M. Lagisz, K. O’Dwyer, E. S. A.
+Santos, and S. Nakagawa. 2016. Heterogeneity in ecological and
+evolutionary meta-analyses: its magnitude and implications.
+<em>Ecology</em> 97:3293-3299.
+</p>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Carry out a meta-analysis. Collect the data as a class with each
+person using one of the papers below to pull out the information needed
+to fill in each of the columns in a class excel sheet.</p>
+<p>Then individually run a meta-analysis on the data.</p>
+<p>List of papers from a meta analysis paper, check each paper.</p>
+<p><br></p>
+<p><br></p>
+<p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />
+<a href="https://creativecommons.org/">CC Licensed</a></p>
+<p>Adapted from <a
+href="https://github.com/nicercode/EnvironmentalComputing">EnvironmentalComputing</a>.Authors:
+Shinichi Nakagawa and Malgorzata (Losia) Lagisz</p>
+</div>
+</div>
 </div>
 
 

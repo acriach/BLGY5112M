@@ -2,6 +2,8 @@
 title: "Spatial Data"
 ---
 
+ways of expressing spatial data
+
 plot a set of long and lat points on a map
 
 raster data

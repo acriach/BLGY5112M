@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Advanced Statistics"
 ---
 
 ```{r setup, include=FALSE}
@@ -8,9 +8,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ![Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”](./images/tidydata_5.jpg)
 
-## Advanced Statistics
+The other pages in this website cover
 
 Power analyses
 Multivariate Methods
 Spatial Data
 Meta-analyses
+Mixed Models
+R Markdown
+
+Read through the content and run the code in your own RStudio either by typing out the code or copying and pasting the code. There are challenges for you to complete too.
