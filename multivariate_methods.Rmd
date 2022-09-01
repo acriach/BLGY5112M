@@ -50,7 +50,7 @@ It is highly likely that there are strong relationships between variables in our
 
 ## Running the analysis
  
-Your data should be formatted with variables as columns and observations as rows. Save the leaf shape data set, [leafshape.csv.](./data/leafshape.csv), in a file called `data` in your R project and import into R to see the required format.
+Your data should be formatted with variables as columns and observations as rows. Save the leaf shape data set, [leafshape.csv](./data/leafshape.csv), in a file called `data` in your R project and import into R to see the required format.
 
 ```{r}
 Leaf_shape <- read.csv(file = "data/leafshape.csv", header = TRUE)
@@ -107,7 +107,7 @@ The variance explained by each PC (component) can also be visualised by a **scre
 screeplot(Leaf_PCA, type = "lines")
 ```
 
-**2** How are the original variables related to the principal components?
+**2)** How are the original variables related to the principal components?
 
 These relationships are stored as numbers and can be obtained by extracting the **loadings** from the PCA object. 
 
@@ -127,6 +127,7 @@ biplot(Leaf_PCA)
 
 The original variables (in red) will have a strong relationship with one of the principal components if they are parallel to that component (eg Width 1 and PC1) and longer arrows represent stronger correlations. 
 
+<br>
 
 ## Assumptions to check
  
@@ -153,14 +154,6 @@ Leaf_PCA2 <- princomp(Leaf_data, cor = TRUE) # uses a correlation matrix
 
 <br>
 
-## Further help
- 
-Type `?princomp` to get the R help for this function. 
-
-An nice [interactive page](http://setosa.io/ev/principal-component-analysis/) to help you understand what PCA is doing.
-
-<br>
-
 <br>
 
 **Challenge**
@@ -171,7 +164,7 @@ Choose dataset 1) or 2)
 
 The citation below takes you to a website where you can download a .txt file with 42 measurements of gene expression in female and male whales found in Antartica or Australia.
 
-Attard, Catherine R. M. et al. (2012), Data from: Hybridization of Southern Hemisphere blue whale subspecies and a sympatric area off Antarctica: impacts of whaling or climate change?, Dryad, Dataset, [https://doi.org/10.5061/dryad.8m0t6](https://doi.org/10.5061/dryad.8m0t6)
+Attard, C. R. M. et al. (2012), Data from: Hybridization of Southern Hemisphere blue whale subspecies and a sympatric area off Antarctica: impacts of whaling or climate change?, Dryad, Dataset, [https://doi.org/10.5061/dryad.8m0t6](https://doi.org/10.5061/dryad.8m0t6)
 
 Save and read the text file into R and run a pca.
 
@@ -179,11 +172,64 @@ Save and read the text file into R and run a pca.
 
 [Skull Base](http://skullbase.info/) lists skull length, width, height and weight for many species. For each skull record the measurements on an excel spreadsheet to save as a csv file. Format the data so that you can run a PCA.
 
-You can choose what skull groups to compare. Some suggestions are:
+You can choose what skull groups to compare. Some suggestions are:  
 * Felidae versus Canidae or Mustelidae  
 * Suidae, Cervidae and Bovidae within Artiodactyla  
 * Rodentia versus Lagomorpha or Soricomorpha  
 * You could compare dog breeds using categorises such as sporting, working, hounds, toy etc.
+
+<br>
+
+## Further help
+ 
+Type `?princomp` to get the R help for this function. 
+
+An nice [interactive page](http://setosa.io/ev/principal-component-analysis/) to help you understand what PCA is doing.
+
+<br>
+
+<br>
+
+# Correspondence Analysis (CA)
+
+A type of CA called **canonical correspondence analysis** can show how survey data of multiple species relates to measurements of their habitat.  
+
+<br>
+
+## Example 1 
+
+Each sample in [Mühlbauer et al., 2021](https://doi.org/10.1016/j.baae.2021.05.003) is a square of land in a urban area where the presence or absence of many bird species was recorded as well as environmental characteristics of the area such as human activity, tree density, shrub volume, green cover etc.
+
+In the figure below each sampled area is a dot (with colours representing different seasons), bird species in black text and environmental characteristics in grey text. The grey arrows show which environmental characteristics correspond with birds in those areas.
+
+![alt.text=a box with many dots and polygons in coloured light blue, orange or green. Most dots are clustered in the bottom right. Grey arrows from the centre of the cluster go left and right labelled with abbreviations of environmental measurements such as sap, water, svol. Black text indicates abbreviations of bird species such as CoF, CoL, PyP. x axis label is "Axis 1 (10%)" and y is "Axis 2 (7%)".](./images/bird_ca.jpg)
+
+<br>
+
+<br>
+
+# Cluster Analysis
+
+Cluster analysis is used to group samples based on multiple variables that have been measured from each sample. It produces a **dendrogram** that shows the relationships between all the samples.
+
+<br>
+
+## Example 1 
+
+[Ding et al., 2022](https://doi.org/10.3390/genes13081364) measured the expression of over 100,000 genes in 6 individuals (named FM, SM, FF, SF, EA and LA) of a wax-producing bug. The dendrogram in (a) below, shows how cluster analysis revealed one of the three technical replicates from the insect EA was not reliable and should be excluded. 
+
+(c) below, demonstrates how cluster analysis grouped these 100,000 genes into 19 "modules". Further analyses could then narrow down what groups of genes were associated with higher wax secretions. 
+
+![alt.text=four images from a paper. The top diagram is a dendrogram ending in the names of samples such as FF2, FF1, FF3, FM3, FM2 etc. A table on the right is alligned to show the sex and amount of wax secreted by the samples. The middle graphs are not relevant to cluster analysis. The bottom graph is a dendrogram ending in over 100,000 lines. A wide horizontal bar underneath is divided into 19 repeating colours corresponding to 19 groups of genes.](./images/genes_dendrogram.jpg)
+<br>
+
+<br>
+
+## Example 2 
+
+[Sivaprakasam Padmanaban et al., 2022](https://doi.org/10.3390/metabo12020093) measured the quantities of many small chemicals called metabolites in popular tree leaves. Cluster analysis separates the old and young leaves in the dendrogram in (b). PCA is also used (a).
+
+![alt.text=three images from a paper. The first is a circle within a square with a scatterplot of pink dots on teh right and black dots on teh left. The second is a dedrogram separating black and pink samples with a heat mat in green and red below. The third is a venn diagram with 4 main areas and numbers in the overlapping areas.](./images/metabolites_dendrogram.jpg)
 
 <br>
 
