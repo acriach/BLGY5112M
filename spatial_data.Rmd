@@ -2,10 +2,12 @@
 title: "Spatial Data"
 ---
 
-ways of expressing spatial data
+ways of expressing spatial data overview (not practical though, not engaging)
 
 plot a set of long and lat points on a map
+https://ourcodingclub.github.io/tutorials/maps/
+or https://rspatial.org/terra/spatial/2-spatialdata.html#simple-representation-of-spatial-data
 
-raster data
+raster data???
 
-autocorrelation problems
+autocorrelation problems????
