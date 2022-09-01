@@ -3,7 +3,7 @@ title: "Power Analyses"
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
 ```
 
 # Some Concepts to understand
@@ -24,10 +24,10 @@ Experiment 2 Measures the weights of **geese** and **robins**.
   <summary>**Answer**</summary>
 
 Experiment 2 because the difference between geese and robin weight is bigger. The **effect size** is bigger.
+</details>
 
 <br>
 
-</details>
 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
@@ -68,7 +68,7 @@ All student projects in group B compare p values to an significance level of **0
 <details>
   <summary>***Answer***</summary>
 
-Cohort A because the p values do not have to be as small to be below 0.05 and to reject the null hypothesis.
+Group A because the p values do not have to be as small to be below 0.05 and to reject the null hypothesis.
 
 </details>
 
@@ -116,6 +116,8 @@ A type two error is when you mistakenly accept the null hypothesis. You conclude
 
 We want to reduce the risk of both type 1 and 2 errors. While it is debatable how to do this, there is a convention established that we use a significance level of **0.05** and **0.8** power. 
 
+<br>
+
 ## Power
 
 Power is the chance that a study will detect an effect if one exists. 
@@ -139,7 +141,7 @@ In the future (and already in some disciplines) conventions might change to use,
 
 # Power analyses in R
 
-There are various packages which do power analysis in R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) does simpler analyses up to `lm` and [simR](https://cran.r-project.org/web/packages/simr/index.html) does more complex mixed models and glms.
+There are various packages which do power analysis in R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) is for simpler analyses such as t tests and ANOVAs, up to `lm` and [simR](https://cran.r-project.org/web/packages/simr/index.html) is for more complex mixed models and glms.
 
 First, download and install the package.
 
@@ -147,6 +149,7 @@ First, download and install the package.
 library(pwr)
 ```
 
+<br>
 
 ## Power analyses to find out sample size
 
@@ -165,7 +168,7 @@ We need 128 rats.
 ::: {.center data-latex=""}
 :::
 
-If you have a good reason to expect a difference in a particular **direction**, which is whether the treatment group is higher or lower than the control, you set `alternative = "greater"` or `alternative = "less"` - it doesn’t matter which you choose for this pwr.t.test command. If you cannot be sure if the treatment will be higher or lower weight, you set `alternative = "two.sided"`. 
+If you have a good reason to expect a difference in a particular **direction**, which is whether the treatment group is higher or lower than the control, you set <kbd>alternative = "greater"</kbd> or <kbd>alternative = "less"</kbd> - it doesn’t matter which you choose for this pwr.t.test command. If you cannot be sure if the treatment will be higher or lower weight, you set <kbd>alternative = "two.sided"</kbd>. 
 ::::
 
 <br>
@@ -225,7 +228,7 @@ Imagine this experiment has already taken place. A new treatment was tested on 4
 Use the function `pwr.t.test` and calculate what power the t test had. Use a significance level of 0.05.
 
 <details>
-  <summary>***Answer***</summary>
+  <summary>**Answer**</summary>
 
 ```{r}
 pwr.t.test(n = 20, d = 0.3, sig.level = 0.05, power = NULL)
@@ -242,7 +245,7 @@ How big would the sample sizes in the experiment above have had to be to achieve
 pwr.t.test(n = 30, d = 0.3, sig.level = 0.05, power = NULL)
 ```
 
-Power improves to around 20%. Instead of manually plugging in different values for n, we could make R run the power analysis for many different sample sizes. This code calculates and plots power for samples sizes from 2 to 200.
+Power improves to around 20%. We need to try higher sample sizes. Instead of manually plugging in different values for n, we could make R run the power analysis for many different sample sizes. This code calculates and plots power for samples sizes from 2 to 200.
 ```{r}
 nvals <- seq(2, 200, length.out = 200)
 powvals <- sapply(nvals, function(x) pwr.t.test(d = 0.3, n = x, sig.level = 0.05)$power)
@@ -270,11 +273,13 @@ abline(h = 0.8)
 
 Now we can see that a sample size of around 175 for each group would have given enough power.
 
+<br>
+
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
 :::
 
-Effect sizes should be reported in results. If a effect size is not given, it can sometimes be calculates. For example, d can be calculated if the means and standard deviations are given.  
+Effect sizes should be reported in results. If a effect size is not given, it can sometimes be calculated. For example, d can be calculated if the means and standard deviations are given.  
 ::::
 
 <br>
@@ -285,7 +290,7 @@ Calculate the power for the t test in one of these studies.
 
 Study 1 If you remember doing a t test for a project you did in the past and you have the results or data saved, calculate power for that study
 
-Study 2 Imagine you are planning to measure ***inhibitory control*** of zebra finches while in either a quiet environment or exposed to traffic noise. Decide how many birds you might have the resources to test and use that as n. Use a significance level of 0.05. Then estimate an effect size from the first paragraph of the Results section of [Osbrink et al, 2021](https://doi.org/10.1098/rspb.2020.2851). Use these numbers to calculate what the power would be for a t test.
+Study 2 Imagine you are planning to measure **inhibitory control** of zebra finches while in either a quiet environment or exposed to traffic noise. Decide how many birds you might have the resources to test and use that as n. Use a significance level of 0.05. Then estimate an effect size from the first paragraph of the Results section of [Osbrink et al, 2021](https://doi.org/10.1098/rspb.2020.2851). Use these numbers to calculate what the power would be for a t test.
 
 Would you change the number of birds that you initially thought you would test after doing a power analysis?
 

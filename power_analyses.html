@@ -373,10 +373,10 @@ difference in weight between species?</strong></p>
 <summary>
 <strong>Answer</strong>
 </summary>
-<p>Experiment 2 because the difference between geese and robin weight is
-bigger. The <strong>effect size</strong> is bigger.</p>
-<p><br></p>
+Experiment 2 because the difference between geese and robin weight is
+bigger. The <strong>effect size</strong> is bigger.
 </details>
+<p><br></p>
 <div class="cadetbluebox">
 <div class="center">
 
@@ -417,7 +417,7 @@ result?</strong></p>
 <summary>
 <strong><em>Answer</em></strong>
 </summary>
-<p>Cohort A because the p values do not have to be as small to be below
+<p>Group A because the p values do not have to be as small to be below
 0.05 and to reject the null hypothesis.</p>
 </details>
 <p><br></p>
@@ -471,6 +471,7 @@ have made a <strong>type two error</strong>.</p>
 debatable how to do this, there is a convention established that we use
 a significance level of <strong>0.05</strong> and <strong>0.8</strong>
 power.</p>
+<p><br></p>
 </div>
 <div id="power" class="section level2" number="1.6">
 <h2><span class="header-section-number">1.6</span> Power</h2>
@@ -500,12 +501,14 @@ internet.</p>
 <h1><span class="header-section-number">2</span> Power analyses in
 R</h1>
 <p>There are various packages which do power analysis in R. <a
-href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a>
-does simpler analyses up to <code>lm</code> and <a
+href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a> is
+for simpler analyses such as t tests and ANOVAs, up to <code>lm</code>
+and <a
 href="https://cran.r-project.org/web/packages/simr/index.html">simR</a>
-does more complex mixed models and glms.</p>
+is for more complex mixed models and glms.</p>
 <p>First, download and install the package.</p>
 <pre class="r"><code>library(pwr)</code></pre>
+<p><br></p>
 <div id="power-analyses-to-find-out-sample-size" class="section level2"
 number="2.1">
 <h2><span class="header-section-number">2.1</span> Power analyses to
@@ -516,16 +519,16 @@ significance level of 0.05 and 0.8 power.</p>
 <p>To do power calculations in <code>pwr</code>, you leave out sample
 size (n) but enter effect size (d), significance level and power:</p>
 <pre class="r"><code>pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8)</code></pre>
-<pre><code>## 
-##      Two-sample t test power calculation 
-## 
-##               n = 63.76561
-##               d = 0.5
-##       sig.level = 0.05
-##           power = 0.8
-##     alternative = two.sided
-## 
-## NOTE: n is number in *each* group</code></pre>
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 63.76561
+              d = 0.5
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
 <p>We need 128 rats.</p>
 <p><br></p>
 <div class="cadetbluebox">
@@ -534,12 +537,11 @@ size (n) but enter effect size (d), significance level and power:</p>
 </div>
 <p>If you have a good reason to expect a difference in a particular
 <strong>direction</strong>, which is whether the treatment group is
-higher or lower than the control, you set
-<code>alternative = "greater"</code> or
-<code>alternative = "less"</code> - it doesn’t matter which you choose
-for this pwr.t.test command. If you cannot be sure if the treatment will
-be higher or lower weight, you set
-<code>alternative = "two.sided"</code>.</p>
+higher or lower than the control, you set <kbd>alternative =
+“greater”</kbd> or <kbd>alternative = “less”</kbd> - it doesn’t matter
+which you choose for this pwr.t.test command. If you cannot be sure if
+the treatment will be higher or lower weight, you set <kbd>alternative =
+“two.sided”</kbd>.</p>
 </div>
 <p><br></p>
 </div>
@@ -611,16 +613,16 @@ alt="alt.text=A view looking into swallow water with 4 trout swimming." /></p>
 <strong>Answer</strong>
 </summary>
 <pre class="r"><code>pwr.anova.test(f=0.2,k=3,power=0.80,sig.level=0.05)</code></pre>
-<pre><code>## 
-##      Balanced one-way analysis of variance power calculation 
-## 
-##               k = 3
-##               n = 81.29603
-##               f = 0.2
-##       sig.level = 0.05
-##           power = 0.8
-## 
-## NOTE: n is number in each group</code></pre>
+<pre><code>
+     Balanced one-way analysis of variance power calculation 
+
+              k = 3
+              n = 81.29603
+              f = 0.2
+      sig.level = 0.05
+          power = 0.8
+
+NOTE: n is number in each group</code></pre>
 <p>You need to catch 81 fish from each lake, 243 in total.</p>
 </details>
 <p><br></p>
@@ -655,19 +657,19 @@ be 0.3.</p>
 t test had. Use a significance level of 0.05.</p>
 <details>
 <summary>
-<strong><em>Answer</em></strong>
+<strong>Answer</strong>
 </summary>
 <pre class="r"><code>pwr.t.test(n = 20, d = 0.3, sig.level = 0.05, power = NULL)</code></pre>
-<pre><code>## 
-##      Two-sample t test power calculation 
-## 
-##               n = 20
-##               d = 0.3
-##       sig.level = 0.05
-##           power = 0.1522683
-##     alternative = two.sided
-## 
-## NOTE: n is number in *each* group</code></pre>
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 20
+              d = 0.3
+      sig.level = 0.05
+          power = 0.1522683
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
 <p>Power was only about 15%. This means that given the effect size, and
 sample size, we only detected that effect 15% of the time. So, it
 probably was not worth doing this experiment!</p>
@@ -676,20 +678,20 @@ probably was not worth doing this experiment!</p>
 <p>How big would the sample sizes in the experiment above have had to be
 to achieve 80% power? We can try n = 30:</p>
 <pre class="r"><code>pwr.t.test(n = 30, d = 0.3, sig.level = 0.05, power = NULL)</code></pre>
-<pre><code>## 
-##      Two-sample t test power calculation 
-## 
-##               n = 30
-##               d = 0.3
-##       sig.level = 0.05
-##           power = 0.2078518
-##     alternative = two.sided
-## 
-## NOTE: n is number in *each* group</code></pre>
-<p>Power improves to around 20%. Instead of manually plugging in
-different values for n, we could make R run the power analysis for many
-different sample sizes. This code calculates and plots power for samples
-sizes from 2 to 200.</p>
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 30
+              d = 0.3
+      sig.level = 0.05
+          power = 0.2078518
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+<p>Power improves to around 20%. We need to try higher sample sizes.
+Instead of manually plugging in different values for n, we could make R
+run the power analysis for many different sample sizes. This code
+calculates and plots power for samples sizes from 2 to 200.</p>
 <pre class="r"><code>nvals &lt;- seq(2, 200, length.out = 200)
 powvals &lt;- sapply(nvals, function(x) pwr.t.test(d = 0.3, n = x, sig.level = 0.05)$power)
 plot(nvals, powvals,
@@ -720,12 +722,13 @@ y axes labels and main plot title<br />
 <p><br></p>
 <p>Now we can see that a sample size of around 175 for each group would
 have given enough power.</p>
+<p><br></p>
 <div class="cadetbluebox">
 <div class="center">
 
 </div>
 <p>Effect sizes should be reported in results. If a effect size is not
-given, it can sometimes be calculates. For example, d can be calculated
+given, it can sometimes be calculated. For example, d can be calculated
 if the means and standard deviations are given.</p>
 </div>
 <p><br></p>
@@ -734,14 +737,14 @@ if the means and standard deviations are given.</p>
 <p>Study 1 If you remember doing a t test for a project you did in the
 past and you have the results or data saved, calculate power for that
 study</p>
-<p>Study 2 Imagine you are planning to measure <strong><em>inhibitory
-control</em></strong> of zebra finches while in either a quiet
-environment or exposed to traffic noise. Decide how many birds you might
-have the resources to test and use that as n. Use a significance level
-of 0.05. Then estimate an effect size from the first paragraph of the
-Results section of <a
-href="https://doi.org/10.1098/rspb.2020.2851">Osbrink et al, 2021</a>.
-Use these numbers to calculate what the power would be for a t test.</p>
+<p>Study 2 Imagine you are planning to measure <strong>inhibitory
+control</strong> of zebra finches while in either a quiet environment or
+exposed to traffic noise. Decide how many birds you might have the
+resources to test and use that as n. Use a significance level of 0.05.
+Then estimate an effect size from the first paragraph of the Results
+section of <a href="https://doi.org/10.1098/rspb.2020.2851">Osbrink et
+al, 2021</a>. Use these numbers to calculate what the power would be for
+a t test.</p>
 <p>Would you change the number of birds that you initially thought you
 would test after doing a power analysis?</p>
 <p><img src="images/zebra_finch.jpg"
@@ -755,16 +758,16 @@ effect size d = 0.29 as reported in <a
 href="https://doi.org/10.1098/rspb.2020.2851">Osbrink et al,
 2021</a>.</p>
 <pre class="r"><code>pwr.t.test(n = 25, d = 0.29, sig.level = 0.05, power = NULL)</code></pre>
-<pre><code>## 
-##      Two-sample t test power calculation 
-## 
-##               n = 25
-##               d = 0.29
-##       sig.level = 0.05
-##           power = 0.1712827
-##     alternative = two.sided
-## 
-## NOTE: n is number in *each* group</code></pre>
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 25
+              d = 0.29
+      sig.level = 0.05
+          power = 0.1712827
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
 <p>Power would be 0.17 so it would only be worthwhile doing the study if
 it was feasible to increase the number of birds.</p>
 </details>
