@@ -2,12 +2,334 @@
 title: "Spatial Data"
 ---
 
-ways of expressing spatial data overview (not practical though, not engaging)
+Spatial statistics is a huge area with many methods.  This is a short introduction.
+![alt.text=Six maps of Asia, the world, Spain, an area of US. All of varying colours and styles.](./images/maps.png)
+Examples of various maps created in R and published on [R-bloggers](https://www.r-bloggers.com/).
 
-plot a set of long and lat points on a map
-https://ourcodingclub.github.io/tutorials/maps/
-or https://rspatial.org/terra/spatial/2-spatialdata.html#simple-representation-of-spatial-data
 
-raster data???
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
+```
 
-autocorrelation problems????
+# IQ Data
+
+## First a simple lm model
+
+We will use country IQ data from [Hassall and Sherratt's (2011) paper](https://doi.org/10.1016/j.intell.2011.05.001). Use this [simplified form of the data](https://raw.githubusercontent.com/acriach/BLGY5112M/main/data/IQ.txt). Save in your data folder in your R project.
+
+Read in the data:
+```{r}
+IQData <- read.table(file = "data/IQData.txt", header = TRUE)
+head(IQData)
+```
+Note that there are countries, their corresponding IQ, possible explanatory variables for IQ and longitude and latitude. 
+
+<br>
+
+We can run a lm model to see if nutrition and disease predict the IQ of a country.
+```{r}
+model1 <- lm(IQ ~ log(Disease) + log(Nutrition), data=IQData)
+summary(model1)
+```
+<details>
+  <summary>**Why disease and nutrition is logged**</summary>
+
+During data exploration, plots reveal `Disease` and `Nutrition` to be skewed:
+```{r}
+hist(IQData$Disease)
+hist(IQData$Nutrition)
+```
+
+Taking the log of the data makes it more normally distributed: 
+```{r}
+hist(log(IQData$Disease))
+hist(log(IQData$Nutrition))
+```
+
+This may improve the fit of the model.
+
+</details>
+
+<br>
+
+**Challenge**
+
+Identify the parts of the summary output that tell you what the effect of `Disease` and `Nutrition` is on `IQ`.
+
+<details>
+  <summary>**Answer**</summary>
+You could look at the p values under `Pr(>|t|)`. For `log(Disease)` it is <2e-16 suggesting significance. For `log(Nutrition)` it is 0.568 suggesting non significance. You may also look at the `Estimate` and `Adjusted R-squared`.
+</details>
+
+<br>
+
+So there we have it - IQ is definitely caused by disease!  Or is it...?  Since this dataset is spatial it is likely to have the problem of **autocorrelation**!
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+**Spatial autocorrelation** is where samples that are geographically closer to each other are more likely to be similar to each other. They are more likely to have similar values if measured.
+  
+::::
+
+<br>
+
+## Assessing Autocorrelation
+
+Spatial autocorrelation can be measured using **Moran's I** (I the letter not 1 the number). 
+
+<br>
+
+### Correlograms
+
+We can use the function `spline.correlog()` in the package `ncf` to create a **correlogram**. This tells us if we have autocorrelation. 
+
+**Challenge**
+
+Install and library load the `ncf` package.
+
+<details>
+  <summary>**Answer**</summary>
+```{r, eval = FALSE}
+install.packages("ncf") 
+```
+```{r, eval = TRUE}
+library(ncf) 
+```
+</details>
+
+<br>
+
+Make an object called `correlog_object` containing information to plot a correlogram.
+```{r}
+correlog_object <- spline.correlog(IQData$Longitude, IQData$Latitude, residuals(model1), resamp=0, latlon=TRUE)
+plot(correlog_object)
+```
+<details>
+  <summary>**Explanation of code**</summary>
+* `spine.correlog()` is the function
+* `IQData$Longitude` and `IQData$Latitude` are the numbers the function used to calculate distances between countries
+* `residuals(model1)` is a list of the residuals from the lm model. This represents the data.
+* `resamp=0` tells R to do the calculation once. Try increasing this number (for example, `resamp = 100`) and plotting to see a confidence interval.
+* `latlon=TRUE` tells R the co-ordinates are latitude and longitude. 
+* `plot(correlog_object)` passes the newly created object through the `plot()` function to make a correlogram graph.
+</details>
+
+<br> 
+
+### Interpreting the correlogram
+On the x axis, are the distances between countries (calculated from latitude and longitude). Moran's I values are on the y axis labelled `Correlation`. There are high values if the data is very similar, low values closer to 0 if it is not. 
+
+* there **is no** spatial autocorrelation if the values of Moran's I varies no matter what the distance
+* there **is** spatial autocorrelation if Moran's I values are higher for countries closer together (i.e. lower distance apart).
+
+Un-oh! Looks like we have spatial autocorrelation! (Moran's I values are high on the left of the graph.) 
+
+<br>
+
+### moran.test
+
+We can also establish if there is autocorrelation by running the `moran.test()` in package `spdep`. It gives us a p value that suggests if the data is randomly dispersed.
+
+Load the package
+```{r, eval=TRUE, warning=FALSE}
+library(spdep)
+```
+
+First we must create a matrix of distances and weight them: 
+```{r}
+IQnb <- dnearneigh(as.matrix(IQData[9:10]), 0, 10000,longlat=TRUE) 
+
+IQlistw <- nb2listw(IQnb) 
+```
+<details>
+  <summary>**Explanation of code**</summary>
+* `dnearneigh()` is a function
+* `as.matrix` means our object will be a matrix
+* `IQData[9:10]` specifies columns 9 and 10 where the longitude and latitude values are.
+* `0, 10000` specify the lower and upper bounds of the distance class of interest (1 – 10000km is nearly global)
+* `IQlistw` is an object we create ready to pass through the `moran.test()`
+* `nb2listw` is a function that turns our neighbourhood `IQnb` object into a weighted list
+</details>
+
+<br>
+
+Now perform the moran test:
+```{r}
+result <- moran.test(residuals(model1), listw=IQlistw) 
+result
+```
+The p value suggests there is a difference in the Moran I's values as the distances change. Therefore there is autocorrelation.
+
+<br>
+
+## Mapping the Data
+
+Maps may help us understand why data is autocorrelated.
+
+**Challenge**
+
+Install and library load the package `maptools` containing the `wrld_simpl` dataset which is the coordinates of a simple world map. 
+Then pass `wrld_simpl` through the `data()` function to load it. Then the `plot()` function.
+
+<details>
+  <summary>**Answer**</summary>
+```{r, eval = FALSE}
+install.packages("maptools")
+library(maptools) 
+```
+```{r, eval = TRUE, warning=FALSE}
+library(maptools)
+data(wrld_simpl) 
+plot(wrld_simpl)
+```
+</details>
+
+<br>
+
+We can plot the residuals of our `model1` on top of this simple map of the world, to see where the spatial autocorrelation occurs.
+```{r}
+plot(wrld_simpl) 
+points(IQData$Longitude, IQData$Latitude, pch=19,
+       col=c("blue","red")[sign(resid(model1))/2+1.5],
+       cex=abs(resid(model1))/max(resid(model1))*3)
+```
+<details>
+  <summary>**Explanation of code**</summary>
+* `points()` the position of the residuals. Here given as latititude and longitude.
+* `col=` tells what colours to make the points. Here positive and negative residuals are blue and red respectively
+* `pch=19` tells R to plot circles            
+* `cex=` tells R how big to make the circles. Here we use the proportional size of the residuals relative to the the biggest (max) residual.
+</details>
+
+<br> 
+
+The large blue circles on the map are where the countries are most similar. There is also negative correlation where the big red circles are.
+
+<br>
+
+Another way to visualise why there is a autocorrelation problem, is to plot IQ and disease according to the continent of the country (similar to Figure 1 from [Hassall and Sherratt, 2011](https://reader.elsevier.com/reader/sd/pii/S0160289611000572?token=7B8DFAD8896C1FBA0AA9B2EF7ACA41509969C6894A95E31DF179E376D3DAEEFADD3E503B5D1366C185330CEDBC41FFB3&originRegion=eu-west-1&originCreation=20220902125737)): 
+
+```{r, warning=FALSE}
+library(ggplot2) # make sure you have ggplot2 installed
+
+ggplot(IQData, aes(x=log(Disease), y=IQ, group = Continent)) + 
+geom_point(aes(shape=Continent))
+```
+
+You can see the data clusters by continent.
+
+<br>
+
+## Models for Spatial Data
+
+Having established that we need to account for the spatial autocorrelation, we can run a model. However, there are many model to choose from.
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+If you need to analyse spatial data you will need to spend time looking into the most appropriate method. For more guidance try Bivand et al. (2013) [Applied Spatial Data Analysis in R](https://asdar-book.org/)  or Pebesma and Bivand (2022) [Spatial Data Science online book](https://keen-swartz-3146c4.netlify.app/)
+
+::::
+
+<br>
+
+As an example, we will use a GLS (Generalized Least Squares) model to show how spatial data is included in the model code to account for spatial autocorrelation.
+
+<br>
+
+### GLS models 
+
+The function `gls()` in the `nlme` package will run a GLS  model.
+```{r, warning=FALSE}
+library(nlme)
+```
+
+`gls()` uses similar code to lm but the argument `correlation=` allows the latitude and longitude data to be included. R will automatically create a spatial correlation structure to include in the model using the longitude and latitude values.
+```{r, eval=FALSE}
+model2 <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corExp(form=~Longitude+Latitude)) 
+summary(model2)
+```
+
+In the correlation argument we have specified the spatial structure of our data to be `corExp` in the `correlation=` argument. However, there are [many options](https://stat.ethz.ch/R-manual/R-devel/library/nlme/html/corClasses.html) with `corExp`, `corGaus`, `corLin`, `corRatio`, and `corSpher` most commonly used for spatial autocorrelation.
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+It is common for there to be many options to choose from in arguments when running analyses. Be prepared to dedicate time to reading about functions and their arguments so you can confidently decide which is best for your data. 
+
+::::
+
+<br>
+
+## Evaluating models with AICs
+
+One way we could choose which spatial structure option to use, is to run many models with the different options and evaluate the fit of the models. We can evaluate them using an **AIC** value (this can be used on all sorts of models not just gls models).
+
+Run the models with the different structures `corExp`, `corGaus`, `corLin`, `corRatio`, and `corSpher`:
+```{r}
+model_corExp <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corExp(form=~Longitude+Latitude)) 
+model_corGaus <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corGaus(form=~Longitude+Latitude)) 
+model_corLin <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corLin(form=~Longitude+Latitude)) 
+model_corRatio <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corRatio(form=~Longitude+Latitude))
+model_corSpher <- gls(IQ ~ log(Disease) + log(Nutrition), data=IQData, correlation=corSpher(form=~Longitude+Latitude))
+```
+
+View the AIC values:
+```{r}
+AIC(model_corExp, model_corGaus, model_corLin, model_corRatio, model_corSpher)
+```
+
+`model_corLin` and `model_corSpher` have the lowest AIC values so they fit the data best.
+
+<br>
+
+**Challenge**
+
+View the output of the model by passing them through `summary()`.
+
+<details>
+  <summary>**Answer**</summary>
+```{r, eval=FALSE}
+summary(model_corLin)
+```
+```{r, eval=FALSE}
+summary(model_corSpher)
+```
+</details>
+
+<br>
+
+**Challenge**
+
+Compare the results of these models where spatial autocorrelation is accounted for with the original lm `model1` where it was not. What are the differences?
+
+<details>
+  <summary>**Answer**</summary>
+```{r, eval=FALSE}
+summary(model1)
+```
+
+`Nutrition` is significant when autocorrelation is accounted for. `Disease` is still significant but to a lesser extend (p value is not as small).
+
+</details>
+
+<br>
+
+References 
+
+Hassall C, Sherratt TN (2011) Statistical inference and spatial patterns in correlates of IQ. Intelligence, 39, 303-310. 
+
+<br>
+
+<br>
+
+[Source](https://github.com/acriach/BLGY5112M)  
+[CC Licensed](https://creativecommons.org/)
+
+Adapted from Christopher Hassall's Introduction to Spatial Statistics
+and
+Mike Treglia's [Landscape Analysis and Modeling](https://mltconsecol.github.io/TU_LandscapeAnalysis_Documents/Assignments_web/Assignment07_Mantel_SpRegress.html)

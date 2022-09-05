@@ -1,0 +1,225 @@
+---
+title: "Mixed Models"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
+```
+
+# Mixed Models
+
+## Linear models reminder
+
+We will use a fictional study system - dragons! If you are using R for yourself, click this [link to the dragon data](https://raw.githubusercontent.com/acriach/BLGY5112M/main/data/dragons.csv) and right click to save it in your data file in your R project.
+
+![alt.text=Three colourful cartoon dragons.](./images/dragons.png)
+
+Imagine we went to eight mountain ranges (`mountainRange`) and collected data on the intelligence (`testScore`) and size (`bodyLength`) of 480 dragons. We want to know if size affects their intelligence since we want intelligent dragons that we can train but that aren't too big and scary!
+
+Load the csv dataset
+```{r, eval = FALSE}
+dragons <- read.csv(file = "data/dragons.csv")
+head(dragons)
+```
+
+One way to analyse this data would be to fit a linear model to all our data.
+
+Fit the model with `testScore` as the response and `bodyLength` as the predictor and have a look at the output:
+
+```{r, eval = FALSE}
+basic.lm <- lm(testScore ~ bodyLength, data = dragons)
+summary(basic.lm)
+```
+View the code explained if using lm is new to you.
+
+<details>
+  <summary>**Code Explained**</summary>
+* `basic.lm` is the name we gave to the model object. We could have chosen to name it anything.
+* `lm()` is the function that runs the linear model
+* `testScore` is the name of our variable that we want to be the response in the model.
+* The tidle `~` separates the response and predictors in the lm code.
+* `bodyLength` is the name of the column of data that we want as the predictor in the model
+* `data =` is an argument in the lm function
+* `dragons` is the name of the dataset that we want R to use.
+
+</details>
+
+**Challenge**
+
+If you have learned how to run models using lm, write out how you would interpret the output from the summary. Then compare your thoughts with the answer.
+
+<details>
+  <summary>**Answer**</summary>
+
+Points you could take from the output include
+* The coefficient estimate for `bodyLength` suggests that the model predicts `testScore` to increase by `0.55` for an increase of 1 in `bodyLength`.
+* The coefficient - standard error for `bodyLength` suggest the `scoreTest` can vary by 0.06.
+* The p value under Pr(>t) is significant indicating we might reject the null hypothesis that there is no relationship between `bodyLength` and `testScore`.
+* R^2^ is `0.1529` suggesting that 15.29 % of the variance in `testScore` is explained by `bodyLength`.
+</details>
+
+Let’s plot the data with ggplot2:
+```{r, eval = TRUE}
+library(tidyverse)  # load the package containing both ggplot2 and dplyr
+```
+
+```{r, warning=FALSE, message=FALSE}
+(dragonPlot <- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
+  geom_point() +
+  geom_smooth(method = "lm"))
+```
+
+Okay, so both from the linear model and from the plot, it seems like bigger dragons do better in our intelligence test. From our knowledge of dragons, that seems a bit odd: size shouldn’t really affect the test scores.
+
+But are the assumptions met?
+
+The plot above and below suggest we roughly meet the assumption of linearity. 
+```{r}
+plot(basic.lm, which = 1)  # this is not perfect... 
+## but since this is a fictional example we will go with it
+## for your own data be careful:
+## the bigger the sample size, the less of a trend you'd expect to see
+```
+
+This checks the assumption that the residuals are normal:
+```{r}
+plot(basic.lm, which = 2)  # some deviations at the ends but this is generally fine
+```
+
+This checks the assumption of homoscedasticity (equal variance of residuals):
+```{r}
+plot(basic.lm, which = 3)  # a bit off but again doesn't look too bad
+```
+
+But there are other assumptions of a linear model including:
+* **independent observations**
+
+This brings us to...
+
+<br>
+
+## When a mixed model is needed
+
+Consider the description of the dragon study again (repeated below).
+
+> Imagine we went to eight mountain ranges (`mountainRange`) and collected data on the intelligence (`testScore`) and size (`bodyLength`) of 480 dragons.
+
+**Challenge**
+
+What is it that may not be right about analysing the data using a lm. Write your thoughts in your R script then compare with the answer.
+
+<details>
+  <summary>**Answer**</summary>
+
+The analysis has not considered that there could be differences in the dragons among the eight different **mountain ranges**. 
+
+The dragons can be grouped by mountain range. Therefore, the dragons (and data) are not **independent**. 
+
+</details>
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+Be aware that the word independent in statistics can be used to describe 1) independent data as well as 2) independent variables also known as predictors or factors. Confusingly, these are two different concepts. 
+  
+::::
+ 
+
+It’s possible that the data from within each mountain range are more similar to each other than the data from different mountain ranges.
+
+Have a look at the data to see if this is true: 
+```{r}
+boxplot(testScore ~ mountainRange, data = dragons)  # looks like something is going on here
+```
+
+We could also plot it and colour points by mountain range:
+
+```{r}
+(colour_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = mountainRange)) +
+  geom_point(size = 2) +
+  theme_classic() +
+  theme(legend.position = "none"))
+```
+
+From the above plots, it looks like our mountain ranges vary both in the dragon body length AND in their test scores. This confirms that our observations from within each of the ranges aren’t independent. We can’t ignore that: it could lead to a completely erroneous conclusion!
+
+So what do we do?
+
+We could run many separate analyses and fit a regression for each of the mountain ranges.
+
+Lets have a quick look at the data split by mountain range. We use the facet_wrap to do that:
+```{r}
+(split_plot <- ggplot(aes(bodyLength, testScore), data = dragons) + 
+  geom_point() + 
+  facet_wrap(~ mountainRange) + # create a facet for each mountain range
+  xlab("length") + 
+  ylab("test score"))
+```
+
+That’s eight analyses which increases our chance of a **Type 1 error**. It also decreases the sample size from 480 dragons to 60. Not ideal!
+
+We want to use all the data, but control for the data coming from different mountain ranges. We are not interested in quantifying test scores for each specific mountain range. This means we could use `mountainRange` as a **random effect** in a mixed model.
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+Do not be misled by the use of the word random for random effect. It does not mean that the variable is mathematically random in anyway.
+
+The word **mixed** in mixed model refers to the mix of **random** and **fixed** effects. 
+  
+::::
+ 
+
+## Running a mixed model
+
+
+
+## Identifying when a linear mixed model is needed
+
+There are lots of avaliable guides to help you run mixed models in R. 
+
+* This lesson is adapted from Hajduk's [Introduction to Linear Mixed Models](https://ourcodingclub.github.io/tutorials/mixed-models/#six) which gives more details than here.
+* [Environmental Computing](https://environmentalcomputing.net/statistics/mixed-models/) mixed model lessons.
+
+However, knowing when there is a random variable and therefore when a mixed model might be needed is more difficult.
+
+Take your time to imagine each of the scenarios below, identifying the random variable in each one and writing the code to run a mixed model.
+
+blurb description, a diagram of the experiment, show the data by reading in, then ask whats the random variable and to write the formula for the mixed model. Then have a reveal answer so they can check. Explain what the random variable is and why it is that.
+
+blocks in a field trial
+
+caterpillars from several females
+
+data from several different sites
+
+bacterial growths from petri dishes or containers
+
+Tip box when a random variable has lees than 5 groups it is advisable to not have it as a random variable in a mixed model. Instead, include it in a model as another predictor. You may want to look at the interaction.
+
+## More complicated designs
+
+Sometimes you may have crossed random effects
+
+Examples
+
+Sometimes you may have a nested design
+
+Example
+
+Sometimes the dependent variable is not continuous. In the same way that you use other **generalized** models such as logistic or poisson, you can use other **generalised mixed** models using `glmer`. 
+
+For example, if the dependent was binary because each dragon was scored as passing or failing an intelligence test, you could use a binary logistic mixed model. 
+
+glmer(pass_fail ~ nfdkjsakj, link = binomial)
+
+<br>
+
+<br>
+
+[Source](https://github.com/acriach/BLGY5112M)  
+[CC Licensed](https://creativecommons.org/)
+
+Adapted from the [Coding Club](https://ourcodingclub.github.io/) tutorial [Introduction to Linear Mixed Models](https://ourcodingclub.github.io/tutorials/mixed-models/#six) by Gabriela K Hajduk.
