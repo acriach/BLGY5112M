@@ -14,16 +14,16 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
 
 ![alt.text=A robin sitting on the post of a fence with snow on the fence and surrounding foliage](./images/robin.jpg)
 
-Experiment 1 Measures the weights of **geese** and **swans**.
+Experiment 1 Measures the weights of **swans** and **geese**.
 
-Experiment 2 Measures the weights of **geese** and **robins**.
+Experiment 2 Measures the weights of **swans** and **robins**.
 
 **What experiment is most likely to find a significant difference in weight between species?**
 
 <details>
   <summary>**Answer**</summary>
 
-Experiment 2 because the difference between geese and robin weight is bigger. The **effect size** is bigger.
+Experiment 2 because the difference between swan and robin weight is bigger. The **effect size** is bigger.
 </details>
 
 <br>

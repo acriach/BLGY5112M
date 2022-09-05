@@ -1,12 +1,12 @@
 ---
 title: "Meta-Analyses"
 ---
-# Calculating effect sizes
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
+```
 
 ![alt.text=Two diagrams. Left diagram has three silouhettes of insects above a graph with four horizontal lines with points in the middle of each labbelled female, male mixed sex and hermaphrodite. None of the four lines overlap the reference vertical dotted line. Right diagram has seven silouhettes of insects above a graph with four horizontal lines with points in the middle of each labbelled female, male mixed sex and hermaphrodite. On this graph all four lines overlap the reference vertical dotted line.](./images/metanalysis.jpg)
-
-
-**The process of meta-analysis**
 
 There are many steps involve in a meta-analysis. For guidance on how to do a meta-analysis see [(Nakagawa *et al.* 2017)](https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7) which divides the process of meta-analysis into 10 questions.
 
@@ -14,11 +14,13 @@ This lesson only considers how to do the statistics part of the meta-analysis & 
 
 <br>
 
+# Calculating effect sizes
+
 ## `Metafor` for meta-analysis
 
 First, install and load the `metafor` package.
 
-```{r setup, tidy=TRUE, message=FALSE, warning=FALSE}
+```{r, tidy=TRUE, message=FALSE, warning=FALSE}
 library(metafor)
 ```
 
@@ -33,7 +35,7 @@ str(dat)
 
 <br>
 
-This data set is from the paper by Curtis and Wang (1998). They looked at the effect of increased CO$_2$ on plant traits (mainly changes in biomass). There is experimental details including species (sometimes called moderators) along with means (m), standard deviations (sd) and sample sizes (n) for the control group (1) and experimental group (2) in the last few columns.
+This data set is from the paper by Curtis and Wang (1998). They looked at the effect of increased CO$_2$ on plant traits (mainly changes in biomass). There is experimental details (sometimes called moderators) including species and functional group. There is also means (m), standard deviations (sd) and sample sizes (n) for the control group (1) and experimental group (2) in the last few columns.
 
 ![alt.text=A photo of tree trunks, bushes and ferns.](./images/forest.jpg)
 
@@ -43,7 +45,16 @@ This data set is from the paper by Curtis and Wang (1998). They looked at the ef
 
 To compare the effect of increased CO$_2$ across multiple studies, we first need to calculate an **effect size** for each study - a metric that quantifies the difference between our control and experimental groups.
 
-There are several 'standardized' effect sizes. When we have two groups to compare, we have a choice of two types of effect size statistics we could use. The first one is standardized mean difference (SMD also known as Cohen's $d$ or Hedge's $d$ or $g$; there are some subtle differences between them, but we do not worry about them for now.
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+Effect size reminder. If experiment 1 measures the weights of swans and geese and experiment 2 measures the weight of swans and robins, the effect size is bigger in experiment 2. There is a bigger effect of species on weight in experiment 2. 
+::::
+
+There are several 'standardized' effect sizes. When we have two groups to compare, we have a choice of two effect size statistics we could use. 
+
+1) The first choice is standardized mean difference (SMD also known as Cohen's $d$ or Hedge's $d$ or $g$; there are some subtle differences between them, but we do not worry about them for now.
 <details>
   <summary>**Formula for calculating SMD**</summary>
 
@@ -76,7 +87,7 @@ The square root of this is referred to as 'standard error'. The inverse of this 
 
 <br>
 
-The second option of standardised effect size is called 'response ratio', which is usually presented in its natural logarithm form (lnRR).
+2) The second option of standardised effect size is called 'response ratio', which is usually presented in its natural logarithm form (lnRR).
 <details>
   <summary>**Formula for lnRR**</summary>
 
@@ -147,7 +158,7 @@ The original paper used lnRR so we will use it, but you will repeat the analysis
 
 <br>
 
-Add the effect sizes to the original data set with `bind_cols` from the package `dplyr` or `cbind`
+Add the effect sizes to the original data set with `bind_cols()` from the package `dplyr` (some people use `cbind()` for this).
 
 ```{r, tidy=TRUE, message=FALSE, warning=FALSE}
 library(dplyr)
@@ -185,7 +196,7 @@ forest(dat$yi[1:12], dat$vi[1:12])
 ::: {.center data-latex=""}
 :::
 
-We can calculate many different kinds of effect sizes with `escalc`; other common effect size statistics include $Zr$ (Fisher's z-transformed correlation) which you would use if the meta-analysis was analysing studies that reported correlations oppose to comparing two groups.
+We can calculate many different kinds of effect sizes with <kbd>`escalc`</kbd>; other common effect size statistics include $Zr$ (Fisher's z-transformed correlation) which you would use if the meta-analysis was analysing studies that reported correlations oppose to comparing two groups.
   
 ::::
 
@@ -204,7 +215,30 @@ Now add the SMD values (the alternative ones to lnRR) to `dat` and create a fore
 <details>
   <summary>**Solution**</summary>
 
-add solution to adding SMD, noting the renaming R does and forest plot and how can view previous forest plot using arrows in plots area or by storing as an object and pointing out the differences.
+Use the SMD object created above. Add the vi and yi columns in SMD to the dataset dat.
+```{r}
+dat <- bind_cols(dat, SMD)
+```
+
+If you view dat or run `str(dat)` you will see R has renamed the `vi` and `yi` columns. This means you have the lnRR values and then the SMD values.
+```{r}
+str(dat)
+```
+
+Now create a forest plot.
+```{r}
+forest(dat$yi...23, dat$vi...24)
+```
+
+If you want to view the previous forest plot for comparison try the blue arrow under the `Plots` tab. Alternative you could assign the plots and use that name to call them and view them.
+```{r, eval = FALSE}
+plotlnRR <- forest(dat$yi...21, dat$vi...22)
+plotlnRR
+plotSMD <- forest(dat$yi...23, dat$vi...24)
+plotSMD
+```
+
+Comparing the forest plots, there does seem to be differences. Keep in mind that you may want to investigate how using lnRR or SMD may or may not affect the analysis further on.
 
 </details>
 
@@ -265,7 +299,7 @@ y_i=b_0+s_i+e_i,
 \\
 s_i\sim \mathcal{N}(0,\tau^2),\
 \\
-e_i\sim \mathcal{N}(0,v_i),\
+e_i\sim \mathcal{N}(0,v_i),
 \end{equation}
 
 where $s_i$ is a study-specific deviation from the overall mean for $i$th study. As the second formula indicates, $s_i$ is normally distributed with the between-study variance which is  $\tau^2$. Note that weights for this model are $1/(\tau^2+v_i)$. We revisit this point. 
@@ -280,7 +314,7 @@ Unlike the common-effect model, a random-effect model assumes that different stu
 
 ## Running a common-effect model
 
-Let's use the function `rma` from `metafor` to run a common-effect model using the effect sizes `yi` and variances `vi` we calculated earlier.
+Let's use the function `rma` from `metafor` to run a common-effect model using the effect sizes `yi` and variances `vi` we calculated earlier. (Note: make sure those columns are still called `yi` and `vi`.)
 
 ```{r re-library, echo = FALSE, message = FALSE, warning = FALSE}
 library(metafor)
@@ -316,7 +350,7 @@ The overall mean is under `estimate` and it's around 0.2. What does 0.2 mean? Th
 exp(0.2)
 ```
 
-We can say that the plant trait (i.e. biomass) was 22% larger in the experimental group (RR$=\bar{x}_{E}/\bar{x}_{C}$), which seems like a pretty large effect (remember to interpret results in a biological meaningful way). 
+We can say that the plant trait (i.e. biomass) was 22% larger in the experimental group (RR$=\bar{x}_{E}/\bar{x}_{C}$), which is a pretty large effect (remember to interpret results in a biological meaningful way). 
 
 <br>
 
@@ -344,10 +378,10 @@ There are other numbers in the output. We have `tau^2` ($\tau^2$) and `I^2` ($I^
 :::
 
 Heterogeneity is variation in effect sizes, which is not accounted for by the sampling error variance/random chance. In other words, how consistent the results are across all the studies. This is real variation in the data.
-  
-<br>
 
 ::::
+
+<br>
 
 $I^2$ is an important index as it can tell the percentage of real variation in your meta-analytic data.
 
@@ -370,7 +404,7 @@ Our $I^2$ value is 88.9% so very high. The output also shows a `Test for Heterog
 
 <br>
 
-[Senior et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecy.1591) did a meta-analysis of meta-analyses looking at what is the average value of $I^2$ in the field of ecology and evolution. The average value was 92%! This indicates that we usually need to fit the random-effects model rather than the common-effect model because the latter assumes heterogeneity to be zero or $\tau^2=0$ and $I^2 = 0$. Or is it really? We find this out later. 
+[Senior et al. 2016](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecy.1591) did a meta-analysis of meta-analyses looking at the average value of $I^2$ in the field of ecology and evolution. The average value was 92%! This indicates that we usually need to fit the random-effects model rather than the common-effect model because the latter assumes heterogeneity to be zero or $\tau^2=0$ and $I^2 = 0$. Or is it really? We find this out later. 
 
 <br>
 
@@ -387,7 +421,7 @@ metareg <- rma(yi = yi, vi = vi, mod = ~ time + method + fungrp, method = "REML"
 summary(metareg)
 ```
 
-Look at the `$R^2$` value - the moderators do not explain anything!  Also, the `Test of Moderators` (again the Q value) say they are not significant. A terrible model! So we give up here (in a real meta-analysis, you need to do this more systematically, preferably based on your priori hypotheses). 
+Look at the `R$^2$` value - the moderators do not explain anything!  Also, the `Test of Moderators` (again the Q value) say they are not significant. A terrible model! So we give up here (in a real meta-analysis, you need to do this more systematically, preferably based on your priori hypotheses). 
 
 <br>
 
@@ -466,24 +500,21 @@ There are more methods for publication bias tests, none of which are perfect, bu
 
 ## Further help and references
 
-Worked examples on the [metafor package's website](http://www.metafor-project.org/doku.php). There you'll find many worked examples.
+Worked examples on the [metafor package's website](http://www.metafor-project.org/doku.php). 
 
-Curtis, P. S., and X. Z. Wang. 1998. A meta-analysis of elevated CO2 effects on woody plant mass, form, and physiology. *Oecologia* 113:299-313.
-
-Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M. Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological and evolutionary applications and beyond. *Methods in Ecology and Evolution* 6:143-152.
-
-Viechtbauer, W. 2010. Conducting meta-analyses in R with the metafor package. *Journal of Statistical Software* 36:1-48.
-
-### Further help (references)
-
+<p style="margin-left:.5in;text-indent:-.5in">Curtis, P. S., and X. Z. Wang. 1998. A meta-analysis of elevated CO2 effects on woody plant mass, form, and physiology. *Oecologia* 113:299-313.</p>
 
 <p style="margin-left:.5in;text-indent:-.5in">Henmi, M., and J. B. Copas. 2010. Confidence intervals for random effects meta-analysis and robustness to publication bias. *Statistics in Medicine* 29:2969-2983.</p>
 
 <p style="margin-left:.5in;text-indent:-.5in">Higgins, J. P. T., S. G. Thompson, J. J. Deeks, and D. G. Altman. 2003. Measuring inconsistency in meta-analyses. *British Medical Journal* 327:557-560.</p>
 
+p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M. Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological and evolutionary applications and beyond. *Methods in Ecology and Evolution* 6:143-152.</p>
+
 <p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., D. W. A. Noble, A. M. Senior, and M. Lagisz. 2017. Meta-evaluation of meta-analysis: ten appraisal questions for biologists. *BMC Biology* 15:18.</p>
 
 <p style="margin-left:.5in;text-indent:-.5in">Senior, A. M., C. E. Grueber, T. Kamiya, M. Lagisz, K. O'Dwyer, E. S. A. Santos, and S. Nakagawa. 2016. Heterogeneity in ecological and evolutionary meta-analyses: its magnitude and implications. *Ecology* 97:3293-3299.</p>
+
+<p style="margin-left:.5in;text-indent:-.5in">Viechtbauer, W. 2010. Conducting meta-analyses in R with the metafor package. *Journal of Statistical Software* 36:1-48.</p>
 
 <br>
 
