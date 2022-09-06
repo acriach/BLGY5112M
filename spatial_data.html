@@ -338,7 +338,7 @@ div.tocify {
   <a href="meta_analyses.html">Meta-analyses</a>
 </li>
 <li>
-  <a href="mixed_models.html">Mixed Models</a>
+  <a href="mixed_model.html">Mixed Models</a>
 </li>
 <li>
   <a href="R_markdown.html">R_markdown</a>
@@ -483,6 +483,11 @@ if we have autocorrelation.</p>
 </summary>
 <pre class="r"><code>install.packages(&quot;ncf&quot;) </code></pre>
 <pre class="r"><code>library(ncf) </code></pre>
+<pre><code>
+Attaching package: &#39;ncf&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:tidyr&#39;:
+
+    gather</code></pre>
 </details>
 <p><br></p>
 <p>Make an object called <code>correlog_object</code> containing
@@ -684,6 +689,14 @@ spatial autocorrelation.</p>
 <p>The function <code>gls()</code> in the <code>nlme</code> package will
 run a GLS model.</p>
 <pre class="r"><code>library(nlme)</code></pre>
+<pre><code>
+Attaching package: &#39;nlme&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:lme4&#39;:
+
+    lmList</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    collapse</code></pre>
 <p><code>gls()</code> uses similar code to lm but the argument
 <code>correlation=</code> allows the latitude and longitude data to be
 included. R will automatically create a spatial correlation structure to
