@@ -8,13 +8,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ![Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”](./images/tidydata_5.jpg)
 
-The other pages in this website cover
+Use the menu to view different topics.
 
-Power analyses
-Multivariate Methods
-Spatial Data
-Meta-analyses
-Mixed Models
-R Markdown
+You can:
 
-Read through the content and run the code in your own RStudio either by typing out the code or copying and pasting the code. There are challenges for you to complete too.
+* Read through the content
+* Run the code in your own RStudio either by typing it out or copying and pasting
+* Complete the challenges

@@ -13,7 +13,7 @@ navbar:
     - text: "Meta-analyses"
       href: meta_analyses.html
     - text: "Mixed Models"
-      href: mixed_models.html
+      href: mixed_model.html
     - text: "R_markdown"
       href: R_markdown.html
 output:
