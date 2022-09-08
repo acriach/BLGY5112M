@@ -1,0 +1,84 @@
+---
+title: "Graphs"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+Look at this [Learning R webpage](https://acriach.github.io/r_teaching/ggplot.html) if you need an introduction or reminder on using ggplot to build graphs in R.
+
+Load the data (they come with R) then recreate the two graphs by finding code on the internet for the basic graph and building on it.
+
+<br>
+
+# Challenge
+
+Use this data:
+```{r, eval = TRUE, echo =  TRUE}
+data(mtcars)
+```
+
+Recreate this graph using the variables miles per gallon `mpg`, weight `wt`, displacement `disp` and automatic or manual `am`. 
+```{r, eval = TRUE, echo = FALSE}
+library(ggplot2)
+mtcars$am <- as.factor(mtcars$am) # make am factor
+ggplot(mtcars) + # tell R to use the mtcars data
+    geom_point(aes(x = wt, y = mpg, size = disp, col = am), alpha = 0.7) + # put in aethetics to use
+  labs(y = "Miles per Gallon (mpg)", x = "Weight (lbs/1000)", col = "Automatic or Manual", size = "Displacement") + # add labels
+  theme_classic() # add a theme
+```
+
+<details>
+  <summary>**Hints**</summary>
+
+This is a scatterplot. The size of the points are weighted by disp.  Points are coloured by am.  
+There are many ways to write code to achieve this graph.  
+If something doesn't work don't be afraid to look for alternative code.
+
+</details> 
+
+<br>
+
+# Challenge
+
+Use the tooth growth dataset:
+```{r, eval=TRUE, echo = TRUE}
+data(ToothGrowth)
+```
+
+
+Recreate this graph using the variable `len` and `dose`.
+```{r, eval = TRUE, echo = FALSE}
+library(ggplot2)
+df <- ToothGrowth # name dataset df
+df$dose <- as.factor(df$dose) # change so thinks is factor not continuous
+library(dplyr) # need for group_by
+df.summary <- df %>%
+  group_by(dose) %>%
+  summarise(
+    sd = sd(len, na.rm = TRUE),
+    len = mean(len)
+  ) # create a summary df with 3 means and 3 sds
+ggplot(df, aes(dose, len)) + #use original data, set y and x
+  geom_jitter(position = position_jitter(0.1), color = "black") + # plot each point but jitter by 0.2
+  geom_pointrange(aes(ymin = len-sd, ymax = len+sd),data = df.summary, colour = "blue") + # use summary data to draw error lines with a point in the middle 
+  theme_classic() + # add theme
+  labs(x="Dose (mg)", y = "Teeth Length") # add axis labels
+```
+
+<details>
+  <summary>**Hints**</summary>
+
+This is called a jitter plot with errorbars.  
+The raw data is needed for the jitter part but the mean and standard deviation values are needed for the errorbars. Therefore you may need to summarise the data.  
+R sometimes thinks `dose` is a continuous variable not a factor. 
+
+</details> 
+
+<br>
+
+<br>
+
+[Source](https://github.com/acriach/BLGY5112M)  
+[CC Licensed](https://creativecommons.org/)

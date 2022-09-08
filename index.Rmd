@@ -13,5 +13,5 @@ Use the menu to view different topics.
 You can:
 
 * Read through the content
-* Run the code in your own RStudio either by typing it out or copying and pasting
+* Run the code in your own RStudio either by typing it out or copying and pasting. Remember to set up a R project
 * Complete the challenges

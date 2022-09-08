@@ -11,7 +11,7 @@
 
 
 
-<title>Advanced Statistics</title>
+<title>Graphs</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -358,21 +358,61 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Advanced Statistics</h1>
+<h1 class="title toc-ignore">Graphs</h1>
 
 </div>
 
 
-<p><img src="images/tidydata_5.jpg"
-alt="Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”" /></p>
-<p>Use the menu to view different topics.</p>
-<p>You can:</p>
-<ul>
-<li>Read through the content</li>
-<li>Run the code in your own RStudio either by typing it out or copying
-and pasting. Remember to set up a R project</li>
-<li>Complete the challenges</li>
-</ul>
+<p>Look at this <a
+href="https://acriach.github.io/r_teaching/ggplot.html">Learning R
+webpage</a> if you need an introduction or reminder on using ggplot to
+build graphs in R.</p>
+<p>Load the data (they come with R) then recreate the two graphs by
+finding code on the internet for the basic graph and building on it.</p>
+<p><br></p>
+<div id="challenge" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Challenge</h1>
+<p>Use this data:</p>
+<pre class="r"><code>data(mtcars)</code></pre>
+<p>Recreate this graph using the variables miles per gallon
+<code>mpg</code>, weight <code>wt</code>, displacement <code>disp</code>
+and automatic or manual <code>am</code>.
+<img src="graphs_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<details>
+<summary>
+<strong>Hints</strong>
+</summary>
+<p>This is a scatterplot. The size of the points are weighted by disp.
+Points are coloured by am.<br />
+There are many ways to write code to achieve this graph.<br />
+If something doesn’t work don’t be afraid to look for alternative
+code.</p>
+</details>
+<p><br></p>
+</div>
+<div id="challenge-1" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Challenge</h1>
+<p>Use the tooth growth dataset:</p>
+<pre class="r"><code>data(ToothGrowth)</code></pre>
+<p>Recreate this graph using the variable <code>len</code> and
+<code>dose</code>.
+<img src="graphs_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<details>
+<summary>
+<strong>Hints</strong>
+</summary>
+<p>This is called a jitter plot with errorbars.<br />
+The raw data is needed for the jitter part but the mean and standard
+deviation values are needed for the errorbars. Therefore you may need to
+summarise the data.<br />
+R sometimes thinks <code>dose</code> is a continuous variable not a
+factor.</p>
+</details>
+<p><br></p>
+<p><br></p>
+<p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />
+<a href="https://creativecommons.org/">CC Licensed</a></p>
+</div>
 
 
 

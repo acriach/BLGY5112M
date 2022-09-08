@@ -6,15 +6,17 @@ navbar:
       href: index.html
     - text: "Power Analysis"
       href: power_analyses.html
+    - text: "Graphs"
+      href: graphs.html
     - text: "Multivariate Methods"
       href: multivariate_methods.html
+    - text: "Mixed Models"
+      href: mixed_model.html
     - text: "Spatial Data"
       href: spatial_data.html
     - text: "Meta-analyses"
       href: meta_analyses.html
-    - text: "Mixed Models"
-      href: mixed_model.html
-    - text: "R_markdown"
+    - text: "Quarto"
       href: R_markdown.html
 output:
   html_document:
