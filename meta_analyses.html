@@ -818,10 +818,11 @@ class="math inline">\(=\bar{x}_{E}/\bar{x}_{C}\)</span>), which is a
 pretty large effect (remember to interpret results in a biological
 meaningful way).</p>
 <p><br></p>
-<div id="running-a-random-effects-model" class="section level3"
-number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Running a
-random-effects model</h3>
+</div>
+<div id="running-a-random-effects-model" class="section level2"
+number="2.4">
+<h2><span class="header-section-number">2.4</span> Running a
+random-effects model</h2>
 <p>Now, we move onto the random-effects model - a more realistic model
 because these studies were on different species. Again, we use the
 <code>rma</code> function, but this time change the method to REML which
@@ -861,10 +862,9 @@ random-effects model as this model has a better assumption than the
 common-effect model.</p>
 <p><br></p>
 </div>
-</div>
 <div id="understanding-heterogeneity" class="section level2"
-number="2.4">
-<h2><span class="header-section-number">2.4</span> Understanding
+number="2.5">
+<h2><span class="header-section-number">2.5</span> Understanding
 heterogeneity</h2>
 <p>There are other numbers in the output. We have <code>tau^2</code>
 (<span class="math inline">\(\tau^2\)</span>) and <code>I^2</code>
@@ -922,10 +922,11 @@ class="math inline">\(I^2 = 0\)</span>. Or is it really? We find this
 out later.</p>
 <p><br></p>
 </div>
+</div>
 <div id="meta-regression-the-random-effects-model"
-class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Meta-regression (the
-random-effects model)</h2>
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Meta-regression (the
+random-effects model)</h1>
 <p>The existence of heterogeneity sets a scene for meta-regression. This
 means that we now put predictors (‘moderators’ in the meta-analytic
 terminology) into our model to explain heterogeneity (equivalent to
@@ -976,10 +977,10 @@ real meta-analysis, you need to do this more systematically, preferably
 based on your priori hypotheses).</p>
 <p><br></p>
 </div>
-<div id="checking-for-publication-bias" class="section level2"
-number="2.6">
-<h2><span class="header-section-number">2.6</span> Checking for
-publication bias</h2>
+<div id="checking-for-publication-bias" class="section level1"
+number="4">
+<h1><span class="header-section-number">4</span> Checking for
+publication bias</h1>
 <p>It seems like an CO<span class="math inline">\(_2\)</span> increase
 promotes plant growth, but this is assuming the data set we have does
 not suffer from <strong>publication bias</strong>.</p>
@@ -997,9 +998,8 @@ funnel plot, which one uses to detect a funnel asymmetry (a sign of
 publication bias), and 2) Egger’s regression test with which you test
 funnel asymmetry statistically.</p>
 <p><br></p>
-</div>
-<div id="funnel-plot" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Funnel plot</h2>
+<div id="funnel-plot" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Funnel plot</h2>
 <p>To create a funnel plot:</p>
 <pre class="r"><code>funnel(random_m)</code></pre>
 <p><img src="meta_analyses_files/figure-html/funnel-1.png" width="672" /></p>
@@ -1016,8 +1016,8 @@ class="math inline">\(se\)</span>, which leads to non-significance) are
 less likely to be published.</p>
 <p><br></p>
 </div>
-<div id="eggers-test" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Egger’s test</h2>
+<div id="eggers-test" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Egger’s test</h2>
 <p>To run Egger’s test:</p>
 <pre class="r"><code># Note that the orignal Egger&#39;s test is regtest(random_m, model=&quot;lm&quot;)
 regtest(random_m)</code></pre>
@@ -1037,8 +1037,8 @@ unexplained variance (i.e. heterogeneity), we cannot be sure what is
 causing this asymmetry.</p>
 <p><br></p>
 </div>
-<div id="trim-and-fill" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> Trim-and-fill</h2>
+<div id="trim-and-fill" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Trim-and-fill</h2>
 <p>We can use the alternative trim-and-fill method through the function
 <code>trimfill()</code>. We get a funnel plot by passing the result
 through <code>funnel()</code></p>
@@ -1089,10 +1089,10 @@ href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-017-0357-7">Naka
 et al., 2017</a> and references therein).</p>
 <p><br></p>
 </div>
-<div id="further-help-and-references" class="section level2"
-number="2.10">
-<h2><span class="header-section-number">2.10</span> Further help and
-references</h2>
+</div>
+<div id="further-help-and-references" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Further help and
+references</h1>
 <p>Worked examples on the <a
 href="http://www.metafor-project.org/doku.php">metafor package’s
 website</a>.</p>
@@ -1111,11 +1111,11 @@ Higgins, J. P. T., S. G. Thompson, J. J. Deeks, and D. G. Altman. 2003.
 Measuring inconsistency in meta-analyses. <em>British Medical
 Journal</em> 327:557-560.
 </p>
-p style=“margin-left:.5in;text-indent:-.5in”&gt;Nakagawa, S., R. Poulin,
-K. Mengersen, K. Reinhold, L. Engqvist, M. Lagisz, and A. M. Senior.
-2015. Meta-analysis of variation: ecological and evolutionary
-applications and beyond. <em>Methods in Ecology and Evolution</em>
-6:143-152.
+<p style="margin-left:.5in;text-indent:-.5in">
+Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M.
+Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological
+and evolutionary applications and beyond. <em>Methods in Ecology and
+Evolution</em> 6:143-152.
 </p>
 <p style="margin-left:.5in;text-indent:-.5in">
 Nakagawa, S., D. W. A. Noble, A. M. Senior, and M. Lagisz. 2017.
@@ -1133,20 +1133,88 @@ Viechtbauer, W. 2010. Conducting meta-analyses in R with the metafor
 package. <em>Journal of Statistical Software</em> 36:1-48.
 </p>
 <p><br></p>
-<p><strong>Challenge</strong></p>
-<p>Carry out a meta-analysis. Collect the data as a class with each
-person using one of the papers below to pull out the information needed
-to fill in each of the columns in a class excel sheet.</p>
-<p>Then individually run a meta-analysis on the data.</p>
-<p>List of papers from a meta analysis paper, check each paper.</p>
+</div>
+<div id="challenges" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Challenges</h1>
+<p>Use the <a href="https://doi.org/10.1016/j.jhazmat.2021.127211">meta
+analysis by Li et al., (2002)</a> which looks at stress in bivalves
+caused by microplastics using various measures.</p>
+<p>Li et al., (2022). Is microplastic an oxidative stressor? Evidence
+from a meta-analysis on bivalves. Journal of Hazardous Materials, 423,
+127211. DOI: <a href="https://doi.org/10.1016/j.jhazmat.2021.127211"
+class="uri">https://doi.org/10.1016/j.jhazmat.2021.127211</a></p>
+<p><strong>Challenge 1</strong></p>
+<p>To understand how means and standard deviations are collated, look at
+<a href="https://doi.org/10.1016/j.ecoenv.2020.110871">the study
+below</a> which is just one of the 25 studies used in Li et al.’s meta
+analysis. Try to find the values that were used for the measurement SOD
+(superoxide dismutase).</p>
+<p>Webb, S., Gaw, S., Marsden, I. D., &amp; McRae, N. K. (2020).
+Biomarker responses in New Zealand green-lipped mussels Perna
+canaliculus exposed to microplastics and triclosan. Ecotoxicology and
+Environmental Safety, 201, 110871. DOI: <a
+href="https://doi.org/10.1016/j.ecoenv.2020.110871"
+class="uri">https://doi.org/10.1016/j.ecoenv.2020.110871</a></p>
+<details>
+<summary>
+<strong>Answer</strong>
+</summary>
+<p>You may have looked in the “Oxidative stress” part of the Results
+section or Fig 4B but found that the means and standard deviation are
+not given. There is a link under “Appendix A.Supplementary data”.
+Following this link gives the message “Data will be made available on
+request”. While it is preferable to contact authors to obtain accurate
+data, people sometimes resort to using image analysis software to
+calculate means and standard deviations from high resolution graphs. The
+authors of the meta-analysis explain:</p>
+<blockquote>
+<p>“When the raw data of the experiments could not be found in the
+article, numerical values were extracted from the graphs by a digital
+ruler (Plot Digitizer 2.6.8).”</p>
+</blockquote>
+</details>
+<p><br></p>
+<p><strong>Challenge 2</strong></p>
+<p>On the <a
+href="https://doi.org/10.1016/j.jhazmat.2021.127211">webpage for Li et
+al.’s meta analysis</a>, find the Appendix A Supplementary material
+section and download the raw data used in the meta analysis.</p>
+<p>Read the sheet for SOD into R.</p>
+<details>
+<summary>
+<strong>Tips</strong>
+</summary>
+<p>Be aware there are multiple workbooks in the excel file, use only the
+SOD one. You will need to save a copy of the file.<br />
+Decide what format to save the file as, for example, csv or excel.<br />
+Remember the file format determines what function you use in R.<br />
+Once read in, check the data looks as you would expect by viewing it or
+using <code>head()</code>.<br />
+Consider changing the names of the variables.</p>
+</details>
+<p><br></p>
+<p><strong>Challenge 3</strong></p>
+<p>Using the methods and code for the CO<sup>2</sup> and plant example
+above, carry out a meta-analysis on the bivalve SOD data. If you get as
+far as doing a meta-regression you could use particle size, species or
+exposure time as moderators.</p>
+<details>
+<summary>
+<strong>Tips</strong>
+</summary>
+<p>Adapt the code remembering to change the names of the variables and
+dataset.<br />
+You may have to wrangle your data if a variable is not in the format a
+function expects it to be in. For example, remove units such as days or
+change text into categorical data.</p>
+</details>
 <p><br></p>
 <p><br></p>
 <p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />
 <a href="https://creativecommons.org/">CC Licensed</a></p>
 <p>Adapted from <a
-href="https://github.com/nicercode/EnvironmentalComputing">EnvironmentalComputing</a>.Authors:
-Shinichi Nakagawa and Malgorzata (Losia) Lagisz</p>
-</div>
+href="https://github.com/nicercode/EnvironmentalComputing">EnvironmentalComputing</a>.
+Authors: Shinichi Nakagawa and Malgorzata (Losia) Lagisz</p>
 </div>
 
 

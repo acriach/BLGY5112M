@@ -354,7 +354,7 @@ We can say that the plant trait (i.e. biomass) was 22% larger in the experimenta
 
 <br>
 
-### Running a random-effects model
+## Running a random-effects model
 
 Now, we move onto the random-effects model - a more realistic model because these studies were on different species. Again, we use the `rma` function, but this time change the method to REML which is the default and the best method for the random-effect meta-analysis.
 
@@ -408,7 +408,7 @@ Our $I^2$ value is 88.9% so very high. The output also shows a `Test for Heterog
 
 <br>
 
-## Meta-regression (the random-effects model)
+# Meta-regression (the random-effects model)
 
 The existence of heterogeneity sets a scene for meta-regression. This means that we now put predictors ('moderators' in the meta-analytic terminology) into our model to explain heterogeneity (equivalent to normal regression models).
 
@@ -425,7 +425,7 @@ Look at the `R$^2$` value - the moderators do not explain anything!  Also, the `
 
 <br>
 
-## Checking for publication bias
+# Checking for publication bias
 
 It seems like an CO$_2$ increase promotes plant growth, but this is assuming the data set we have does not suffer from **publication bias**. 
 
@@ -498,7 +498,7 @@ There are more methods for publication bias tests, none of which are perfect, bu
 
 <br>
 
-## Further help and references
+# Further help and references
 
 Worked examples on the [metafor package's website](http://www.metafor-project.org/doku.php). 
 
@@ -508,7 +508,7 @@ Worked examples on the [metafor package's website](http://www.metafor-project.or
 
 <p style="margin-left:.5in;text-indent:-.5in">Higgins, J. P. T., S. G. Thompson, J. J. Deeks, and D. G. Altman. 2003. Measuring inconsistency in meta-analyses. *British Medical Journal* 327:557-560.</p>
 
-p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M. Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological and evolutionary applications and beyond. *Methods in Ecology and Evolution* 6:143-152.</p>
+<p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., R. Poulin, K. Mengersen, K. Reinhold, L. Engqvist, M. Lagisz, and A. M. Senior. 2015. Meta-analysis of variation: ecological and evolutionary applications and beyond. *Methods in Ecology and Evolution* 6:143-152.</p>
 
 <p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., D. W. A. Noble, A. M. Senior, and M. Lagisz. 2017. Meta-evaluation of meta-analysis: ten appraisal questions for biologists. *BMC Biology* 15:18.</p>
 
@@ -518,13 +518,58 @@ p style="margin-left:.5in;text-indent:-.5in">Nakagawa, S., R. Poulin, K. Mengers
 
 <br>
 
-**Challenge**
+# Challenges
 
-Carry out a meta-analysis. Collect the data as a class with each person using one of the papers below to pull out the information needed to fill in each of the columns in a class excel sheet.
+Use the [meta analysis by Li et al., (2002)](https://doi.org/10.1016/j.jhazmat.2021.127211) which looks at stress in bivalves caused by microplastics using various measures.
 
-Then individually run a meta-analysis on the data.
+Li et al., (2022). Is microplastic an oxidative stressor? Evidence from a meta-analysis on bivalves. Journal of Hazardous Materials, 423, 127211. DOI: https://doi.org/10.1016/j.jhazmat.2021.127211
 
-List of papers from a meta analysis paper, check each paper.
+**Challenge 1**
+
+To understand how means and standard deviations are collated, look at [the study below](https://doi.org/10.1016/j.ecoenv.2020.110871) which is just one of the 25 studies used in Li et al.'s meta analysis.  Try to find the values that were used for the measurement SOD (superoxide dismutase).
+
+Webb, S., Gaw, S., Marsden, I. D., & McRae, N. K. (2020). Biomarker responses in New Zealand green-lipped mussels Perna canaliculus exposed to microplastics and triclosan. Ecotoxicology and Environmental Safety, 201, 110871. DOI: https://doi.org/10.1016/j.ecoenv.2020.110871
+
+<details>
+  <summary>**Answer**</summary>
+
+You may have looked in the "Oxidative stress" part of the Results section or Fig 4B but found that the means and standard deviation are not given. There is a link under "Appendix A.Supplementary data". Following this link gives the message "Data will be made available on request". While it is preferable to contact authors to obtain accurate data, people sometimes resort to using image analysis software to calculate means and standard deviations from high resolution graphs. The authors of the meta-analysis explain:
+
+> "When the raw data of the experiments could not be found in the article, numerical values were extracted from the graphs by a digital ruler (Plot Digitizer 2.6.8)." 
+
+</details>
+
+<br>
+
+**Challenge 2**
+
+On the [webpage for Li et al.'s meta analysis](https://doi.org/10.1016/j.jhazmat.2021.127211), find the Appendix A Supplementary material section and download the raw data used in the meta analysis.
+
+Read the sheet for SOD into R.
+
+<details>
+  <summary>**Tips**</summary>
+
+Be aware there are multiple workbooks in the excel file, use only the SOD one. You will need to save a copy of the file.  
+Decide what format to save the file as, for example, csv or excel.  
+Remember the file format determines what function you use in R.   
+Once read in, check the data looks as you would expect by viewing it or using `head()`.  
+Consider changing the names of the variables.
+
+</details>
+
+<br>
+
+**Challenge 3**
+
+Using the methods and code for the CO^2^ and plant example above, carry out a meta-analysis on the bivalve SOD data. If you get as far as doing a meta-regression you could use particle size, species or exposure time as moderators. 
+
+<details>
+  <summary>**Tips**</summary>
+Adapt the code remembering to change the names of the variables and dataset.  
+You may have to wrangle your data if a variable is not in the format a function expects it to be in. For example, remove units such as days or change text into categorical data.
+
+</details>
 
 <br>
 
@@ -533,4 +578,4 @@ List of papers from a meta analysis paper, check each paper.
 [Source](https://github.com/acriach/BLGY5112M)  
 [CC Licensed](https://creativecommons.org/)
 
-Adapted from [EnvironmentalComputing](https://github.com/nicercode/EnvironmentalComputing).Authors: Shinichi Nakagawa and Malgorzata (Losia) Lagisz
+Adapted from [EnvironmentalComputing](https://github.com/nicercode/EnvironmentalComputing). Authors: Shinichi Nakagawa and Malgorzata (Losia) Lagisz

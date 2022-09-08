@@ -66,7 +66,7 @@ All student projects in group B compare p values to an significance level of **0
 **What group are most likely to find a significant result?**
 
 <details>
-  <summary>***Answer***</summary>
+  <summary>**Answer**</summary>
 
 Group A because the p values do not have to be as small to be below 0.05 and to reject the null hypothesis.
 
@@ -283,6 +283,8 @@ Effect sizes should be reported in results. If a effect size is not given, it ca
 ::::
 
 <br>
+
+# Run a power analysis
 
 **Challenge**
 
