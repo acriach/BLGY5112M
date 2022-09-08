@@ -176,7 +176,7 @@ You can choose what skull groups to compare. Some suggestions are:
 * Felidae versus Canidae or Mustelidae  
 * Suidae, Cervidae and Bovidae within Artiodactyla  
 * Rodentia versus Lagomorpha or Soricomorpha  
-* You could compare dog breeds using categorises such as sporting, working, hounds, toy etc.
+* You could compare dog breeds using categories such as sporting, working, hounds, toy etc.
 
 <br>
 
@@ -194,6 +194,8 @@ An nice [interactive page](http://setosa.io/ev/principal-component-analysis/) to
 
 A type of CA called **canonical correspondence analysis** can show how survey data of multiple species relates to measurements of their habitat.  
 
+Study the examples below to gain an idea of how this method is used.
+
 <br>
 
 ## Example 1 
@@ -203,6 +205,16 @@ Each sample in [Mühlbauer et al., 2021](https://doi.org/10.1016/j.baae.2021.05.
 In the figure below each sampled area is a dot (with colours representing different seasons), bird species in black text and environmental characteristics in grey text. The grey arrows show which environmental characteristics correspond with birds in those areas.
 
 ![alt.text=a box with many dots and polygons in coloured light blue, orange or green. Most dots are clustered in the bottom right. Grey arrows from the centre of the cluster go left and right labelled with abbreviations of environmental measurements such as sap, water, svol. Black text indicates abbreviations of bird species such as CoF, CoL, PyP. x axis label is "Axis 1 (10%)" and y is "Axis 2 (7%)".](./images/bird_ca.jpg)
+
+<br>
+
+## Example 2
+
+[Guellaf et al., (2021)](https://doi.org/10.1007/s42974-021-00058-3) collected data from 19 sites on abundance of aquatic insect species and the environmental factors of those sites. A canonical correspondence analysis indicated various relationships such as which species were typically found in areas where the current speed was high.
+
+Red arrows are water characteristics, blue triangles are insect species and red circles are sites.
+
+![alt.text=two boxes divided into quadrants. The top box has red arrows radiating out from a centre point labbelled with abbrviations of physical water qualities. There is a scatter of blue triangles with abbrviations representing insect species. The bottom quadrant box has the same red arrows but a scatter of red circles labelled with the abbreviations of sites.](./images/insect_ca.png)
 
 <br>
 
