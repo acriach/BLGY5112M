@@ -172,7 +172,8 @@ Save and read the text file into R and run a pca.
 
 [Skull Base](http://skullbase.info/) lists skull length, width, height and weight for many species. For each skull record the measurements on an excel spreadsheet to save as a csv file. Format the data so that you can run a PCA.
 
-You can choose what skull groups to compare. Some suggestions are:  
+You can choose what skull groups to compare. Some suggestions are: 
+
 * Felidae versus Canidae or Mustelidae  
 * Suidae, Cervidae and Bovidae within Artiodactyla  
 * Rodentia versus Lagomorpha or Soricomorpha  

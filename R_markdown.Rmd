@@ -1,27 +1,58 @@
 ---
-title: "R_markdown"
+title: "Quarto"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-## R Markdown
+## What is Quarto
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Similar to the older R Markdown. Instead of exporting graphs and pasting into a Word document, R Markdown let you create a document - graph, text and all. This can make editing easier for you, less confusing if collaborating and better for reproducibility.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+In summer 2022 Quarto was launched. This tutorial helps you make a Quarto document so that you have the choice to use Quarto in the future or understand how others use it.
 
-```{r cars}
-summary(cars)
-```
+![alt.text= add text](./images/Quarto_schematic.png)
 
-## Including Plots
+## Open a Quarto file
 
-You can also embed plots, for example:
+In RStudio (version 2022.07.01 or later) go to the File menu > New File > Quarto Document. In the pop up give the Quarto file a Title such as "My Report". Select the radio button for Word (note you can select other outputs) and click Create.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+![alt.text= a screenshot of a pop up in RStudio where you type the title, choose word and click create at the bottom.](./images/NewQuartoScreenshot.png)
+Now save it by going to File > Save As. You could name it "My_Big_Important_Report"
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+You will see there is already template content in the Quarto file. Click Render at the top so you understand how Render reads the Quarto file and converts the code into a Word document.
+
+This is a word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can use the file to upload, submit or print as normal.
+
+## Make your own Quarto
+
+Delete all template text in the Quarto file except the Yaml at the top.
+
+![alt.text= a screenshot of the Quarto file showing only the yaml at the top](./images/QuartoScreenShot.jpg)
+
+The yaml tells R certain setting for the document such as what file format and ? Set up the yaml so it looks like the below.
+
+Add a title
+
+Add text
+
+Add a plot,
+
+Add an analysis
+
+Add text that references the analysis.
+
+Then render.
+
+## Other formatting
+
+Insert a page break after the title
+
+Write super and subscript and mathermatial equations
+
+Insert an image on content page
+
+indent test
+
+insert a link

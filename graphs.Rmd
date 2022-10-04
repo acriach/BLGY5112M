@@ -6,9 +6,9 @@ title: "Graphs"
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-Look at this [Learning R webpage](https://acriach.github.io/r_teaching/ggplot.html) if you need an introduction or reminder on using ggplot to build graphs in R.
-
 Load the data (they come with R) then recreate the two graphs by finding code on the internet for the basic graph and building on it.
+
+Look at this [Learning R webpage](https://acriach.github.io/r_teaching/ggplot.html) if you need an introduction or reminder on using ggplot to build graphs in R.
 
 <br>
 
@@ -24,7 +24,7 @@ Recreate this graph using the variables miles per gallon `mpg`, weight `wt`, dis
 library(ggplot2)
 mtcars$am <- as.factor(mtcars$am) # make am factor
 ggplot(mtcars) + # tell R to use the mtcars data
-    geom_point(aes(x = wt, y = mpg, size = disp, col = am), alpha = 0.7) + # put in aethetics to use
+    geom_point(aes(x = wt, y = mpg, size = disp, col = am), alpha = 0.7) + # put in aesthetics to use
   labs(y = "Miles per Gallon (mpg)", x = "Weight (lbs/1000)", col = "Automatic or Manual", size = "Displacement") + # add labels
   theme_classic() # add a theme
 ```
@@ -32,7 +32,7 @@ ggplot(mtcars) + # tell R to use the mtcars data
 <details>
   <summary>**Hints**</summary>
 
-This is a scatterplot. The size of the points are weighted by disp.  Points are coloured by am.  
+This is a scatterplot. The size of the points are weighted by `disp`.  Points are coloured by `am`.  
 There are many ways to write code to achieve this graph.  
 If something doesn't work don't be afraid to look for alternative code.
 
