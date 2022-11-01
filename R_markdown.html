@@ -11,7 +11,7 @@
 
 
 
-<title>R_markdown</title>
+<title>Quarto</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -358,37 +358,139 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">R_markdown</h1>
+<h1 class="title toc-ignore">Quarto</h1>
 
 </div>
 
 
-<div id="r-markdown" class="section level2" number="0.1">
-<h2><span class="header-section-number">0.1</span> R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com"
-class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="what-is-quarto" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> What is Quarto</h1>
+<p>Launched in summer 2022, Quarto is similar to the older R Markdown.
+Instead of exporting graphs and pasting into a Word document, R Markdown
+lets you create a document - graph, text and all. This can make editing
+easier for you, less confusing if collaborating and better for
+reproducibility.</p>
+<p>This tutorial helps you make a Quarto document so that you have the
+choice to use Quarto in the future or understand how others use it.</p>
+<p><img src="images/quarto_schematic.png"
+alt="alt.text= A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto." /></p>
+<div id="open-a-quarto-file" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Open a Quarto
+file</h2>
+<p>In RStudio (version 2022.07.01 or later) go to the
+<strong>File</strong> menu &gt; <strong>New File</strong> &gt;
+<strong>Quarto Document</strong>. In the pop up, give the Quarto file a
+Title such as <strong>My Report</strong>. Select the radio button for
+<strong>Word</strong> (note you can select other outputs) and click
+<strong>Create</strong>.</p>
+<p><img src="images/NewQuartoScreenshot.png"
+alt="alt.text= a screenshot of a pop up in RStudio where you type the title, choose word and click create at the bottom." />
+Now save it by going to <strong>File</strong> &gt; <strong>Save
+As</strong>. You could name it
+<strong>My_Big_Important_Report</strong></p>
+<p>You will see there is already template content in the Quarto file.
+Click <strong>Render</strong> at the top so you understand how Render
+reads the Quarto file and converts the code into a Word document.</p>
+<p>This is a Word file that is saved in your R project file. You can
+edit it by making changes in Quarto in RStudio and it will rewrite the
+word file. When it is finished you can use the file to upload, submit or
+print as you would with any other Word file.</p>
 </div>
-<div id="including-plots" class="section level2" number="0.2">
-<h2><span class="header-section-number">0.2</span> Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="R_markdown_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the
-code chunk to prevent printing of the R code that generated the
-plot.</p>
+<div id="ways-to-edit" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Ways to edit</h2>
+<p>Flick between <strong>source</strong> and <strong>visual</strong> the
+two options for editing. We will learn how to edit in source.</p>
+</div>
+</div>
+<div id="make-your-own-quarto" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Make your own
+Quarto</h1>
+<p>Delete all template text in the Quarto file except the part at the
+top called the yaml (pronounced (yammel).</p>
+<p><img src="images/YAML.png"
+alt="alt.text= a screenshot of the Quarto file showing only the yaml at the top rwhich reads title: “My Report”, format: docx, editor: source" /></p>
+<p>The yaml has settings for the whole document. Keep the
+<code>title</code> as <code>My Report</code> and the <code>format</code>
+as a <code>docx</code> word document. Change the <code>editor</code>
+from visual to <code>source</code> since we’re learning to edit in the
+source using code.</p>
+<p><img src="images/YAMLsource.png"
+alt="alt.text= a screenshot of the Quarto file showing only the yaml at the top with editor: source" /></p>
+<div id="formatting-text" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Formatting text</h2>
+<p>Try adding some text underneath the yaml. You could copy the text
+below:</p>
+<blockquote>
+<p>This could be your abstract about a study on common green
+grasshoppers<br />
+(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is
+unlikely you<br />
+would need to put anything in bold.</p>
+</blockquote>
+<p>Press <strong>Render</strong> to understand what that will look like
+in the final word document.</p>
+<p><br></p>
+<p>Make italic, subscript and bold text by adding in asterisks and
+tildes as below.</p>
+<blockquote>
+<p>This could be your abstract about a study on common green
+grasshoppers (<em>Omocestus viridulus</em>). It could also be about
+CO<sub>2</sub>, CH<sub>4</sub> and N<sub>2</sub>O. It is unlikely you
+would need to write anything in <strong>bold</strong>.</p>
+</blockquote>
+<p>Press <strong>Render</strong> and notice the changes.</p>
+<p><br></p>
+</div>
+<div id="headings" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Headings</h2>
+<p>Imagine you are writing the text below for your introduction.</p>
+<blockquote>
+<p>Introduction</p>
+<p>Background This is some text about the background to the study.</p>
+<p>More background This part is another section of the introduction.</p>
+<p>Aims This is the last part of the introduction</p>
+</blockquote>
+<p>You can add one hash tag in front of the word
+<code># Introduction</code> to make it a heading. It should turn
+blue.</p>
+<p>Render to see the difference.</p>
+<p><br></p>
+<p>Now add two hash tags to make the words <code>Background</code>,
+<code>More background</code> and <code>Aims</code> secondary
+headings.</p>
+<p>Render</p>
+<p><br></p>
+</div>
+<div id="code-chunks" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Code chunks</h2>
+<p>The biggest benefit of Quarto for report writing is including
+analyses and graphs. This saves you copying and pasting every time you
+change a graph or result.</p>
+<p>To do this use code chunks to write R code.</p>
+<p>Create a new heading using a hash tag called Results. Click on the
+next line and click on the green c with a plus icon at the top to insect
+a code chunk.</p>
+<p>Write the below code soLibrary load the palmerpenguins package and
+the penguins data set by writing R code in this code chunk.</p>
+<p>Screenshot of chunk.</p>
+<p>We don’t want to include this Add a plot,</p>
+<p>Add an analysis</p>
+<p>Add text that references the analysis.</p>
+<p>Add a reference</p>
+<p>Connect your reference manager (such as Endnote or Mendeley) to your
+Quarto document using a .bib file.</p>
+<p>Then render.</p>
+<p>title: “My Report” format: docx editor: source toc: true toc-depth: 2
+toc-title: “Contents”</p>
+</div>
+<div id="other-formatting" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Other formatting</h2>
+<p>Insert a page break after the title</p>
+<p>Write super and subscript and mathematial equations</p>
+<p>Insert an image on content page</p>
+<p>indent test</p>
+<p>insert a link</p>
+</div>
 </div>
 
 

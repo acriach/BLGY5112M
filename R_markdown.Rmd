@@ -6,50 +6,125 @@ title: "Quarto"
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-## What is Quarto
+# What is Quarto
 
-Similar to the older R Markdown. Instead of exporting graphs and pasting into a Word document, R Markdown let you create a document - graph, text and all. This can make editing easier for you, less confusing if collaborating and better for reproducibility.
+Launched in summer 2022, Quarto is similar to the older R Markdown. Instead of exporting graphs and pasting into a Word document, R Markdown lets you create a document - graph, text and all. This can make editing easier for you, less confusing if collaborating and better for reproducibility.
 
-In summer 2022 Quarto was launched. This tutorial helps you make a Quarto document so that you have the choice to use Quarto in the future or understand how others use it.
+This tutorial helps you make a Quarto document so that you have the choice to use Quarto in the future or understand how others use it.
 
-![alt.text= add text](./images/Quarto_schematic.png)
+![alt.text= A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto.](./images/Quarto_schematic.png)
 
 ## Open a Quarto file
 
-In RStudio (version 2022.07.01 or later) go to the File menu > New File > Quarto Document. In the pop up give the Quarto file a Title such as "My Report". Select the radio button for Word (note you can select other outputs) and click Create.
+In RStudio (version 2022.07.01 or later) go to the **File** menu > **New File** > **Quarto Document**. In the pop up, give the Quarto file a Title such as **My Report**. Select the radio button for **Word** (note you can select other outputs) and click **Create**.
 
 ![alt.text= a screenshot of a pop up in RStudio where you type the title, choose word and click create at the bottom.](./images/NewQuartoScreenshot.png)
-Now save it by going to File > Save As. You could name it "My_Big_Important_Report"
+Now save it by going to **File** > **Save As**. You could name it **My_Big_Important_Report**
 
-You will see there is already template content in the Quarto file. Click Render at the top so you understand how Render reads the Quarto file and converts the code into a Word document.
+You will see there is already template content in the Quarto file. Click **Render** at the top so you understand how Render reads the Quarto file and converts the code into a Word document.
 
-This is a word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can use the file to upload, submit or print as normal.
+This is a Word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can use the file to upload, submit or print as you would with any other Word file.
 
-## Make your own Quarto
+## Ways to edit
 
-Delete all template text in the Quarto file except the Yaml at the top.
+Flick between **source** and **visual** the two options for editing. We will learn how to edit in source. 
 
-![alt.text= a screenshot of the Quarto file showing only the yaml at the top](./images/QuartoScreenShot.jpg)
+# Make your own Quarto
 
-The yaml tells R certain setting for the document such as what file format and ? Set up the yaml so it looks like the below.
+Delete all template text in the Quarto file except the part at the top called the yaml (pronounced (yammel).
 
-Add a title
+![alt.text= a screenshot of the Quarto file showing only the yaml at the top rwhich reads title: "My Report", format: docx, editor: source](./images/YAML.png)
 
-Add text
+The yaml has settings for the whole document. Keep the `title` as `My Report` and the `format` as a `docx` word document. Change the `editor` from visual to `source` since we're learning to edit in the source using code.
 
+![alt.text= a screenshot of the Quarto file showing only the yaml at the top with editor: source](./images/YAMLsource.png)
+
+## Formatting text
+
+Try adding some text underneath the yaml. You could copy the text below:
+
+> This could be your abstract about a study on common green grasshoppers  
+> (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you  
+> would need to put anything in bold.
+  
+Press **Render** to understand what that will look like in the final word document.
+
+<br>
+
+Make italic, subscript and bold text by adding in asterisks and tildes as below.
+
+> This could be your abstract about a study on common green grasshoppers 
+> (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you 
+> would need to write anything in **bold**.
+
+Press **Render** and notice the changes.
+
+<br>
+
+## Headings
+
+Imagine you are writing the text below for your introduction. 
+
+> Introduction
+>
+> Background
+> This is some text about the background to the study.
+>
+> More background
+> This part is another section of the introduction.
+>
+> Aims
+> This is the last part of the introduction
+
+You can add one hash tag in front of the word `# Introduction` to make it a heading. It should turn blue.
+
+Render to see the difference.
+
+<br>
+
+Now add two hash tags to make the words `Background`, `More background` and `Aims` secondary headings. 
+
+Render
+
+<br>
+
+## Code chunks
+
+The biggest benefit of Quarto for report writing is including analyses and graphs. This saves you copying and pasting every time you change a graph or result. 
+
+To do this use code chunks to write R code. 
+
+Create a new heading using a hash tag called Results. Click on the next line and click on the green c with a plus icon at the top to insect a code chunk.
+
+Write the below code soLibrary load the palmerpenguins package and the penguins data set by writing R code in this code chunk.
+
+Screenshot of chunk.
+
+We don't want to include this
 Add a plot,
 
 Add an analysis
 
 Add text that references the analysis.
 
+Add a reference
+
+Connect your reference manager (such as Endnote or Mendeley) to your Quarto document using a .bib file.
+
 Then render.
+
+title: "My Report"
+format: docx
+editor: source
+toc: true
+toc-depth: 2
+toc-title: "Contents"
 
 ## Other formatting
 
 Insert a page break after the title
 
-Write super and subscript and mathermatial equations
+Write super and subscript and mathematial equations
 
 Insert an image on content page
 
