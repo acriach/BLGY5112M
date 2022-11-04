@@ -3,39 +3,44 @@ title: "Quarto"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 ```
 
 # What is Quarto
 
-Launched in summer 2022, Quarto is similar to the older R Markdown. Instead of exporting graphs and pasting into a Word document, R Markdown lets you create a document - graph, text and all. This can make editing easier for you, less confusing if collaborating and better for reproducibility.
+Launched in summer 2022, Quarto is similar to the older R Markdown. Instead of exporting graphs and pasting into a Word document, it lets you create a document - graph, text and all. This can make editing easier for you, less confusing if collaborating and better for reproducibility.
 
-This tutorial helps you make a Quarto document so that you have the choice to use Quarto in the future or understand how others use it.
+This tutorial helps you make an example Quarto document so that you have the choice to use Quarto in the future or understand how others use it.
 
 ![alt.text= A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto.](./images/Quarto_schematic.png)
+@alison_horst
 
 ## Open a Quarto file
 
 In RStudio (version 2022.07.01 or later) go to the **File** menu > **New File** > **Quarto Document**. In the pop up, give the Quarto file a Title such as **My Report**. Select the radio button for **Word** (note you can select other outputs) and click **Create**.
 
 ![alt.text= a screenshot of a pop up in RStudio where you type the title, choose word and click create at the bottom.](./images/NewQuartoScreenshot.png)
+<br>
+
 Now save it by going to **File** > **Save As**. You could name it **My_Big_Important_Report**
 
 You will see there is already template content in the Quarto file. Click **Render** at the top so you understand how Render reads the Quarto file and converts the code into a Word document.
 
-This is a Word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can use the file to upload, submit or print as you would with any other Word file.
+This is a Word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can upload, submit or print it as you would with any other Word file.
 
 ## Ways to edit
 
-Flick between **source** and **visual** the two options for editing. We will learn how to edit in source. 
+Flick between **source** and **visual** so you understand there are two options for editing. We will learn how to edit in source. 
+
+<br>
 
 # Make your own Quarto
 
-Delete all template text in the Quarto file except the part at the top called the yaml (pronounced (yammel).
+Delete all template text in the Quarto file except the part at the top called the yaml (pronounced yammel).
 
-![alt.text= a screenshot of the Quarto file showing only the yaml at the top rwhich reads title: "My Report", format: docx, editor: source](./images/YAML.png)
+![alt.text= a screenshot of the Quarto file showing only the yaml at the top which reads title: "My Report", format: docx, editor: source](./images/YAML.png)
 
-The yaml has settings for the whole document. Keep the `title` as `My Report` and the `format` as a `docx` word document. Change the `editor` from visual to `source` since we're learning to edit in the source using code.
+The yaml has settings for the whole document. It does not show up in the final word document. Keep the `title` as `My Report` and the `format` as a `docx` word document. Change the `editor` from visual to `source` since we're learning to edit in the source mode using code.
 
 ![alt.text= a screenshot of the Quarto file showing only the yaml at the top with editor: source](./images/YAMLsource.png)
 
@@ -46,6 +51,8 @@ Try adding some text underneath the yaml. You could copy the text below:
 > This could be your abstract about a study on common green grasshoppers  
 > (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you  
 > would need to put anything in bold.
+ 
+`This could be your abstract about a study on common green grasshoppers (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you would need to put anything in bold.` 
   
 Press **Render** to understand what that will look like in the final word document.
 
@@ -53,9 +60,9 @@ Press **Render** to understand what that will look like in the final word docume
 
 Make italic, subscript and bold text by adding in asterisks and tildes as below.
 
-> This could be your abstract about a study on common green grasshoppers 
-> (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you 
-> would need to write anything in **bold**.
+![alt.text= This could be your abstract about a study on common green grasshoppers (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you would need to put anything in **bold**.](./images/italicboldtext.png)
+
+`This could be your abstract about a study on common green grasshoppers (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you would need to put anything in **bold**.`
 
 Press **Render** and notice the changes.
 
@@ -63,28 +70,33 @@ Press **Render** and notice the changes.
 
 ## Headings
 
-Imagine you are writing the text below for your introduction. 
+Copy and paste the text below into your Quarto as if you have written an introduction. 
 
 > Introduction
 >
 > Background
+>
 > This is some text about the background to the study.
 >
 > More background
-> This part is another section of the introduction.
+>
+> This part is another sub section of the introduction.
 >
 > Aims
-> This is the last part of the introduction
+>
+> This is the last sub section of the introduction
 
 You can add one hash tag in front of the word `# Introduction` to make it a heading. It should turn blue.
 
-Render to see the difference.
+**Render** to see the difference.
 
 <br>
 
-Now add two hash tags to make the words `Background`, `More background` and `Aims` secondary headings. 
+Now add two hash tags in front of each of these words `## Background`, `## More background` and `## Aims` to make secondary headings. 
 
 Render
+
+You could write `# Methods` and `# Results`headings too.
 
 <br>
 
@@ -94,40 +106,178 @@ The biggest benefit of Quarto for report writing is including analyses and graph
 
 To do this use code chunks to write R code. 
 
-Create a new heading using a hash tag called Results. Click on the next line and click on the green c with a plus icon at the top to insect a code chunk.
+Under the `Results` heading, click on the next line and click on the green c with a plus icon at the top to insert a code chunk.
 
-Write the below code soLibrary load the palmerpenguins package and the penguins data set by writing R code in this code chunk.
+In the code chunk that appears write R code to library load the palmerpenguins package and view the penguins data. Click the green play arrow at the top of that chunk so R runs the code.
 
-Screenshot of chunk.
+```{r datain, echo = FALSE, eval = TRUE, warning = FALSE}
+library(palmerpenguins)
+View(penguins)
+```
 
-We don't want to include this
-Add a plot,
+![alt.text= shows the code chunk with three ` marks and r in curly brackets one first line then library brakcets palmerpenguines on next line and view brakcets penguins on third line.](./images/firstcodechunk.png)
 
-Add an analysis
+Run the code by clicking the green play arrow.
 
-Add text that references the analysis.
+Now insert another code chunk. Type in the code below to run a statistical test (compare the effect of the penguin species on body mass in a lm).
+```{r runmodel, echo = TRUE, eval = TRUE}
+model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
+summary(model1)
+```
 
-Add a reference
+<br>
 
-Connect your reference manager (such as Endnote or Mendeley) to your Quarto document using a .bib file.
+## Extracting numbers
 
-Then render.
+We can extract numbers from our statistical output, for example, the R^2^ number from the lm is referenced by `summary(model1)$r.squared`
+
+<details>
+  <summary>**Finding a Reference**</summary>
+
+To find out the reference to a number, the function `str` is useful. Try typing `str(summary(model1))` into your console and pressing return to run. You can see R^2^ is towards the bottom. 
+
+</details>
+
+<br>
+
+This is useful because now we can embed numbers in the text by writing the letter r and the reference surrounded by backquotes. Useful if the analysis changes.
+
+![alt.text= Text says Flipper length and body mass were significantly associated in the penguins (linear model, R~2~ = r summary(model1) dollar sign r.squared, F(r summary(model1) dollar sign fstatistic[2],r >summary(model1) dollar sign fstatistic[3]) = r summary(model1)$fstatistic[1], p = r summary(model1) dollar sign coefficients[2,4]).](./images/statsrefs.png)
+
+**Render**
+
+:::: {.cadetbluebox data-latex=""}
+::: {.center data-latex=""}
+:::
+
+It is possible to pass the references through functions so that the numbers are displayed correctly. For example you might want to display to 2 decimal places or display as less than 0.05. 
+::::
+
+<br>
+
+## Plots
+
+Now include a plot by writing another code chunk containing the following code.
+```{r plot, warning=FALSE}
+library(ggplot2)
+ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
+  geom_point()
+```
+
+**Render** to see what happens.
+
+<br>
+
+## Echo
+
+Some parts we want to be in our final Word document and others we don't. Including `#| echo: false` in the second line of our code chunk will mean the code is not "echoed" in the Word document i.e. won't be included.
+
+**Challenge**
+
+Add `#| echo: false` to the code chunks you don't think should be in the Word document.
+
+<br>
+
+Other options you might want to include are `#|eval: true`, `#| error: false` and `#| warning: false` which tell R to run the code, don't print errors and don't print warning in the Word document.
+
+**Render** again to see how the document looks.
+
+<br>
+
+<br>
+
+# More Quarto Possibilities
+
+<br>
+
+## Add Citations and References
+
+First add a `# Discussion` heading.
+
+To include citations and references you need to create a .bib file from your reference manager (such as Endnote or Mendeley) and save in your Rproj. Find out how to do this using these websites...
+
+If you don't have a reference manager set up, download this bibtex file from here.[insert link]
+
+Tell R what your .bib file is by adding another line to your yaml that reads `bibliography: library.bib`
+
+All references in the .bib file have a key to identify them. Using the key we can insert a citation as below.
+
+`This sentence would be based on an idea I took from a paper [@Wood2021].`
+
+**Render**
+
+Notice that the Reference has been automatically added to a section at the bottom of the document.
+
+Add the heading `# References` to the bottom of your quarto file.
+
+<br>
+
+## Page Breaks
+
+If we wanted to have the title on its own page insert a page break after the title.
+
+{{< pagebreak >}}
+
+<br>
+
+## Include an image
+
+If we wanted to include this image on our title page
+![](./images/cricket.jpg){fig-alt="A photo of a green cricket."}
+
+By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204
+
+We need to save the photo to an image file in our R proj. You can download this image [insert link] or use an image of your own.
+
+Then we use this code.
+
+`![](./images/cricket.jpg){fig-alt="A photo of a green cricket."}`
+
+<br>
+
+## Links
+
+In your `Methods` section write the following sentence
+
+Distributions of grasshoppers were taken from orthoptera.org.uk
+
+If you wanted that text to be a hyperlink add `<` and `>`
+
+`Distributions of grasshoppers were taken from <orthoptera.org.uk>`
+
+Alternatively, you could have different text
+
+`Distributions of grasshoppers were taken from the [Orthoptera and allied insect webpages](orthoptera.org.uk)`
+
+**Render**
+
+<br>
+
+## Add a Content Page
+
+Adjusting the YAML as below will add a contents page. `toc` stands for table of contents. `depth` relates to the level of hashtag headings.
 
 title: "My Report"
 format: docx
 editor: source
+bibliography: library.bib
 toc: true
 toc-depth: 2
 toc-title: "Contents"
 
-## Other formatting
+**Render**
 
-Insert a page break after the title
+<br>
 
-Write super and subscript and mathematial equations
+## Quarto website
 
-Insert an image on content page
+For more Quarto coding there is a [Quarto guide](quarto.org/docs/guide).
 
-indent test
+<br>
 
-insert a link
+**Challenge**
+
+Take an assessment you are working on or have already done and recreate the word document using a Quarto file.
+
+When you come across something you don't know how to format use the internet to find the solution. 
+
