@@ -375,7 +375,10 @@ have the choice to use Quarto in the future or understand how others use
 it.</p>
 <p><img src="images/quarto_schematic.png"
 alt="alt.text= A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto." />
-<span class="citation">@alison_horst</span> ## Open a Quarto file</p>
+<span class="citation">@alison_horst</span></p>
+<div id="open-a-quarto-file" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Open a Quarto
+file</h2>
 <p>In RStudio (version 2022.07.01 or later) go to the
 <strong>File</strong> menu &gt; <strong>New File</strong> &gt;
 <strong>Quarto Document</strong>. In the pop up, give the Quarto file a
@@ -384,27 +387,32 @@ Title such as <strong>My Report</strong>. Select the radio button for
 <strong>Create</strong>.</p>
 <p><img src="images/NewQuartoScreenshot.png"
 alt="alt.text= a screenshot of a pop up in RStudio where you type the title, choose word and click create at the bottom." />
-Now save it by going to <strong>File</strong> &gt; <strong>Save
+<br></p>
+<p>Now save it by going to <strong>File</strong> &gt; <strong>Save
 As</strong>. You could name it
 <strong>My_Big_Important_Report</strong></p>
 <p>You will see there is already template content in the Quarto file.
 Click <strong>Render</strong> at the top so you understand how Render
 reads the Quarto file and converts the code into a Word document.</p>
-<p>This is a Word file that is saved in your R project file. You can
-edit it by making changes in Quarto in RStudio and it will rewrite the
-word file. When it is finished you can use the file to upload, submit or
-print as you would with any other Word file.</p>
-<div id="ways-to-edit" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Ways to edit</h2>
-<p>Flick between <strong>source</strong> and <strong>visual</strong> the
-two options for editing. We will learn how to edit in source.</p>
+<p><br></p>
+</div>
+<div id="ways-to-edit" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Ways to edit</h2>
+<p>The Word file is saved in your R project file. You can edit it by
+making changes in Quarto in RStudio and it will rewrite the word file.
+When it is finished you can upload, submit or print it as you would with
+any other Word file.</p>
+<p>Flick between <strong>source</strong> and <strong>visual</strong> at
+the top left so you understand there are two options for editing. We
+will learn how to edit in source.</p>
+<p><br></p>
 </div>
 </div>
 <div id="make-your-own-quarto" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Make your own
 Quarto</h1>
 <p>Delete all template text in the Quarto file except the part at the
-top called the yaml (pronounced (yammel).</p>
+top called the yaml (pronounced yammel).</p>
 <p><img src="images/YAML.png"
 alt="alt.text= a screenshot of the Quarto file showing only the yaml at the top which reads title: “My Report”, format: docx, editor: source" /></p>
 <p>The yaml has settings for the whole document. It does not show up in
@@ -419,20 +427,17 @@ alt="alt.text= a screenshot of the Quarto file showing only the yaml at the top 
 <h2><span class="header-section-number">2.1</span> Formatting text</h2>
 <p>Try adding some text underneath the yaml. You could copy the text
 below:</p>
-<blockquote>
-<p>This could be your abstract about a study on common green
-grasshoppers<br />
-(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is
-unlikely you<br />
-would need to put anything in bold.</p>
-</blockquote>
+<p><code>This could be your abstract about a study on common green grasshoppers</code>
+<code>(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is</code>
+<code>unlikely you would need to put anything in bold.</code></p>
 <p>Press <strong>Render</strong> to understand what that will look like
 in the final word document.</p>
 <p><br></p>
-<p>Make italic, subscript and bold text by adding in asterisks and
-tildes as below.</p>
-<p><img src="images/italicboldtext.png"
-alt="alt.text= This could be your abstract about a study on common green grasshoppers (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you would need to put anything in bold." /></p>
+<p>Make <em>italic</em>, <sub>subscript</sub> and <strong>bold</strong>
+text by adding in asterisks and tildes as below.</p>
+<p><code>This could be your abstract about a study on common green grasshoppers</code>
+<code>(*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is</code>
+<code>unlikely you would need to put anything in **bold**.</code></p>
 <p>Press <strong>Render</strong> and notice the changes.</p>
 <p><br></p>
 </div>
@@ -440,15 +445,13 @@ alt="alt.text= This could be your abstract about a study on common green grassho
 <h2><span class="header-section-number">2.2</span> Headings</h2>
 <p>Copy and paste the text below into your Quarto as if you have written
 an introduction.</p>
-<blockquote>
-<p>Introduction</p>
-<p>Background</p>
-<p>This is some text about the background to the study.</p>
-<p>More background</p>
-<p>This part is another sub section of the introduction.</p>
-<p>Aims</p>
-<p>This is the last sub section of the introduction</p>
-</blockquote>
+<p><code>Introduction</code></p>
+<p><code>Background</code></p>
+<p><code>This is some text about the background to the study.</code></p>
+<p><code>More background</code></p>
+<p><code>This part is another sub section of the introduction.</code></p>
+<p><code>Aims</code></p>
+<p><code>This is the last sub section of the introduction</code></p>
 <p>You can add one hash tag in front of the word
 <code># Introduction</code> to make it a heading. It should turn
 blue.</p>
@@ -457,9 +460,9 @@ blue.</p>
 <p>Now add two hash tags in front of each of these words
 <code>## Background</code>, <code>## More background</code> and
 <code>## Aims</code> to make secondary headings.</p>
-<p>Render</p>
-<p>You could write <code># Methods</code> and
-<code># Results</code>headings too.</p>
+<p><strong>Render</strong></p>
+<p>Write <code># Methods</code> and <code># Results</code>headings
+too.</p>
 <p><br></p>
 </div>
 <div id="code-chunks" class="section level2" number="2.3">
@@ -471,15 +474,16 @@ change a graph or result.</p>
 <p>Under the <code>Results</code> heading, click on the next line and
 click on the green c with a plus icon at the top to insert a code
 chunk.</p>
-<p>In the code chunk that appears write R code to library load the
-palmerpenguins package and view the penguins data. Click the green play
-arrow at the top of that chunk so R runs the code.</p>
+<p><img src="images/greenc.png"
+alt="alt.text= a greeen square with a white c and a plus in a circle at the top left" /></p>
+<p>In the middle of the code chunk that appears, write R code to library
+load the palmerpenguins package and view the penguins data. It will look
+like the picture below.</p>
 <p><img src="images/firstcodechunk.png"
 alt="alt.text= shows the code chunk with three ` marks and r in curly brackets one first line then library brakcets palmerpenguines on next line and view brakcets penguins on third line." /></p>
-<p>Run the code by clicking the green play arrow.</p>
-<p>Now insert another code chunk. Type in the code below to run a
-statistical test (compare the effect of the penguin species on body mass
-in a lm).</p>
+<p>Click the chunk’s green play arrow so R runs the code.</p>
+<p>Now insert another code chunk. Type in the code below to compare
+penguin flipper length with body mass in a lm.</p>
 <pre class="r"><code>model1 &lt;- lm(flipper_length_mm ~ body_mass_g, data = penguins)
 summary(model1)</code></pre>
 <pre><code>## 
@@ -503,8 +507,26 @@ summary(model1)</code></pre>
 ## F-statistic:  1071 on 1 and 340 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><br></p>
 </div>
-<div id="extracting-numbers" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Extracting
+<div id="echo" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Echo</h2>
+<p>Some parts we want to be in our final Word document and others we
+don’t. Including <code>#| echo: false</code> in the second line of our
+code chunk will mean the code is not “echoed” in the Word document
+i.e. it will not be included.</p>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Add <code>#| echo: false</code> to the code chunks you don’t think
+should be in the Word document.</p>
+<p>Other options you might want to include are
+<code>#|eval: true</code>, <code>#| error: false</code> and
+<code>#| warning: false</code> which tell R to run the code, don’t print
+errors and don’t print warnings in the Word document.</p>
+<p><strong>Render</strong> again to see how the document has
+changed.</p>
+<p><br></p>
+</div>
+<div id="extracting-numbers" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Extracting
 numbers</h2>
 <p>We can extract numbers from our statistical output, for example, the
 R<sup>2</sup> number from the lm is referenced by
@@ -535,8 +557,8 @@ to 2 decimal places or display as less than 0.05.</p>
 </div>
 <p><br></p>
 </div>
-<div id="plots" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Plots</h2>
+<div id="plots" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Plots</h2>
 <p>Now include a plot by writing another code chunk containing the
 following code.</p>
 <pre class="r"><code>library(ggplot2)
@@ -545,22 +567,9 @@ ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
 <p><img src="R_markdown_files/figure-html/plot-1.png" width="672" /></p>
 <p><strong>Render</strong> to see what happens.</p>
 <p><br></p>
-</div>
-<div id="echo" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Echo</h2>
-<p>Some parts we want to be in our final Word document and others we
-don’t. Including <code>#| echo: false</code> in the second line of our
-code chunk will mean the code is not “echoed” in the Word document
-i.e. won’t be included.</p>
-<p><strong>Challenge</strong></p>
-<p>Add <code>#| echo: false</code> to the code chunks you don’t think
-should be in the Word document.</p>
-<p><br></p>
-<p>Other options you might want to include are
-<code>#|eval: true</code>, <code>#| error: false</code> and
-<code>#| warning: false</code> which tell R to run the code, don’t print
-errors and don’t print warning in the Word document.</p>
-<p><strong>Render</strong> again to see how the document looks.</p>
+<p>You can include a figure legend by adding
+<code>#| fig-cap: penguin flipper length and body mass were associated</code>
+in the line above the code and below the <code>{r}</code>.</p>
 <p><br></p>
 <p><br></p>
 </div>
@@ -576,14 +585,31 @@ References</h2>
 <p>First add a <code># Discussion</code> heading.</p>
 <p>To include citations and references you need to create a .bib file
 from your reference manager (such as Endnote or Mendeley) and save in
-your Rproj. Find out how to do this using these websites…</p>
-<p>If you don’t have a reference manager set up, download this bibtex
-file from here.[insert link]</p>
-<p>Tell R what your .bib file is by adding another line to your yaml
-that reads <code>bibliography: library.bib</code></p>
-<p>All references in the .bib file have a key to identify them. Using
-the key we can insert a citation as below.</p>
-<p><code>This sentence would be based on an idea I took from a paper [@Wood2021].</code></p>
+your Rproj.</p>
+<details>
+<summary>
+<strong>Creating a .bib File</strong>
+</summary>
+<p><strong>If you have an Endnote online account</strong>. Format &gt;
+Export References. References: select All References in My Library. In
+Export style: select BibTeX Export. Save. A file will download. Open the
+file and go to File &gt; Save as and rename the file references.bib.
+Then move that file to Rproj files.</p>
+<p><strong>If you have a Mendeley account</strong>, tick the boxes to
+select references. Choose Export at the bottom and choose BibTeX
+(*.bib). Save that file to your Rproj.</p>
+</details>
+<p>If you don’t have a reference manager set up, download <a
+href="./data/export.bib">this BibTeX file</a> and save to your
+Rproj.</p>
+<p>Tell R what your .bib file is by adding another line to your yaml. If
+your file is called <code>export.bib</code> add a line that reads
+<code>bibliography: export.bib</code></p>
+<p>In the .bib file each reference has an identifying key. It might look
+like <code>Vedenina2020</code> or <code>RN15</code>. Using these keys we
+can insert a citation as below.</p>
+<p><code>This sentence would be based on an idea I took from a paper [@Vedenina2020].</code>
+<code>This piece of text might be from an idea based on two papers [@Ronacher2019;@Illich2022].</code></p>
 <p><strong>Render</strong></p>
 <p>Notice that the Reference has been automatically added to a section
 at the bottom of the document.</p>
@@ -591,46 +617,58 @@ at the bottom of the document.</p>
 quarto file.</p>
 <p><br></p>
 </div>
-<div id="page-breaks" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Page Breaks</h2>
-<p>If we wanted to have the title on its own page insert a page break
-after the title.</p>
-<p>{{&lt; pagebreak &gt;}}</p>
+<div id="title-and-contents-page" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Title and Contents
+Page</h2>
+<p>Adjusting the YAML as below will add title page information and a
+contents page. <code>toc</code> stands for table of contents.
+<code>depth</code> relates to the level of hashtag headings.</p>
+<p><code>title: "My Report"</code>
+<code>subheading: "other information that needs to be on title page"</code>
+<code>author: "Your Name"</code><br />
+<code>format: docx</code><br />
+<code>editor: source</code><br />
+<code>bibliography: export.bib</code><br />
+<code>toc: true</code><br />
+<code>toc-depth: 2</code><br />
+<code>toc-title: "Contents"</code></p>
+<p><strong>Render</strong></p>
 <p><br></p>
 </div>
-<div id="include-an-image" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Include an image</h2>
-<p>If we wanted to include this image on our title page <img
-src="images/cricket.jpg" fig-alt="A photo of a green cricket." /></p>
-<p>By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, <a
-href="https://commons.wikimedia.org/w/index.php?curid=1682204"
-class="uri">https://commons.wikimedia.org/w/index.php?curid=1682204</a></p>
-<p>We need to save the photo to an image file in our R proj. You can
-download this image [insert link] or use an image of your own.</p>
+<div id="page-breaks" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Page Breaks</h2>
+<p>If we wanted to have the abstract and introduction at the top of new
+pages, put <code>{{&lt; pagebreak &gt;}}</code> after the yaml and the
+abstract text.</p>
+<p><strong>Render</strong></p>
+<p><br></p>
+</div>
+<div id="images" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Images</h2>
+<p><img src="images/cricket.jpg" fig-alt="A photo of a green cricket."
+alt="By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204" /></p>
+<p>Support we wanted to include this image in our methods.</p>
+<p>We need to save the photo to an images file in our R proj. You can
+download <a href="./images/cricket.png">this cricket image file</a> or
+use an image of your own.</p>
 <p>Then we use this code.</p>
-<p><code>![](./images/cricket.jpg){fig-alt="A photo of a green cricket."}</code></p>
+<p><code>![](./images/cricket.jpg)</code></p>
+<p>A caption = part adds a figure legend.</p>
+<p><code>![caption = Photo credit By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)</code></p>
+<p>Accessible alternative text is added using curly brackets.</p>
+<p><code>![Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg){fig-alt="A photo of a green cricket."}</code></p>
 <p><br></p>
 </div>
-<div id="links" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Links</h2>
+<div id="links" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Links</h2>
 <p>In your <code>Methods</code> section write the following sentence</p>
 <p>Distributions of grasshoppers were taken from orthoptera.org.uk</p>
 <p>If you wanted that text to be a hyperlink add <code>&lt;</code> and
 <code>&gt;</code></p>
 <p><code>Distributions of grasshoppers were taken from &lt;orthoptera.org.uk&gt;</code></p>
-<p>Alternatively, you could have different text</p>
-<p><code>Distributions of grasshoppers were taken from the [Orthoptera and allied insect webpages](orthoptera.org.uk)</code></p>
-<p><strong>Render</strong></p>
-<p><br></p>
-</div>
-<div id="add-a-content-page" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Add a Content
-Page</h2>
-<p>Adjusting the YAML as below will add a contents page.
-<code>toc</code> stands for table of contents. <code>depth</code>
-relates to the level of hashtag headings.</p>
-<p>title: “My Report” format: docx editor: source bibliography:
-library.bib toc: true toc-depth: 2 toc-title: “Contents”</p>
+<p>Alternatively, you could have different text for the link.</p>
+<p><code>Distributions of grasshoppers were taken from the [Orthoptera and</code>
+<code>allied insect webpages](orthoptera.org.uk)</code></p>
 <p><strong>Render</strong></p>
 <p><br></p>
 </div>
@@ -638,11 +676,14 @@ library.bib toc: true toc-depth: 2 toc-title: “Contents”</p>
 <h2><span class="header-section-number">3.6</span> Quarto website</h2>
 <p>For more Quarto coding there is a <a
 href="quarto.org/docs/guide">Quarto guide</a>.</p>
+<p>This youtube video shows you how to <a
+href="https://youtu.be/8CQiVVgQoH0">change the fonts</a> used in the
+Word document by creating a template.</p>
 <p><br></p>
 <p><strong>Challenge</strong></p>
-<p>Take an assessment you are working on or have already done and
-recreate the word document using a Quarto file.</p>
-<p>When you come across something you don’t know how to format use the
+<p>Take an assessment or report you are working on or have already done
+and recreate the word document using a Quarto file.</p>
+<p>When you come across something you don’t know how to do use the
 internet to find the solution.</p>
 </div>
 </div>

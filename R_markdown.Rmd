@@ -26,11 +26,13 @@ Now save it by going to **File** > **Save As**. You could name it **My_Big_Impor
 
 You will see there is already template content in the Quarto file. Click **Render** at the top so you understand how Render reads the Quarto file and converts the code into a Word document.
 
-This is a Word file that is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can upload, submit or print it as you would with any other Word file.
+<br>
 
 ## Ways to edit
 
-Flick between **source** and **visual** so you understand there are two options for editing. We will learn how to edit in source. 
+The Word file is saved in your R project file. You can edit it by making changes in Quarto in RStudio and it will rewrite the word file. When it is finished you can upload, submit or print it as you would with any other Word file.
+
+Flick between **source** and **visual** at the top left so you understand there are two options for editing. We will learn how to edit in source. 
 
 <br>
 
@@ -48,21 +50,19 @@ The yaml has settings for the whole document. It does not show up in the final w
 
 Try adding some text underneath the yaml. You could copy the text below:
 
-> This could be your abstract about a study on common green grasshoppers  
-> (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you  
-> would need to put anything in bold.
- 
-`This could be your abstract about a study on common green grasshoppers (Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is unlikely you would need to put anything in bold.` 
+`This could be your abstract about a study on common green grasshoppers`
+`(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is`
+`unlikely you would need to put anything in bold.` 
   
 Press **Render** to understand what that will look like in the final word document.
 
 <br>
 
-Make italic, subscript and bold text by adding in asterisks and tildes as below.
+Make *italic*, ~subscript~ and **bold** text by adding in asterisks and tildes as below.
 
-![alt.text= This could be your abstract about a study on common green grasshoppers (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you would need to put anything in **bold**.](./images/italicboldtext.png)
-
-`This could be your abstract about a study on common green grasshoppers (*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is unlikely you would need to put anything in **bold**.`
+`This could be your abstract about a study on common green grasshoppers`
+`(*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is` 
+`unlikely you would need to put anything in **bold**.`
 
 Press **Render** and notice the changes.
 
@@ -72,19 +72,19 @@ Press **Render** and notice the changes.
 
 Copy and paste the text below into your Quarto as if you have written an introduction. 
 
-> Introduction
->
-> Background
->
-> This is some text about the background to the study.
->
-> More background
->
-> This part is another sub section of the introduction.
->
-> Aims
->
-> This is the last sub section of the introduction
+`Introduction`
+
+`Background`
+
+`This is some text about the background to the study.`
+
+`More background`
+
+`This part is another sub section of the introduction.`
+
+`Aims`
+
+`This is the last sub section of the introduction`
 
 You can add one hash tag in front of the word `# Introduction` to make it a heading. It should turn blue.
 
@@ -94,9 +94,9 @@ You can add one hash tag in front of the word `# Introduction` to make it a head
 
 Now add two hash tags in front of each of these words `## Background`, `## More background` and `## Aims` to make secondary headings. 
 
-Render
+**Render**
 
-You could write `# Methods` and `# Results`headings too.
+Write `# Methods` and `# Results`headings too.
 
 <br>
 
@@ -108,7 +108,9 @@ To do this use code chunks to write R code.
 
 Under the `Results` heading, click on the next line and click on the green c with a plus icon at the top to insert a code chunk.
 
-In the code chunk that appears write R code to library load the palmerpenguins package and view the penguins data. Click the green play arrow at the top of that chunk so R runs the code.
+![alt.text= a greeen square with a white c and a plus in a circle at the top left](./images/greenc.png)
+
+In the middle of the code chunk that appears, write R code to library load the palmerpenguins package and view the penguins data. It will look like the picture below.
 
 ```{r datain, echo = FALSE, eval = TRUE, warning = FALSE}
 library(palmerpenguins)
@@ -117,13 +119,29 @@ View(penguins)
 
 ![alt.text= shows the code chunk with three ` marks and r in curly brackets one first line then library brakcets palmerpenguines on next line and view brakcets penguins on third line.](./images/firstcodechunk.png)
 
-Run the code by clicking the green play arrow.
+Click the chunk's green play arrow so R runs the code.
 
-Now insert another code chunk. Type in the code below to run a statistical test (compare the effect of the penguin species on body mass in a lm).
+Now insert another code chunk. Type in the code below to compare penguin flipper length with body mass in a lm.
 ```{r runmodel, echo = TRUE, eval = TRUE}
 model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
 summary(model1)
 ```
+
+<br>
+
+## Echo
+
+Some parts we want to be in our final Word document and others we don't. Including `#| echo: false` in the second line of our code chunk will mean the code is not "echoed" in the Word document i.e. it will not be included.
+
+<br>
+
+**Challenge**
+
+Add `#| echo: false` to the code chunks you don't think should be in the Word document.
+
+Other options you might want to include are `#|eval: true`, `#| error: false` and `#| warning: false` which tell R to run the code, don't print errors and don't print warnings in the Word document.
+
+**Render** again to see how the document has changed.
 
 <br>
 
@@ -166,21 +184,9 @@ ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
 
 **Render** to see what happens.
 
-<br>
+ <br> 
 
-## Echo
-
-Some parts we want to be in our final Word document and others we don't. Including `#| echo: false` in the second line of our code chunk will mean the code is not "echoed" in the Word document i.e. won't be included.
-
-**Challenge**
-
-Add `#| echo: false` to the code chunks you don't think should be in the Word document.
-
-<br>
-
-Other options you might want to include are `#|eval: true`, `#| error: false` and `#| warning: false` which tell R to run the code, don't print errors and don't print warning in the Word document.
-
-**Render** again to see how the document looks.
+You can include a figure legend by adding `#| fig-cap: penguin flipper length and body mass were associated` in the line above the code and below the `{r}`.
 
 <br>
 
@@ -194,15 +200,25 @@ Other options you might want to include are `#|eval: true`, `#| error: false` an
 
 First add a `# Discussion` heading.
 
-To include citations and references you need to create a .bib file from your reference manager (such as Endnote or Mendeley) and save in your Rproj. Find out how to do this using these websites...
+To include citations and references you need to create a .bib file from your reference manager (such as Endnote or Mendeley) and save in your Rproj.
 
-If you don't have a reference manager set up, download this bibtex file from here.[insert link]
+<details>
+  <summary>**Creating a .bib File**</summary>
 
-Tell R what your .bib file is by adding another line to your yaml that reads `bibliography: library.bib`
+**If you have an Endnote online account**. Format > Export References. References: select All References in My Library. In Export style: select BibTeX Export. Save. A file will download. Open the file and go to File > Save as and rename the file references.bib. Then move that file to Rproj files.
 
-All references in the .bib file have a key to identify them. Using the key we can insert a citation as below.
+**If you have a Mendeley account**, tick the boxes to select references. Choose Export at the bottom and choose BibTeX (*.bib). Save that file to your Rproj.
 
-`This sentence would be based on an idea I took from a paper [@Wood2021].`
+</details>
+
+If you don't have a reference manager set up, download [this BibTeX file](./data/export.bib) and save to your Rproj.
+
+Tell R what your .bib file is by adding another line to your yaml. If your file is called `export.bib` add a line that reads `bibliography: export.bib`
+
+In the .bib file each reference has an identifying key. It might look like `Vedenina2020` or `RN15`. Using these keys we can insert a citation as below.
+
+`This sentence would be based on an idea I took from a paper [@Vedenina2020].`
+`This piece of text might be from an idea based on two papers [@Ronacher2019;@Illich2022].`
 
 **Render**
 
@@ -212,26 +228,51 @@ Add the heading `# References` to the bottom of your quarto file.
 
 <br>
 
-## Page Breaks
+## Title and Contents Page
 
-If we wanted to have the title on its own page insert a page break after the title.
+Adjusting the YAML as below will add title page information and a contents page. `toc` stands for table of contents. `depth` relates to the level of hashtag headings.
 
-{{< pagebreak >}}
+`title: "My Report"`
+`subheading: "other information that needs to be on title page"`
+`author: "Your Name"`  
+`format: docx`  
+`editor: source`  
+`bibliography: export.bib`  
+`toc: true`  
+`toc-depth: 2`  
+`toc-title: "Contents"`  
+
+**Render**
 
 <br>
 
-## Include an image
+## Page Breaks
 
-If we wanted to include this image on our title page
-![](./images/cricket.jpg){fig-alt="A photo of a green cricket."}
+If we wanted to have the abstract and introduction at the top of new pages, put `{{< pagebreak >}}` after the yaml and the abstract text.
 
-By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204
+**Render**
 
-We need to save the photo to an image file in our R proj. You can download this image [insert link] or use an image of your own.
+<br>
+
+## Images
+
+![By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg){fig-alt="A photo of a green cricket."}
+
+Suppose we wanted to include this image in our methods.
+
+We need to save the photo to an images file in our Rproj. You can download [this cricket image file](./images/cricket.png) or use an image of your own.
 
 Then we use this code.
 
-`![](./images/cricket.jpg){fig-alt="A photo of a green cricket."}`
+`![](./images/cricket.jpg)`
+
+A caption = part adds a figure legend.
+
+`![caption = Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)`
+
+Accessible alternative text is added using  curly brackets.
+
+`![Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg){fig-alt="A photo of a green cricket."}`
 
 <br>
 
@@ -245,25 +286,10 @@ If you wanted that text to be a hyperlink add `<` and `>`
 
 `Distributions of grasshoppers were taken from <orthoptera.org.uk>`
 
-Alternatively, you could have different text
+Alternatively, you could have different text for the link.
 
-`Distributions of grasshoppers were taken from the [Orthoptera and allied insect webpages](orthoptera.org.uk)`
-
-**Render**
-
-<br>
-
-## Add a Content Page
-
-Adjusting the YAML as below will add a contents page. `toc` stands for table of contents. `depth` relates to the level of hashtag headings.
-
-title: "My Report"
-format: docx
-editor: source
-bibliography: library.bib
-toc: true
-toc-depth: 2
-toc-title: "Contents"
+`Distributions of grasshoppers were taken from the [Orthoptera and`
+`allied insect webpages](orthoptera.org.uk)`
 
 **Render**
 
@@ -273,11 +299,13 @@ toc-title: "Contents"
 
 For more Quarto coding there is a [Quarto guide](quarto.org/docs/guide).
 
+This youtube video shows you how to [change the fonts](https://youtu.be/8CQiVVgQoH0) used in the Word document by creating a template.
+
 <br>
 
 **Challenge**
 
-Take an assessment you are working on or have already done and recreate the word document using a Quarto file.
+Take an assessment or report you are working on or have already done and recreate the word document using a Quarto file.
 
-When you come across something you don't know how to format use the internet to find the solution. 
+When you come across something you don't know how to do use the internet to find the solution. 
 
