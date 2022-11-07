@@ -430,7 +430,7 @@ below:</p>
 <p><code>This could be your abstract about a study on common green grasshoppers</code>
 <code>(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is</code>
 <code>unlikely you would need to put anything in bold.</code></p>
-<p>Press <strong>Render</strong> to understand what that will look like
+<p>Click <strong>Render</strong> to understand what that will look like
 in the final word document.</p>
 <p><br></p>
 <p>Make <em>italic</em>, <sub>subscript</sub> and <strong>bold</strong>
@@ -438,7 +438,7 @@ text by adding in asterisks and tildes as below.</p>
 <p><code>This could be your abstract about a study on common green grasshoppers</code>
 <code>(*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is</code>
 <code>unlikely you would need to put anything in **bold**.</code></p>
-<p>Press <strong>Render</strong> and notice the changes.</p>
+<p>Click <strong>Render</strong> and notice the changes.</p>
 <p><br></p>
 </div>
 <div id="headings" class="section level2" number="2.2">
@@ -452,9 +452,8 @@ an introduction.</p>
 <p><code>This part is another sub section of the introduction.</code></p>
 <p><code>Aims</code></p>
 <p><code>This is the last sub section of the introduction</code></p>
-<p>You can add one hash tag in front of the word
-<code># Introduction</code> to make it a heading. It should turn
-blue.</p>
+<p>Add one hash tag in front of the word <code># Introduction</code> to
+make it a heading. It should turn blue.</p>
 <p><strong>Render</strong> to see the difference.</p>
 <p><br></p>
 <p>Now add two hash tags in front of each of these words
@@ -478,14 +477,15 @@ chunk.</p>
 alt="alt.text= a greeen square with a white c and a plus in a circle at the top left" /></p>
 <p>In the middle of the code chunk that appears, write R code to library
 load the palmerpenguins package and view the penguins data. It will look
-like the picture below.</p>
+like the picture below with three backticks at the top and bottom and
+<code>r</code> in curly brackets.</p>
 <p><img src="images/firstcodechunk.png"
 alt="alt.text= shows the code chunk with three ` marks and r in curly brackets one first line then library brakcets palmerpenguines on next line and view brakcets penguins on third line." /></p>
-<p>Click the chunk’s green play arrow so R runs the code.</p>
+<p>In the top right corner of the chunk, click the green play arrow so R
+runs the code.</p>
+<p><br></p>
 <p>Now insert another code chunk. Type in the code below to compare
 penguin flipper length with body mass in a lm.</p>
-<pre class="r"><code>model1 &lt;- lm(flipper_length_mm ~ body_mass_g, data = penguins)
-summary(model1)</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = flipper_length_mm ~ body_mass_g, data = penguins)
@@ -505,24 +505,24 @@ summary(model1)</code></pre>
 ##   (2 observations deleted due to missingness)
 ## Multiple R-squared:  0.759,  Adjusted R-squared:  0.7583 
 ## F-statistic:  1071 on 1 and 340 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>model1 &lt;- lm(flipper_length_mm ~ body_mass_g, data = penguins)
+summary(model1)</code></pre>
 <p><br></p>
 </div>
 <div id="echo" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Echo</h2>
-<p>Some parts we want to be in our final Word document and others we
-don’t. Including <code>#| echo: false</code> in the second line of our
-code chunk will mean the code is not “echoed” in the Word document
-i.e. it will not be included.</p>
+<p>You probably don’t want these code chunks to show up in the final
+Word document. Including <code>#| echo: false</code> in the second line
+of our code chunk will mean the code is not “echoed” in the Word
+document i.e. it will not be included.</p>
 <p><br></p>
 <p><strong>Challenge</strong></p>
-<p>Add <code>#| echo: false</code> to the code chunks you don’t think
-should be in the Word document.</p>
-<p>Other options you might want to include are
-<code>#|eval: true</code>, <code>#| error: false</code> and
-<code>#| warning: false</code> which tell R to run the code, don’t print
-errors and don’t print warnings in the Word document.</p>
-<p><strong>Render</strong> again to see how the document has
-changed.</p>
+<p>Add <code>#| echo: false</code> to the code chunks.</p>
+<p>Other lines you might want to include are <code>#|eval: true</code>
+(tells R to run the code), <code>#| error: false</code> (tells R do not
+print errors) and <code>#| warning: false</code> (tells R to not print
+warnings in the Word document).</p>
+<p><strong>Render</strong></p>
 <p><br></p>
 </div>
 <div id="extracting-numbers" class="section level2" number="2.5">
@@ -541,9 +541,10 @@ console and pressing return to run. You can see R<sup>2</sup> is towards
 the bottom.</p>
 </details>
 <p><br></p>
-<p>This is useful because now we can embed numbers in the text by
-writing the letter r and the reference surrounded by backquotes. Useful
-if the analysis changes.</p>
+<p>This is useful because now we can embed numbers such as the
+R<sup>2</sup>, F, dfs and p values in the text by writing the letter r
+then the reference surrounded by backquotes. Useful if the analysis
+changes.</p>
 <p><img src="images/statsrefs.png"
 alt="alt.text= Text says Flipper length and body mass were significantly associated in the penguins (linear model, R2 = r summary(model1) dollar sign r.squared, F(r summary(model1) dollar sign fstatistic[2],r &gt;summary(model1) dollar sign fstatistic[3]) = r summary(model1)$fstatistic[1], p = r summary(model1) dollar sign coefficients[2,4])." /></p>
 <p><strong>Render</strong></p>
@@ -570,6 +571,9 @@ ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
 <p>You can include a figure legend by adding
 <code>#| fig-cap: penguin flipper length and body mass were associated</code>
 in the line above the code and below the <code>{r}</code>.</p>
+<p><strong>Challenge</strong></p>
+<p>For the plot code chunk,decide if should put true or false for
+<code>#| echo:</code> and <code>#| eval:</code></p>
 <p><br></p>
 <p><br></p>
 </div>
@@ -594,11 +598,12 @@ your Rproj.</p>
 Export References. References: select All References in My Library. In
 Export style: select BibTeX Export. Save. A file will download. Open the
 file and go to File &gt; Save as and rename the file references.bib.
-Then move that file to Rproj files.</p>
+Then move that file to your Rproj files.</p>
 <p><strong>If you have a Mendeley account</strong>, tick the boxes to
-select references. Choose Export at the bottom and choose BibTeX
+select your references. Choose Export at the bottom and choose BibTeX
 (*.bib). Save that file to your Rproj.</p>
 </details>
+<p><br></p>
 <p>If you don’t have a reference manager set up, download <a
 href="./data/export.bib">this BibTeX file</a> and save to your
 Rproj.</p>
@@ -647,14 +652,14 @@ abstract text.</p>
 <h2><span class="header-section-number">3.4</span> Images</h2>
 <p><img src="images/cricket.jpg" fig-alt="A photo of a green cricket."
 alt="By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204" /></p>
-<p>Support we wanted to include this image in our methods.</p>
-<p>We need to save the photo to an images file in our R proj. You can
+<p>Suppose we wanted to include this image in our methods.</p>
+<p>We need to save the photo to an images file in our Rproj. You can
 download <a href="./images/cricket.png">this cricket image file</a> or
 use an image of your own.</p>
 <p>Then we use this code.</p>
 <p><code>![](./images/cricket.jpg)</code></p>
 <p>A caption = part adds a figure legend.</p>
-<p><code>![caption = Photo credit By James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)</code></p>
+<p><code>![caption = Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)</code></p>
 <p>Accessible alternative text is added using curly brackets.</p>
 <p><code>![Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg){fig-alt="A photo of a green cricket."}</code></p>
 <p><br></p>

@@ -54,7 +54,7 @@ Try adding some text underneath the yaml. You could copy the text below:
 `(Omocestus viridulus). It could also be about CO2, CH4 and N2O. It is`
 `unlikely you would need to put anything in bold.` 
   
-Press **Render** to understand what that will look like in the final word document.
+Click **Render** to understand what that will look like in the final word document.
 
 <br>
 
@@ -64,7 +64,7 @@ Make *italic*, ~subscript~ and **bold** text by adding in asterisks and tildes a
 `(*Omocestus viridulus*). It could also be about CO~2~, CH~4~ and N~2~O. It is` 
 `unlikely you would need to put anything in **bold**.`
 
-Press **Render** and notice the changes.
+Click **Render** and notice the changes.
 
 <br>
 
@@ -86,7 +86,7 @@ Copy and paste the text below into your Quarto as if you have written an introdu
 
 `This is the last sub section of the introduction`
 
-You can add one hash tag in front of the word `# Introduction` to make it a heading. It should turn blue.
+Add one hash tag in front of the word `# Introduction` to make it a heading. It should turn blue.
 
 **Render** to see the difference.
 
@@ -110,19 +110,27 @@ Under the `Results` heading, click on the next line and click on the green c wit
 
 ![alt.text= a greeen square with a white c and a plus in a circle at the top left](./images/greenc.png)
 
-In the middle of the code chunk that appears, write R code to library load the palmerpenguins package and view the penguins data. It will look like the picture below.
+In the middle of the code chunk that appears, write R code to library load the palmerpenguins package and view the penguins data. It will look like the picture below with three backticks at the top and bottom and `r` in curly brackets.
 
-```{r datain, echo = FALSE, eval = TRUE, warning = FALSE}
+```{r datain, echo = FALSE, eval = TRUE, warning = FALSE, error=FALSE}
 library(palmerpenguins)
 View(penguins)
 ```
 
 ![alt.text= shows the code chunk with three ` marks and r in curly brackets one first line then library brakcets palmerpenguines on next line and view brakcets penguins on third line.](./images/firstcodechunk.png)
 
-Click the chunk's green play arrow so R runs the code.
+In the top right corner of the chunk, click the green play arrow so R runs the code.
+
+<br>
 
 Now insert another code chunk. Type in the code below to compare penguin flipper length with body mass in a lm.
-```{r runmodel, echo = TRUE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
+model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
+summary(model1)
+```
+
+
+```{r runmodel, echo = TRUE, eval = FALSE}
 model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
 summary(model1)
 ```
@@ -131,17 +139,17 @@ summary(model1)
 
 ## Echo
 
-Some parts we want to be in our final Word document and others we don't. Including `#| echo: false` in the second line of our code chunk will mean the code is not "echoed" in the Word document i.e. it will not be included.
+You probably don't want these code chunks to show up in the final Word document. Including `#| echo: false` in the second line of our code chunk will mean the code is not "echoed" in the Word document i.e. it will not be included.
 
 <br>
 
 **Challenge**
 
-Add `#| echo: false` to the code chunks you don't think should be in the Word document.
+Add `#| echo: false` to the code chunks.
 
-Other options you might want to include are `#|eval: true`, `#| error: false` and `#| warning: false` which tell R to run the code, don't print errors and don't print warnings in the Word document.
+Other lines you might want to include are `#|eval: true` (tells R to run the code), `#| error: false` (tells R do not print errors) and `#| warning: false` (tells R to not print warnings in the Word document).
 
-**Render** again to see how the document has changed.
+**Render**
 
 <br>
 
@@ -158,7 +166,7 @@ To find out the reference to a number, the function `str` is useful. Try typing 
 
 <br>
 
-This is useful because now we can embed numbers in the text by writing the letter r and the reference surrounded by backquotes. Useful if the analysis changes.
+This is useful because now we can embed numbers such as the R^2^, F, dfs and p values in the text by writing the letter r then the reference surrounded by backquotes. Useful if the analysis changes.
 
 ![alt.text= Text says Flipper length and body mass were significantly associated in the penguins (linear model, R~2~ = r summary(model1) dollar sign r.squared, F(r summary(model1) dollar sign fstatistic[2],r >summary(model1) dollar sign fstatistic[3]) = r summary(model1)$fstatistic[1], p = r summary(model1) dollar sign coefficients[2,4]).](./images/statsrefs.png)
 
@@ -176,7 +184,7 @@ It is possible to pass the references through functions so that the numbers are 
 ## Plots
 
 Now include a plot by writing another code chunk containing the following code.
-```{r plot, warning=FALSE}
+```{r plot, warning=FALSE, eval = FALSE, echo = TRUE}
 library(ggplot2)
 ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
   geom_point()
@@ -187,6 +195,10 @@ ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
  <br> 
 
 You can include a figure legend by adding `#| fig-cap: penguin flipper length and body mass were associated` in the line above the code and below the `{r}`.
+
+**Challenge**
+
+For the plot code chunk,decide if should put true or false for `#| echo:` and `#| eval:`
 
 <br>
 
@@ -205,15 +217,17 @@ To include citations and references you need to create a .bib file from your ref
 <details>
   <summary>**Creating a .bib File**</summary>
 
-**If you have an Endnote online account**. Format > Export References. References: select All References in My Library. In Export style: select BibTeX Export. Save. A file will download. Open the file and go to File > Save as and rename the file references.bib. Then move that file to Rproj files.
+**If you have an Endnote online account**. Format > Export References. References: select All References in My Library. In Export style: select BibTeX Export. Save. A file will download. Open the file and go to File > Save as and rename the file references.bib. Then move that file to your Rproj files.
 
-**If you have a Mendeley account**, tick the boxes to select references. Choose Export at the bottom and choose BibTeX (*.bib). Save that file to your Rproj.
+**If you have a Mendeley account**, tick the boxes to select your references. Choose Export at the bottom and choose BibTeX (*.bib). Save that file to your Rproj.
 
 </details>
 
+<br>
+
 If you don't have a reference manager set up, download [this BibTeX file](./data/export.bib) and save to your Rproj.
 
-Tell R what your .bib file is by adding another line to your yaml. If your file is called `export.bib` add a line that reads `bibliography: export.bib`
+Tell R what your .bib file is called by adding another line to your yaml. If your file is called `export.bib` add a line that reads `bibliography: export.bib`
 
 In the .bib file each reference has an identifying key. It might look like `Vedenina2020` or `RN15`. Using these keys we can insert a citation as below.
 
@@ -248,7 +262,7 @@ Adjusting the YAML as below will add title page information and a contents page.
 
 ## Page Breaks
 
-If we wanted to have the abstract and introduction at the top of new pages, put `{{< pagebreak >}}` after the yaml and the abstract text.
+If we wanted to have the abstract and introduction at the top of new pages, put one `{{< pagebreak >}}` after the yaml and another between the abstract and introduction text.
 
 **Render**
 
@@ -266,7 +280,7 @@ Then we use this code.
 
 `![](./images/cricket.jpg)`
 
-A caption = part adds a figure legend.
+`caption =` adds a figure legend
 
 `![caption = Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)`
 
@@ -280,7 +294,7 @@ Accessible alternative text is added using  curly brackets.
 
 In your `Methods` section write the following sentence
 
-Distributions of grasshoppers were taken from orthoptera.org.uk
+`Distributions of grasshoppers were taken from orthoptera.org.uk`
 
 If you wanted that text to be a hyperlink add `<` and `>`
 
@@ -289,7 +303,7 @@ If you wanted that text to be a hyperlink add `<` and `>`
 Alternatively, you could have different text for the link.
 
 `Distributions of grasshoppers were taken from the [Orthoptera and`
-`allied insect webpages](orthoptera.org.uk)`
+`allied insects webpages](orthoptera.org.uk)`
 
 **Render**
 
