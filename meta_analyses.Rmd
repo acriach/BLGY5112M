@@ -52,9 +52,12 @@ To compare the effect of increased CO$_2$ across multiple studies, we first need
 Effect size reminder. If experiment 1 measures the weights of swans and geese and experiment 2 measures the weight of swans and robins, the effect size is bigger in experiment 2. There is a bigger effect of species on weight in experiment 2. 
 ::::
 
+<br>
+
 There are several 'standardized' effect sizes. When we have two groups to compare, we have a choice of two effect size statistics we could use. 
 
-1) The first choice is standardized mean difference (SMD also known as Cohen's $d$ or Hedge's $d$ or $g$; there are some subtle differences between them, but we do not worry about them for now.
+1) The first choice is standardized mean difference (SMD also known as Cohen's $d$ or Hedge's $d$ or $g$; there are some subtle differences between d and g, but we do not worry about them for now.)
+
 <details>
   <summary>**Formula for calculating SMD**</summary>
 
@@ -72,6 +75,7 @@ In the formula below:
 <br>
 
 We also need to calculate the SMD's sample error variance for each study.
+
 <details>
   <summary>**Formula for calculating sample error variance**</summary>
 
@@ -88,6 +92,7 @@ The square root of this is referred to as 'standard error'. The inverse of this 
 <br>
 
 2) The second option of standardised effect size is called 'response ratio', which is usually presented in its natural logarithm form (lnRR).
+
 <details>
   <summary>**Formula for lnRR**</summary>
 
@@ -100,8 +105,9 @@ The square root of this is referred to as 'standard error'. The inverse of this 
 <br>
 
 The sampling error variance for lnRR is also needed.
+
 <details>
-  <summary>**Formula for lnRR**</summary>
+  <summary>**Formula for calculating sample error variance for lnRR**</summary>
 
 \begin{equation}
 se^2_\mathrm{lnRR}=\frac{sd^2_{C}}{n_{C}\bar{x}^2_{C}}+\frac{sd^2_{E}}{n_{E}\bar{x}^2_{E}}
