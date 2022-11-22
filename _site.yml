@@ -4,6 +4,8 @@ navbar:
   left:
     - text: "Advanced Statistics"
       href: index.html
+    - text: "Linera Models"
+      href: lm.html    
     - text: "Power Analysis"
       href: power_analyses.html
     - text: "Graphs"
