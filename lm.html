@@ -366,7 +366,883 @@ div.tocify {
 </div>
 
 
+<p>Linear models can be used to run regressions (where the response and
+predictor are both continuous) or t-tests and ANOVAs (where the response
+is continuous and the predictor is a factor.)</p>
+<div class="cadetbluebox">
+<div class="center">
 
+</div>
+<p>Alternative terminology - another name for a response is the
+dependent variable. Predictors are sometimes called explanatory,
+independent variables or factors.</p>
+</div>
+<p><br></p>
+<div id="continuous-response-continuous-predictor-regression"
+class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Continuous Response,
+Continuous Predictor (Regression)</h1>
+<p>A regression is just a special case of a linear model, where both the
+response and predictor variables are continuous.</p>
+<p>The relationship between a response (also called dependent) variable
+<span class="math inline">\(y\)</span> and one or more predictor
+variables <span class="math inline">\(x_{1}\)</span>,<span
+class="math inline">\(x_{2}\)</span>…<span
+class="math inline">\(x_{n}\)</span> is modelled. For example, we could
+use linear regression to test whether temperature (the predictor
+variable) effects plant height (the response variable).</p>
+<p><img src="images/Linear_regression_image.jpg" /></p>
+<p><br> Follow this link to a data set on plant heights around the
+world, <a href="./data/Plant_height.csv">Plant_height.csv</a>. Right
+click to “Save as” in your Rproj <code>data</code> folder and import
+into R.</p>
+<pre class="r"><code>Plant_height &lt;- read.csv(file = &quot;data/Plant_height.csv&quot;, header = TRUE)</code></pre>
+<p><br></p>
+<p>It is useful to first visualise our data. For two continuous
+variables use a scatterplot. <code>loght</code> is log of height.
+<code>temp</code> is temperature.</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(aes(x = temp, y = loght), data = Plant_height) +
+  geom_point()</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><br></p>
+<div id="running-the-analysis" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Running the
+analysis</h2>
+<p>In R you can fit linear models using the function
+<code>lm</code>.</p>
+<pre class="r"><code>lm(loght ~ temp, data = Plant_height)</code></pre>
+<p>The response variable <code>loght</code> goes before the tilde. After
+the tilde we list the predictor variables, only <code>temp</code> in
+this case.</p>
+<p>The <code>data =</code> argument specifies the data frame from which
+the variables will be taken.</p>
+<p><br></p>
+<p>To obtain detailed output (e.g., coefficient values, R<sup>2</sup>,
+test statistics, <em>p</em>-values, confidence intervals etc.), assign
+the output of the <code>lm</code> function to a new object in R. Then
+pass that new model object through the <code>summary</code>
+function.</p>
+<pre class="r"><code>model &lt;- lm(loght ~ temp, data = Plant_height)
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = loght ~ temp, data = Plant_height)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.97903 -0.42804 -0.00918  0.43200  1.79893 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.225665   0.103776  -2.175    0.031 *  
+## temp         0.042414   0.005593   7.583 1.87e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6848 on 176 degrees of freedom
+## Multiple R-squared:  0.2463, Adjusted R-squared:  0.242 
+## F-statistic:  57.5 on 1 and 176 DF,  p-value: 1.868e-12</code></pre>
+<p><br></p>
+</div>
+<div id="what-has-lm-just-done" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> What has lm just
+done?</h2>
+<p>It has tried to make a line of best fit (the blue line in the graph).
+<img src="lm_files/figure-html/unnamed-chunk-5-1.png" width="672" /> The
+equation for that line is in the form <span class="math display">\[y =
+\alpha + \beta x \]</span></p>
+<p><span class="math inline">\(\alpha\)</span> is the intercept (where
+the line crosses the y axis). <span class="math inline">\(\beta\)</span>
+is the slope. (This is the same as the equation for a straight line y =
+<strong>m</strong>x + <strong>c</strong> or y = <strong>a</strong>x +
+<strong>b</strong> you may have encountered before.)</p>
+<p>The goal of lm is to obtain the best estimates for <span
+class="math inline">\(\alpha\)</span> and <span
+class="math inline">\(\beta\)</span>. <span
+class="math inline">\(\alpha\)</span> and <span
+class="math inline">\(\beta\)</span>are called the model
+coefficients.</p>
+<p>To make it a model rather than just a straight line, it also has an
+extra bit called the error term <span
+class="math inline">\(\varepsilon\)</span>. You can think of this as how
+close the points are to the line. <span
+class="math inline">\(\varepsilon\)</span> is not usually reported as
+part of the equation. <span class="math display">\[y = \alpha + \beta x
++ \varepsilon \]</span></p>
+<p><br></p>
+</div>
+<div id="interpreting-the-results" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Interpreting the
+results</h2>
+<p>The output given by <code>summary()</code> gives us the <span
+class="math inline">\(\beta\)</span> and <span
+class="math inline">\(\alpha\)</span> coefficients so we can report the
+model equation <span class="math display">\[log(plant height) = -0.22566
++0.0421.temperature + \varepsilon \]</span> Look at the output to find
+where these numbers came from.</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Note that <span class="math inline">\(\beta\)</span> which is the
+slope can be interpreted as the amount of change in <span
+class="math inline">\(y\)</span> for each unit of <span
+class="math inline">\(x\)</span>. For example, as the temperature
+increases by 1 degree, the log(plant height) increases by 0.0241.</p>
+</div>
+<p><br></p>
+<p>Passing the model object through <code>summary()</code> also gives us
+the <em>t</em>-statistics and <em>p</em>-values related to each
+predictor. These test the null hypothesis that the true value for the
+coefficient is 0.</p>
+<p>For the intercept we usually don’t care if it is zero or not, but for
+the other coefficient (the slope), a value significantly differing from
+zero indicates that there is an association between that predictor and
+the response. In this example, temperature affects plant height.</p>
+<p>Whilst the <em>t</em>-statistics and <em>p</em>-values indicate a
+significant association, the strength of the association is captured by
+the R<sup>2</sup> value. R<sup>2</sup> is the proportion of variance in
+the response that is explained by the predictor(s).</p>
+<p>The <em>F</em>-statistic and associated <em>p</em>-value indicates
+whether the model as a whole is significant. The model will always be
+significant if any of the coefficients are significant. With only one
+predictor variable, the probability associated with the <em>t</em> test,
+that tests whether the slope differs from zero, is identical to the
+probability associated with the <em>F</em> statistic.</p>
+<p>We can also obtain 95% confidence intervals for the two parameters.
+Checking that the intervals for the slope do not include zero is another
+way of showing that there is an association between the dependent and
+predictor variable.</p>
+<pre class="r"><code>confint(model)</code></pre>
+<pre><code>##                   2.5 %      97.5 %
+## (Intercept) -0.43047074 -0.02085828
+## temp         0.03137508  0.05345215</code></pre>
+<p>In summary, you could report</p>
+<blockquote>
+<p>The model (log(plant height) = -0.22566 + 0.0421.temperature, R^2 =
+0.246) was significant (F(1,176) = 57.5, p &lt; 0.001) with temperature
+significantly predicting (t = 7.583, p &lt; 0.001) the height of the
+plants. This means that when temperature increases by 1 degree the plant
+height increases by 0.042 (CI 0.031, 0.053).</p>
+</blockquote>
+<p>If you have run several analyses (or if there is more than one
+predictor), it may be useful to present the results as a table with
+coefficient values, standard errors and <em>p</em>-values for each
+explanatory variable. What parts you choose to report is down to
+discipline, style of the journal or what the writer thinks should be
+emphasised to answer the results question.</p>
+<p><br></p>
+<div id="assumptions-to-check" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Assumptions to
+check</h3>
+<p>But to have confidence in our results we should check out data met
+the assumptions.</p>
+<p><strong>Independence</strong>. For all the data in these examples
+we’ll assume the observations are independent of each other.</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>There are a variety of measures for dealing with non-independence.
+These include ensuring all important predictors are in the model;
+averaging across nested observations; or using a mixed-model (covered in
+another lesson).</p>
+</div>
+<p><strong>Linearity</strong>. There is no point trying to fit a
+straight line to data that are curved! Curvilinear relationships produce
+patterns in plots of the residuals vs the fitted values.</p>
+<p>Passing <code>model</code> through <code>plot()</code> gives four
+graphs. The first is a plot of residuals versus fitted values.</p>
+<pre class="r"><code>plot(model)</code></pre>
+<p>The absence of strong patterning in the first plot indicates the
+assumption of linearity is valid.</p>
+<p>Click <a href="https://gallery.shinyapps.io/slr_diag/">here</a> to
+see what patterns of residuals you would expect with curved
+relationships</p>
+<p><strong>Constant variance</strong> If the plot of residuals versus
+fitted values is fan-shaped, the assumption of constant variance
+(homogeneity of variance) is violated.</p>
+<p><strong>Normality</strong>. Checks of whether the data are normally
+distributed are usually performed by either plotting a histogram of the
+residuals or via a quantile plot where the residuals are plotted against
+the values expected from a normal distribution (the second of the
+figures obtained by <code>plot(model)</code>). If the points in the
+quantile plot lie mostly on the line, the residuals are normally
+distributed.</p>
+<pre class="r"><code>hist(model$residuals) # Histogram of residuals</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>plot(model, which = 2) # Quantile plot</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p>Problems of variance normality can be addressed via transformations
+or by using a Generalised Linear Model, GLM. Note, however, that linear
+regression is reasonably robust against violations of constance variance
+and normality.</p>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="continuous-response-one-predictor-with-two-categories-t-test"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Continuous Response,
+One Predictor with Two Categories (t test)</h1>
+<p>This is the same as running a t-test.</p>
+<p>We could test if a sample of pH measurements from one river, A,
+differs from a sample of pH measurements from a second river, B. Save
+the data <a href="./data/River_pH.csv">River_pH.csv</a> in the
+<code>data</code> file in your Rproj.</p>
+<pre class="r"><code>River_pH &lt;- read.csv(file = &quot;data/River_pH.csv&quot;, header = TRUE)</code></pre>
+<p>To visualise we could plot a boxplot or bar chart with overlayed
+points. An alternative is a violin plot using
+<code>geom_violin</code>.</p>
+<pre class="r"><code>  ggplot(aes(x = River_name, y = pH), data = River_pH) +
+  geom_violin()</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Overlay the means and their 95% confidence intervals using
+<code>stat_summary()</code>. Change the axis labels using
+<code>xlab()</code> and <code>ylab()</code>.</p>
+<pre class="r"><code>  ggplot(aes(x = River_name, y = pH), data = River_pH) +
+  geom_violin() +
+  stat_summary(fun = &quot;mean&quot;, size = 0.2) +
+  stat_summary(fun.data = &quot;mean_cl_normal&quot;, geom = &quot;errorbar&quot;, width = 0.2) + 
+  xlab(&quot;River&quot;) +
+  ylab(&quot;pH of River&quot;)</code></pre>
+<p><img src="lm_files/figure-html/violin-1.png" width="672" /></p>
+<details>
+<summary>
+<strong>fun and fun.data explained</strong>
+</summary>
+<p><code>fun</code> and <code>fun.data</code> are arguments in
+<code>stat_summary()</code> that do statistical operations to data.
+<code>fun</code> takes the data and returns a single value such as the
+mean. <code>fun.data</code> calculates three values for each group:
+<code>y</code>, <code>ymin</code> and <code>ymax</code>. In our case,
+ymin is the lower confidence interval and ymax is the upper confidence
+interval.</p>
+</details>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Read in the Palmer Penguins dataset (penguins.csv). Make a violin
+plot of <code>body_weight_g</code> for the two groups in
+<code>sex</code>.</p>
+<p>Can you search the internet to find out how to remove NA values?</p>
+<details>
+<summary>
+<strong>Solution</strong>
+</summary>
+<p>Read in the data</p>
+<pre class="r"><code>penguins &lt;- read.csv(file = &quot;data/penguins.csv&quot;)</code></pre>
+<p>Make a violin plot with mean, error bars, and axes labels.</p>
+<pre class="r"><code>  ggplot(aes(x = sex, y = body_mass_g), data = penguins) +
+  geom_violin() +
+  stat_summary(fun = &quot;mean&quot;, size = 0.2) +
+  stat_summary(fun.data = &quot;mean_cl_normal&quot;, geom = &quot;errorbar&quot;, width = 0.2) + 
+  xlab(&quot;Penguin Sex&quot;) +
+  ylab(&quot;Body Mass (g)&quot;)</code></pre>
+<p><img src="lm_files/figure-html/violin%20penguins-1.png" width="672" /></p>
+<p>One solution (of many) to remove NA values is piping the data into
+the <code>drop_na()</code> function from the <code>tidyr</code> package.
+The resulting data can be piped into ggplot.</p>
+<pre class="r"><code>library(tidyr)
+penguins %&gt;% 
+        drop_na(sex) %&gt;%
+        ggplot(aes(x = sex, y = body_mass_g)) +
+  geom_violin() +
+  stat_summary(fun = &quot;mean&quot;, size = 0.2) +
+  stat_summary(fun.data = &quot;mean_cl_normal&quot;, geom = &quot;errorbar&quot;, width = 0.2) + 
+  xlab(&quot;Penguin Sex&quot;) +
+  ylab(&quot;Body Mass (g)&quot;)</code></pre>
+<p><img src="lm_files/figure-html/without%20na-1.png" width="672" /></p>
+</details>
+<p><br></p>
+<div id="fitting-a-model" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Fitting a model</h2>
+<p>As the previous example, use <code>lm()</code> and then put the
+resulting model through <code>summary()</code>.</p>
+<pre class="r"><code>model &lt;- lm(pH ~ River_name, data = River_pH)
+summary(model)</code></pre>
+<p><code>lm()</code> has used the same equation but since our predictor
+is a factor/category oppose to numeric, how we interpret the results is
+different.</p>
+<p>There are two groups - <code>A</code> and <code>B</code>. One is
+taken by the model as the <strong>baseline</strong> (<code>A</code>),
+the other as the contrast (<code>B</code>). The first level
+alphabetically is chosen by R as the baseline.</p>
+<p>The intercept in the output is the estimated mean for the baseline,
+i.e. for River A. The <code>B</code> estimate is the estimated mean
+difference in <code>pH</code> between River A and B. We can therefore
+write the equation for this model as:</p>
+<p><span class="math display">\[pH = 8.6615 -2.2529 \times x\]</span>
+where <span class="math inline">\(x = 1\)</span> if the river is river B
+or <span class="math inline">\(x = 0\)</span> if it is the baseline
+river A.</p>
+<p>We could report: There is a significant difference in pH between
+river A (mean = 8.66) and river B (mean = 6.41; t = -6.98, p &lt;
+0.001).</p>
+<details>
+<summary>
+<strong>Are these results the same as running a t test?</strong>
+</summary>
+<p>Yes! Same t and p values.</p>
+<pre class="r"><code>t.test(pH ~ River_name, data = River_pH, var.equal = TRUE)</code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  pH by River_name
+## t = 6.9788, df = 18, p-value = 1.618e-06
+## alternative hypothesis: true difference in means between group A and group B is not equal to 0
+## 95 percent confidence interval:
+##  1.574706 2.931168
+## sample estimates:
+## mean in group A mean in group B 
+##        8.661497        6.408560</code></pre>
+</details>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Run a model and report if there is an effect of <code>sex</code> on
+the <code>body_mass_g</code> of penguins.</p>
+<details>
+<summary>
+<strong>Solution</strong>
+</summary>
+<pre class="r"><code>model &lt;- lm(body_mass_g ~ sex, data = penguins)
+summary(model)</code></pre>
+<p>There is a significant effect of sex on penguin body mass with males
+larger (mean = 4545.68g) than females (mean = 3862.27g; t = 8.54, p &lt;
+0.001).</p>
+</details>
+<p><br></p>
+<p><strong>Challenge</strong></p>
+<p>Check the assumptions of the penguin sex model using plot.</p>
+<p>Do you think it meets the assumptions?</p>
+<details>
+<summary>
+<strong>Solution</strong>
+</summary>
+<pre class="r"><code>plot(model)</code></pre>
+<p>A linear relationship is not relevant here as the predictor is
+categorical not numeric. Something is wrong with the normality of the
+residuals. This would alert us to some other variable effecting the data
+- in this case penguin species. The variance might be greater in males
+than females.</p>
+</details>
+<p><br></p>
+</div>
+</div>
+<div
+id="continuous-response-one-predictor-with-three-or-more-categories-anova"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Continuous Response,
+One Predictor with Three or More Categories (ANOVA)</h1>
+<p><img src="images/ANOVA_single_factor_image.png" /></p>
+<p>For example, compare hatching times of turtle eggs (continuous
+response) incubated at four different temperatures - 15°C, 20°C, 25°C
+and 30°C (categorical predictor with four levels).</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Note that an ANOVA is a linear model, just like linear regression
+except that the predictor variables are categorical rather than
+continuous.</p>
+</div>
+<p><br></p>
+<p>The model fits four numbers to describe the mean response of each
+temperature (rather than just a single intercept and single slope in a
+simple linear regression).</p>
+<details>
+<summary>
+<strong>Equation</strong>
+</summary>
+<p>For this example, our linear model equation will have this form:</p>
+<p><span class="math display">\[HatchingTime = \mu + \beta_1.Temp_{15} +
+\beta_2.Temp_{20} + \beta_3.Temp_{25} + \beta_4.Temp_{30} +
+\varepsilon\]</span> Where <span class="math display">\[\mu\]</span> is
+the overall mean. <span class="math display">\[\beta\]</span> are the
+numbers (coefficients) for each of the temperatures.</p>
+</details>
+<p><br></p>
+<div id="running-the-analysis-1" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Running the
+analysis</h2>
+<p>Save the turtle hatching data, <a
+href="./data/Turtles.csv">Turtles.csv</a>, import into R and check the
+temperature variable is a factor with the <code>str</code> function.</p>
+<pre class="r"><code>Turtles &lt;- read.csv(file = &quot;data/Turtles.csv&quot;, header = TRUE)
+str(Turtles)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    40 obs. of  2 variables:
+##  $ Temperature: int  15 15 15 15 15 15 15 15 15 15 ...
+##  $ Days       : int  37 43 45 54 56 65 62 73 74 75 ...</code></pre>
+<p>R is treating Temperature as a numeric (int means integer). We need
+to change that variable to become a factor (categories).</p>
+<pre class="r"><code>Turtles$Temperature &lt;- factor(Turtles$Temperature)</code></pre>
+<p>Now run the model using <code>lm</code>.</p>
+<pre class="r"><code>turtle_model &lt;- lm(Days ~ Temperature, data = Turtles)
+summary(turtle_model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Days ~ Temperature, data = Turtles)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -28.200  -9.225   1.650   9.025  19.400 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     58.400      4.092  14.273  &lt; 2e-16 ***
+## Temperature20  -13.800      5.787  -2.385   0.0225 *  
+## Temperature25   -9.200      5.787  -1.590   0.1206    
+## Temperature30  -38.300      5.787  -6.619 1.04e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 12.94 on 36 degrees of freedom
+## Multiple R-squared:  0.5711, Adjusted R-squared:  0.5354 
+## F-statistic: 15.98 on 3 and 36 DF,  p-value: 9.082e-07</code></pre>
+<p><br></p>
+<p>If we thought we needed a post hoc test we could pass our model
+object through <code>emmeans()</code> from <code>emmeans</code>
+package.</p>
+<pre class="r"><code>library(emmeans)
+emmeans(turtle_model, pairwise ~ Temperature)</code></pre>
+<pre><code>## $emmeans
+##  Temperature emmean   SE df lower.CL upper.CL
+##  15            58.4 4.09 36     50.1     66.7
+##  20            44.6 4.09 36     36.3     52.9
+##  25            49.2 4.09 36     40.9     57.5
+##  30            20.1 4.09 36     11.8     28.4
+## 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast                      estimate   SE df t.ratio p.value
+##  Temperature15 - Temperature20     13.8 5.79 36   2.385  0.0983
+##  Temperature15 - Temperature25      9.2 5.79 36   1.590  0.3970
+##  Temperature15 - Temperature30     38.3 5.79 36   6.619  &lt;.0001
+##  Temperature20 - Temperature25     -4.6 5.79 36  -0.795  0.8563
+##  Temperature20 - Temperature30     24.5 5.79 36   4.234  0.0008
+##  Temperature25 - Temperature30     29.1 5.79 36   5.029  0.0001
+## 
+## P value adjustment: tukey method for comparing a family of 4 estimates</code></pre>
+<p><br></p>
+</div>
+<div id="assumptions-to-check-1" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Assumptions to
+check</h2>
+<pre class="r"><code>plot(turtle_model)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-21-1.png" width="672" /><img src="lm_files/figure-html/unnamed-chunk-21-2.png" width="672" /><img src="lm_files/figure-html/unnamed-chunk-21-3.png" width="672" /><img src="lm_files/figure-html/unnamed-chunk-21-4.png" width="672" /></p>
+<pre class="r"><code>hist(turtle_model$residuals)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-21-5.png" width="672" /></p>
+<p>Remember: the first graph produced by <code>plot()</code>, tells us
+about homogeneity of variance (equal variance). Look for an even spread
+of the residuals on the <em>y</em> axis for each of the levels on the
+<em>x</em> axis.</p>
+<p>The second plot and the histogram from <code>hist()</code> tells us
+about normality.</p>
+<p><br></p>
+</div>
+<div id="interpreting-the-results-1" class="section level2"
+number="3.3">
+<h2><span class="header-section-number">3.3</span> Interpreting the
+results</h2>
+<p><strong>Challenge</strong></p>
+<p>Given the output, write out how you could report these results. There
+will be many ways.</p>
+<p>Hint: Look at how we reported the examples before. Look at how a
+paper in your discipline reported results. Look at how ANOVA is
+reported.</p>
+<p><strong>Challenge</strong></p>
+<p>Run a lm model to test the effect of penguin <code>species</code> on
+<code>body_mass_g</code>. Report the results.</p>
+<p><br></p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>You might have previously been taught to run an anova and post hoc
+Tukey test on continuous data with 3 or more factors. If you run those
+tests using the code below you get the same result.</p>
+<p><kbd><code>Turtle_aov &lt;- aov(Days ~ Temperature, data = Turtles)</code>
+</kbd><br />
+<kbd><code>summary(Turtle_aov)</code></kbd><br />
+<kbd><code>TukeyHSD(Turtle_aov)</code></kbd></p>
+</div>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+<div id="generalised-linear-models" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Generalised Linear
+Models</h1>
+<p>If you understand general linear models then you can understand more
+complex generalised linear models. <strong>General</strong> linear
+models are used when the response (dependent) is
+<strong>continuous</strong>. Whereas <strong>generalised</strong> linear
+models are used when the response variable is not continuous but
+<strong>binary</strong> or <strong>count</strong> or
+<strong>proportional</strong> data.</p>
+<p>Generalised linear models need link functions. In simple terms, these
+vary with the type of data the response is and dictate how the
+generalised linear model is fitted. For example, for binomial data the
+link function is <code>logit()</code> and for count data it’s
+<code>log()</code>. We specify the link function using the argument
+<code>family =</code> within the <code>glm()</code>.</p>
+<p><br></p>
+</div>
+<div id="binomial-response" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Binomial Response</h1>
+<p><img src="images/GLM1_binary_image.jpg" /></p>
+<p>Save this <a href="./data/crabs.csv">crabs.csv</a> and read into R.
+The <code>CrabPres</code> column is whether a crab was present in that
+area of the beach surveyed. This response variable is binomial: the
+presence or absence of a crab.</p>
+<div id="running-the-analysis-2" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Running the
+analysis</h2>
+<p>We can fit a model to test whether the probability of crab presence
+changes with time (a factor) and distance (a continuous variable).</p>
+<p>First make sure R thinks <code>Time</code> is a factor.</p>
+<pre class="r"><code>crabs$Time &lt;- factor(crabs$Time)</code></pre>
+<p>The response variable (presence/absence of crabs) is binomial, so we
+use <code>family=binomial</code> in the glm.</p>
+<pre class="r"><code>crab_glm &lt;- glm(CrabPres ~ Time * Dist, family = &quot;binomial&quot;, data = crabs)</code></pre>
+<p><br></p>
+</div>
+<div id="assumptions-to-check-2" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Assumptions to
+check</h2>
+<p><strong>Assumption - There is a straight line relationship between
+the logit function of the mean of <span class="math inline">\(y\)</span>
+and the predictors <span class="math inline">\(x\)</span></strong></p>
+<p>For this assumption, we check the residual plot for non-linearity, or
+a U-shape.</p>
+<pre class="r"><code>plot(crab_glm, which = 1)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Unfortunately, passing the <code>glm</code> object through the plot
+function gives us a very odd looking plot due to the discreteness of the
+data (i.e., many points on top of each other).</p>
+<p>For a more useful plot we can instead fit the model using the
+<code>manyglm()</code> function in the <code>mvabund</code> package.</p>
+<pre class="r"><code>library(mvabund)
+crab_manyglm &lt;- manyglm(CrabPres ~ Time * Dist, family = &quot;binomial&quot;, data = crabs)
+plot(crab_manyglm)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>In our case there is no evidence of non-linearity.</p>
+<p>If the residuals seem to go down then up, or up then down, we may
+need to add a polynomial function of the predictors using the
+<code>poly</code> function.</p>
+<p><br></p>
+</div>
+<div id="interpreting-the-results-2" class="section level2"
+number="5.3">
+<h2><span class="header-section-number">5.3</span> Interpreting the
+results</h2>
+<p>For binomial models in particular the p-values from the
+<code>summary</code> function are not reliable, and we prefer to use the
+<code>anova</code> function to see if predictors are significant.</p>
+<pre class="r"><code>summary(crab_glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = CrabPres ~ Time * Dist, family = &quot;binomial&quot;, data = crabs)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.3518  -0.6457  -0.5890   1.0125   1.9390  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept) -1.71431    0.68664  -2.497   0.0125 *
+## Time10       1.29173    0.87194   1.481   0.1385  
+## Dist         0.02522    0.11137   0.226   0.8208  
+## Time10:Dist  0.05715    0.14149   0.404   0.6863  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 71.097  on 56  degrees of freedom
+## Residual deviance: 63.466  on 53  degrees of freedom
+## AIC: 71.466
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>anova(crab_glm, test = &quot;Chisq&quot;)</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: CrabPres
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##           Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)   
+## NULL                         56     71.097            
+## Time       1   6.6701        55     64.427 0.009804 **
+## Dist       1   0.7955        54     63.631 0.372448   
+## Time:Dist  1   0.1647        53     63.466 0.684852   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The p-value for <code>Time</code> is P&lt;0.01 so we conclude there
+is an effect of time on the presence of crabs, but no effect of distance
+or interaction between time and distance.</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>This sample is reasonably large, so these p-values should be a good
+approximation. For a small sample it is often better to use resampling
+to calculate p-values. When you use <kbd><code>manyglm</code></kbd> the
+<kbd><code>summary</code></kbd> and <kbd><code>anova</code></kbd>
+functions use resampling by default.</p>
+<p>In this case the results are quite similar, but in small samples it
+can often make a big difference.</p>
+</div>
+<p><br></p>
+<details>
+<summary>
+<strong>Optimising the model</strong>
+</summary>
+<p>When there is more than one predictor you can try reducing the model
+by removing predictors and comparing models. We can use a number called
+the AIC to compare. Lower AICs are better.</p>
+<pre class="r"><code>step(crab_glm, test = &quot;Chi&quot;)</code></pre>
+<pre><code>## Start:  AIC=71.47
+## CrabPres ~ Time * Dist
+## 
+##             Df Deviance    AIC     LRT Pr(&gt;Chi)
+## - Time:Dist  1   63.631 69.631 0.16472   0.6849
+## &lt;none&gt;           63.466 71.466                 
+## 
+## Step:  AIC=69.63
+## CrabPres ~ Time + Dist
+## 
+##        Df Deviance    AIC    LRT Pr(&gt;Chi)   
+## - Dist  1   64.427 68.427 0.7955  0.37245   
+## &lt;none&gt;      63.631 69.631                   
+## - Time  1   70.275 74.275 6.6438  0.00995 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=68.43
+## CrabPres ~ Time
+## 
+##        Df Deviance    AIC    LRT Pr(&gt;Chi)   
+## &lt;none&gt;      64.427 68.427                   
+## - Time  1   71.097 73.097 6.6701 0.009804 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>## 
+## Call:  glm(formula = CrabPres ~ Time, family = &quot;binomial&quot;, data = crabs)
+## 
+## Coefficients:
+## (Intercept)       Time10  
+##      -1.609        1.535  
+## 
+## Degrees of Freedom: 56 Total (i.e. Null);  55 Residual
+## Null Deviance:       71.1 
+## Residual Deviance: 64.43     AIC: 68.43</code></pre>
+<p><code>step()</code> removes the interaction (Dist * Time), then
+<code>Dist</code> and the AIC improves (gets lower). This confirms they
+are not predictors of the response.</p>
+</details>
+<p><br></p>
+</div>
+<div id="communicating-the-results" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Communicating the
+results</h2>
+<p>You can use the p values to report results like in other tests, e.g.,
+“There is strong evidence that the presence of crabs varies with time (p
+= 0.01).” For multiple predictors it’s best to display the results in a
+table.</p>
+<p><br></p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Tip: People get stuck interpreting binomial results because they do
+not have a clear idea of what the baseline (reference) groups are in
+their models. In this example we would make sure we know that baseline
+for the response <kbd><code>CrabPres</code></kbd> is
+<strong>absence</strong> of crabs and baseline for
+<kbd><code>Time</code></kbd> is time point <strong>5</strong>.</p>
+</div>
+<p><br></p>
+<p>The coefficients for the intercept is the value of the response
+variable (on a logit scale) when the factor predictors
+(<code>Time</code> in our example) is the baseline (time point 5 in our
+example) and the numeric predictors (<code>Dist</code>) is 0. The
+coefficient for <code>Time</code> (a factor) tells us the difference in
+the response between the baseline and the other group of the factor (the
+difference between time point 5 and time point 10).</p>
+<p>The coefficients for numeric predictors can show negative or positive
+relationships with the response.</p>
+<p>The coefficient numbers (called log odds) are difficult for you (and
+your readers) to interpret. Many people convert them into effect sizes
+called <strong>odds ratios</strong> to report them.</p>
+<pre class="r"><code>exp(coef(crab_glm)) # calculates the exponential of the coefficients in the model i.e. turns log odds into odds ratios</code></pre>
+<pre><code>## (Intercept)      Time10        Dist Time10:Dist 
+##   0.1800871   3.6390656   1.0255455   1.0588183</code></pre>
+<p>Odds ratios above 1 mean crabs are more likely to be present (present
+is coded as 1 in the response <code>CrabPres</code>). Odds ratios below
+1 mean crabs are less likely to be present.</p>
+<p>The odds ratio for <code>Time</code> is 1.29. We report “Crabs are
+1.29 more likely to be present at time point 10 compared to time point
+5”.</p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>Tip if the odds ratio is below 1 try recoding the explanatory
+variables so that another group is the baseline.</p>
+</div>
+<p><br></p>
+<p>For numeric predictors a positive odds ratio such as 3.21 would mean
+that a 1 unit increase in the predictor, increases the odds of the
+response being present by 3.21. However, our odds ratio for distance is
+negative which is more difficult to put into words and relate back to
+the research question. One solution is to express it as the % decrease.
+For example, (0.97–1) * 100 = -3%. Then we can write “Each additional
+increase of one in distance is associated with an 3% decrease in the
+odds of a crab being present.</p>
+<p><strong>Challenge</strong></p>
+<p>What plots do you think could be used to present this data?</p>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+<div id="count-response" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Count Response</h1>
+<div id="running-the-analysis-3" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Running the
+analysis</h2>
+<p><img src="images/GLM2_counts_image.jpg" /></p>
+<p>This example has counts of different animal groups at control sites
+and sites where bush regeneration has been carried out (treatment). We
+will use only one group of animals - slugs (Soleolifera is the order
+name of terrestrial slugs) to see if the the bush regeneration
+activities have affected slug abundance.</p>
+<p>Save <a href="./data/revegetation.csv">revegetation.csv</a> and
+import into R and view the data.</p>
+<pre class="r"><code>reveg &lt;- read.csv(&quot;data/revegetation.csv&quot;, header = T)</code></pre>
+<p>If you view the frequency histogram of the slug counts, you will see
+that it is very skewed, with many small values and few large counts.</p>
+<pre class="r"><code>hist(reveg$Soleolifera)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-32-1.png" width="500px" /></p>
+<div class="cadetbluebox">
+<div class="center">
+
+</div>
+<p>The default distribution for count data is the Poisson. The Poisson
+distribution assumes the variance equals the mean. This is quite a
+restrictive assumption which ecological count data often violates. We
+may need to use the more flexible <strong>negative-binomial</strong>
+distribution instead.</p>
+</div>
+<p><br></p>
+<p>We can use a GLM to test whether the counts of slugs (from the order
+Soleolifera) differ between control and regenerated sites. To fit the
+GLM, we will use the <code>manyglm</code> function instead of
+<code>glm</code> so we have access to more useful residual plots.</p>
+<p>To fit the GLM, load the mvabund package then fit the following
+model:</p>
+<pre class="r"><code>library(mvabund)
+slug_glm &lt;- manyglm(Soleolifera ~ Treatment, family = &quot;poisson&quot;, data = reveg)</code></pre>
+<p>Treatment is the predictor variable with two levels, control and
+revegetated.</p>
+<p><br></p>
+</div>
+<div id="assumptions-to-check-3" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Assumptions to
+check</h2>
+<p>Before looking at the results, look at the residual plot to check the
+assumptions.</p>
+<pre class="r"><code>plot(slug_glm)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-34-1.png" width="500px" /></p>
+<p>It’s hard to say whether there is any non-linearity in this plot,
+this is because the predictor is binary (treatment vs revegetated).</p>
+<p>Looking at the mean-variance assumption, it does appear as though
+there is a fan shape. The residuals are more spread out on the right
+than the left - we call this <strong>overdispersion</strong>.</p>
+<p>This tells us the mean-variance assumption of the Poisson is probably
+violated. We should try a different distribution. We can instead fit a
+negative-binomial distribution in <code>manyglm</code> by changing the
+family argument to <code>family="negative binomial"</code>.</p>
+<pre class="r"><code>slug_glm2 &lt;- manyglm(Soleolifera ~ Treatment, family = &quot;negative binomial&quot;, data = reveg)</code></pre>
+<p>Look again at the residual plot:</p>
+<pre class="r"><code>plot(slug_glm2)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-36-1.png" width="500px" /></p>
+<p>This seems to have improved the residual plot. There is no longer a
+strong fan shape, so we can go ahead and look at the results.</p>
+<p><br></p>
+</div>
+<div id="interpreting-the-results-3" class="section level2"
+number="6.3">
+<h2><span class="header-section-number">6.3</span> Interpreting the
+results</h2>
+<p>We can use <code>summary</code> and <code>anova</code>.</p>
+<pre class="r"><code>anova(slug_glm2)</code></pre>
+<pre><code>## Time elapsed: 0 hr 0 min 0 sec</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: Soleolifera ~ Treatment
+## 
+## Multivariate test:
+##             Res.Df Df.diff   Dev Pr(&gt;Dev)   
+## (Intercept)     48                          
+## Treatment       47       1 10.52    0.004 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Arguments: P-value calculated using 999 iterations via PIT-trap resampling.</code></pre>
+<pre class="r"><code>summary(slug_glm2)</code></pre>
+<pre><code>## 
+## Test statistics:
+##                      wald value Pr(&gt;wald)    
+## (Intercept)               1.502     0.030 *  
+## TreatmentRevegetated      3.307     0.001 ***
+## --- 
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Test statistic:  3.307, p-value: 0.001 
+## Arguments: P-value calculated using 999 resampling iterations via pit.trap resampling.</code></pre>
+<p>Both tests indicate treatment has an effect (p&lt;0.01).</p>
+<p><br></p>
+</div>
+<div id="communicating-the-results-1" class="section level2"
+number="6.4">
+<h2><span class="header-section-number">6.4</span> Communicating the
+results</h2>
+<p>You could write “There is strong evidence of a positive effect of
+bush regeneration on the abundance of slugs from the order Soleolifera
+(p &lt; 0.001)”. For multiple predictors it’s best to display the
+results in a table.</p>
+<p>You should also indicate which distribution was used
+(e.g. negative-binomial) and if resampling was used. “We used a
+negative-binomial generalised linear model due to overdispersion evident
+in the data. Bootstrap resampling was used with 1000 resamples” (1000 is
+the default when using <code>manyglm()</code>).</p>
+<p><strong>Challenge</strong></p>
+<p>What graph could be used to visualise the differences in slug counts
+between control and revegetated sites.</p>
+<details>
+<summary>
+<strong>Solution</strong>
+</summary>
+<p>There are various solutions. Boxplot is one.</p>
+<pre class="r"><code>boxplot(Soleolifera ~ Treatment, ylab = &quot;Count&quot;, xlab = &quot;Treatment&quot;, data = reveg)</code></pre>
+<p><img src="lm_files/figure-html/unnamed-chunk-38-1.png" width="500px" /></p>
+</details>
+<p><br></p>
+<p><br></p>
+<p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />
+<a href="https://creativecommons.org/">CC Licensed</a></p>
+<p>Adapted from <a
+href="https://github.com/nicercode/EnvironmentalComputing">EnvironmentalComputing</a>
+and Herman et al., 2021 <a
+href="https://carpentries-incubator.github.io/simple-linear-regression-public-health/">Statistical
+Analysis for Public Health: Simple linear regression</a></p>
+</div>
+</div>
 
 
 
