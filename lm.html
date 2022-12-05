@@ -11,7 +11,7 @@
 
 
 
-<title>linear models</title>
+<title>Linear Models</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -361,7 +361,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">linear models</h1>
+<h1 class="title toc-ignore">Linear Models</h1>
 
 </div>
 
@@ -986,6 +986,25 @@ results</h2>
 <p>The p-value for <code>Time</code> is P&lt;0.01 so we conclude there
 is an effect of time on the presence of crabs, but no effect of distance
 or interaction between time and distance.</p>
+<details>
+<summary>
+<strong>anova results</strong>
+</summary>
+<p>When there is more than one predictor, the maths ANOVA uses can be
+done in three different ways. These ways are named type I, II and III.
+This <a
+href="https://www.r-bloggers.com/2011/03/anova-%E2%80%93-type-iiiiii-ss-explained/">R
+bloggers article</a> explains the differences.</p>
+<p>Our crab example is approximately balanced (even sample numbers in
+each group) so whatever version of ANOVA R uses we’ll get the same
+results. However, if you have unbalanced data you could compare
+differences among type I, II and III ANOVAs using the function
+<code>Anova()</code> in the <code>car</code> package.</p>
+<pre class="r"><code>anova(lm_model) # default is type 1
+car::Anova(lm_model, type = 2)
+car::Anova(lm_model, type = 3)</code></pre>
+</details>
+<p><br></p>
 <div class="cadetbluebox">
 <div class="center">
 
@@ -1128,7 +1147,7 @@ import into R and view the data.</p>
 <p>If you view the frequency histogram of the slug counts, you will see
 that it is very skewed, with many small values and few large counts.</p>
 <pre class="r"><code>hist(reveg$Soleolifera)</code></pre>
-<p><img src="lm_files/figure-html/unnamed-chunk-32-1.png" width="500px" /></p>
+<p><img src="lm_files/figure-html/unnamed-chunk-33-1.png" width="500px" /></p>
 <div class="cadetbluebox">
 <div class="center">
 
@@ -1158,7 +1177,7 @@ check</h2>
 <p>Before looking at the results, look at the residual plot to check the
 assumptions.</p>
 <pre class="r"><code>plot(slug_glm)</code></pre>
-<p><img src="lm_files/figure-html/unnamed-chunk-34-1.png" width="500px" /></p>
+<p><img src="lm_files/figure-html/unnamed-chunk-35-1.png" width="500px" /></p>
 <p>It’s hard to say whether there is any non-linearity in this plot,
 this is because the predictor is binary (treatment vs revegetated).</p>
 <p>Looking at the mean-variance assumption, it does appear as though
@@ -1171,7 +1190,7 @@ family argument to <code>family="negative binomial"</code>.</p>
 <pre class="r"><code>slug_glm2 &lt;- manyglm(Soleolifera ~ Treatment, family = &quot;negative binomial&quot;, data = reveg)</code></pre>
 <p>Look again at the residual plot:</p>
 <pre class="r"><code>plot(slug_glm2)</code></pre>
-<p><img src="lm_files/figure-html/unnamed-chunk-36-1.png" width="500px" /></p>
+<p><img src="lm_files/figure-html/unnamed-chunk-37-1.png" width="500px" /></p>
 <p>This seems to have improved the residual plot. There is no longer a
 strong fan shape, so we can go ahead and look at the results.</p>
 <p><br></p>
@@ -1230,7 +1249,7 @@ between control and revegetated sites.</p>
 </summary>
 <p>There are various solutions. Boxplot is one.</p>
 <pre class="r"><code>boxplot(Soleolifera ~ Treatment, ylab = &quot;Count&quot;, xlab = &quot;Treatment&quot;, data = reveg)</code></pre>
-<p><img src="lm_files/figure-html/unnamed-chunk-38-1.png" width="500px" /></p>
+<p><img src="lm_files/figure-html/unnamed-chunk-39-1.png" width="500px" /></p>
 </details>
 <p><br></p>
 <p><br></p>

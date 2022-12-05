@@ -1,5 +1,5 @@
 ---
-title: "linear models"
+title: "Linear Models"
 ---
 
 ```{r setup, include=FALSE}
@@ -504,6 +504,22 @@ anova(crab_glm, test = "Chisq")
 ```
 
 The p-value for `Time` is P<0.01 so we conclude there is an effect of time on the presence of crabs, but no effect of distance or interaction between time and distance. 
+
+<details>
+  <summary>**anova results**</summary>
+  
+When there is more than one predictor, the maths ANOVA uses can be done in three different ways. These ways are named type I, II and III. This [R bloggers article](https://www.r-bloggers.com/2011/03/anova-%E2%80%93-type-iiiiii-ss-explained/) explains the differences. 
+
+Our crab example is approximately balanced (even sample numbers in each group) so whatever version of ANOVA R uses we'll get the same results. However, if you have unbalanced data you could compare differences among type I, II and III ANOVAs using the function `Anova()` in the `car` package. 
+```{r, eval = FALSE}
+anova(lm_model) # default is type 1
+car::Anova(lm_model, type = 2)
+car::Anova(lm_model, type = 3)
+```
+
+</details>
+
+<br>
 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
