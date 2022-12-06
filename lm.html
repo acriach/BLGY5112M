@@ -449,9 +449,9 @@ summary(model)</code></pre>
 <h2><span class="header-section-number">1.2</span> What has lm just
 done?</h2>
 <p>It has tried to make a line of best fit (the blue line in the graph).
-<img src="lm_files/figure-html/unnamed-chunk-5-1.png" width="672" /> The
-equation for that line is in the form <span class="math display">\[y =
-\alpha + \beta x \]</span></p>
+<img src="lm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The equation for that line is in the form <span
+class="math display">\[y = \alpha + \beta x \]</span></p>
 <p><span class="math inline">\(\alpha\)</span> is the intercept (where
 the line crosses the y axis). <span class="math inline">\(\beta\)</span>
 is the slope. (This is the same as the equation for a straight line y =
@@ -461,7 +461,7 @@ is the slope. (This is the same as the equation for a straight line y =
 class="math inline">\(\alpha\)</span> and <span
 class="math inline">\(\beta\)</span>. <span
 class="math inline">\(\alpha\)</span> and <span
-class="math inline">\(\beta\)</span>are called the model
+class="math inline">\(\beta\)</span> are called the model
 coefficients.</p>
 <p>To make it a model rather than just a straight line, it also has an
 extra bit called the error term <span
@@ -536,7 +536,7 @@ emphasised to answer the results question.</p>
 <div id="assumptions-to-check" class="section level3" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Assumptions to
 check</h3>
-<p>But to have confidence in our results we should check out data met
+<p>But to have confidence in our results we should check the data met
 the assumptions.</p>
 <p><strong>Independence</strong>. For all the data in these examples
 we’ll assume the observations are independent of each other.</p>
@@ -549,20 +549,23 @@ These include ensuring all important predictors are in the model;
 averaging across nested observations; or using a mixed-model (covered in
 another lesson).</p>
 </div>
+<p><br></p>
 <p><strong>Linearity</strong>. There is no point trying to fit a
-straight line to data that are curved! Curvilinear relationships produce
-patterns in plots of the residuals vs the fitted values.</p>
+straight line to data that are curved!</p>
 <p>Passing <code>model</code> through <code>plot()</code> gives four
-graphs. The first is a plot of residuals versus fitted values.</p>
+graphs. The first is a plot of residuals versus fitted values.
+Curvilinear relationships produce patterns in such plots.</p>
 <pre class="r"><code>plot(model)</code></pre>
 <p>The absence of strong patterning in the first plot indicates the
 assumption of linearity is valid.</p>
 <p>Click <a href="https://gallery.shinyapps.io/slr_diag/">here</a> to
 see what patterns of residuals you would expect with curved
 relationships</p>
+<p><br></p>
 <p><strong>Constant variance</strong> If the plot of residuals versus
 fitted values is fan-shaped, the assumption of constant variance
 (homogeneity of variance) is violated.</p>
+<p><br></p>
 <p><strong>Normality</strong>. Checks of whether the data are normally
 distributed are usually performed by either plotting a histogram of the
 residuals or via a quantile plot where the residuals are plotted against
@@ -574,10 +577,10 @@ distributed.</p>
 <p><img src="lm_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>plot(model, which = 2) # Quantile plot</code></pre>
 <p><img src="lm_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
-<p>Problems of variance normality can be addressed via transformations
-or by using a Generalised Linear Model, GLM. Note, however, that linear
-regression is reasonably robust against violations of constance variance
-and normality.</p>
+<p>Problems with variance or normality can be addressed via
+transformations or by using a Generalised Linear Model, GLM. Note,
+however, that linear regression is reasonably robust against violations
+of constant variance and normality.</p>
 <p><br></p>
 <p><br></p>
 </div>
@@ -593,9 +596,10 @@ differs from a sample of pH measurements from a second river, B. Save
 the data <a href="./data/River_pH.csv">River_pH.csv</a> in the
 <code>data</code> file in your Rproj.</p>
 <pre class="r"><code>River_pH &lt;- read.csv(file = &quot;data/River_pH.csv&quot;, header = TRUE)</code></pre>
-<p>To visualise we could plot a boxplot or bar chart with overlayed
-points. An alternative is a violin plot using
-<code>geom_violin</code>.</p>
+<div id="visualising-data" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Visualising data</h2>
+<p>We could plot a boxplot or bar chart with overlayed points. An
+alternative is a violin plot using <code>geom_violin</code>.</p>
 <pre class="r"><code>  ggplot(aes(x = River_name, y = pH), data = River_pH) +
   geom_violin()</code></pre>
 <p><img src="lm_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
@@ -656,8 +660,9 @@ penguins %&gt;%
 <p><img src="lm_files/figure-html/without%20na-1.png" width="672" /></p>
 </details>
 <p><br></p>
-<div id="fitting-a-model" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Fitting a model</h2>
+</div>
+<div id="fitting-a-model" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Fitting a model</h2>
 <p>As the previous example, use <code>lm()</code> and then put the
 resulting model through <code>summary()</code>.</p>
 <pre class="r"><code>model &lt;- lm(pH ~ River_name, data = River_pH)
@@ -736,7 +741,7 @@ class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Continuous Response,
 One Predictor with Three or More Categories (ANOVA)</h1>
 <p><img src="images/ANOVA_single_factor_image.png" /></p>
-<p>For example, compare hatching times of turtle eggs (continuous
+<p>For this example, compare hatching times of turtle eggs (continuous
 response) incubated at four different temperatures - 15°C, 20°C, 25°C
 and 30°C (categorical predictor with four levels).</p>
 <div class="cadetbluebox">
@@ -1081,8 +1086,8 @@ table.</p>
 </div>
 <p>Tip: People get stuck interpreting binomial results because they do
 not have a clear idea of what the baseline (reference) groups are in
-their models. In this example we would make sure we know that baseline
-for the response <kbd><code>CrabPres</code></kbd> is
+their models. In this example we would ensure we know that baseline for
+the response <kbd><code>CrabPres</code></kbd> is
 <strong>absence</strong> of crabs and baseline for
 <kbd><code>Time</code></kbd> is time point <strong>5</strong>.</p>
 </div>
@@ -1179,7 +1184,7 @@ assumptions.</p>
 <pre class="r"><code>plot(slug_glm)</code></pre>
 <p><img src="lm_files/figure-html/unnamed-chunk-35-1.png" width="500px" /></p>
 <p>It’s hard to say whether there is any non-linearity in this plot,
-this is because the predictor is binary (treatment vs revegetated).</p>
+this is because the predictor is binary (control vs revegetated).</p>
 <p>Looking at the mean-variance assumption, it does appear as though
 there is a fan shape. The residuals are more spread out on the right
 than the left - we call this <strong>overdispersion</strong>.</p>
@@ -1233,8 +1238,8 @@ number="6.4">
 results</h2>
 <p>You could write “There is strong evidence of a positive effect of
 bush regeneration on the abundance of slugs from the order Soleolifera
-(p &lt; 0.001)”. For multiple predictors it’s best to display the
-results in a table.</p>
+(p &lt; 0.01)”. For multiple predictors it’s best to display the results
+in a table.</p>
 <p>You should also indicate which distribution was used
 (e.g. negative-binomial) and if resampling was used. “We used a
 negative-binomial generalised linear model due to overdispersion evident

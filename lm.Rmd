@@ -75,13 +75,14 @@ ggplot(aes(x = temp, y = loght), data = Plant_height) +
   geom_point() +
   geom_smooth(method = "lm")
 ```
+
 The equation for that line is in the form
 $$y = \alpha + \beta x $$ 
 
 $\alpha$ is the intercept (where the line crosses the y axis). $\beta$ is the slope.
 (This is the same as the equation for a straight line y = **m**x + **c** or y = **a**x + **b** you may have encountered before.)
 
-The goal of lm is to obtain the best estimates for $\alpha$ and $\beta$. $\alpha$ and $\beta$are called the model coefficients. 
+The goal of lm is to obtain the best estimates for $\alpha$ and $\beta$. $\alpha$ and $\beta$ are called the model coefficients. 
 
 To make it a model rather than just a straight line, it also has an extra bit called the error term $\varepsilon$. You can think of this as how close the points are to the line. $\varepsilon$ is not usually reported as part of the equation.
 $$y = \alpha + \beta x + \varepsilon $$ 
@@ -127,7 +128,7 @@ If you have run several analyses (or if  there is more than one predictor), it m
 
 ### Assumptions to check
 
-But to have confidence in our results we should check out data met the assumptions.
+But to have confidence in our results we should check the data met the assumptions.
 
 **Independence**. For all the data in these examples we'll assume the observations are independent of each other. 
 
@@ -137,9 +138,11 @@ But to have confidence in our results we should check out data met the assumptio
 There are a variety of measures for dealing with non-independence. These include ensuring all important predictors are in the model; averaging across nested observations; or using a mixed-model (covered in another lesson).
 ::::
 
-**Linearity**. There is no point trying to fit a straight line to data that are curved! Curvilinear relationships produce patterns in plots of the residuals vs the fitted values. 
+<br>
 
-Passing `model` through `plot()` gives four graphs. The first is a plot of residuals versus fitted values.
+**Linearity**. There is no point trying to fit a straight line to data that are curved! 
+
+Passing `model` through `plot()` gives four graphs. The first is a plot of residuals versus fitted values. Curvilinear relationships produce patterns in such plots. 
 
 ```{r, eval = FALSE, fig.width = 5, fig.height = 4}
 plot(model)
@@ -149,8 +152,11 @@ The absence of strong patterning in the first plot indicates the assumption of l
 
 Click [here](https://gallery.shinyapps.io/slr_diag/) to see what patterns of residuals you would expect with curved relationships 
 
+<br>
+
 **Constant variance** If the plot of residuals versus fitted values is fan-shaped, the assumption of constant variance (homogeneity of variance) is violated. 
          
+<br>
 
 **Normality**. Checks of whether the data are normally distributed are usually performed by either plotting a histogram of the residuals or via a quantile plot where the residuals are plotted against the values expected from a normal distribution (the second of the figures obtained by `plot(model)`). If the points in the quantile plot lie mostly on the line, the residuals are normally distributed. 
 
@@ -160,7 +166,7 @@ hist(model$residuals) # Histogram of residuals
 plot(model, which = 2) # Quantile plot
 ```
 
-Problems of variance normality can be addressed via transformations or by using a Generalised Linear Model, GLM. Note, however, that linear regression is reasonably robust against violations of constance variance and normality.
+Problems with variance or normality can be addressed via transformations or by using a Generalised Linear Model, GLM. Note, however, that linear regression is reasonably robust against violations of constant variance and normality.
 
 <br>
 
@@ -181,7 +187,9 @@ We could test if a sample of pH measurements from one river, A, differs from a s
 River_pH <- read.csv(file = "data/River_pH.csv", header = TRUE)
 ```
 
-To visualise we could plot a boxplot or bar chart with overlayed points. An alternative is a violin plot using `geom_violin`.
+## Visualising data
+
+We could plot a boxplot or bar chart with overlayed points. An alternative is a violin plot using `geom_violin`.
 
 ```{r, warning = FALSE}
   ggplot(aes(x = River_name, y = pH), data = River_pH) +
@@ -255,6 +263,7 @@ penguins %>%
 <br>
 
 ## Fitting a model
+
 As the previous example, use `lm()` and then put the resulting model through `summary()`.
 
 ```{r, eval =FALSE}
@@ -330,7 +339,7 @@ A linear relationship is not relevant here as the predictor is categorical not n
 
 ![](./images/ANOVA_single_factor_image.png)
 
-For example, compare hatching times of turtle eggs (continuous response) incubated at four different temperatures - 15°C, 20°C, 25°C and 30°C (categorical predictor with four levels). 
+For this example, compare hatching times of turtle eggs (continuous response) incubated at four different temperatures - 15°C, 20°C, 25°C and 30°C (categorical predictor with four levels). 
 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
@@ -556,7 +565,7 @@ You can use the p values to report results like in other tests, e.g., "There is 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
 :::
-Tip: People get stuck interpreting binomial results because they do not have a clear idea of what the baseline (reference) groups are in their models. In this example we would make sure we know that baseline for the response <kbd>`CrabPres`</kbd> is **absence** of crabs and baseline for <kbd>`Time`</kbd> is time point **5**.
+Tip: People get stuck interpreting binomial results because they do not have a clear idea of what the baseline (reference) groups are in their models. In this example we would ensure we know that baseline for the response <kbd>`CrabPres`</kbd> is **absence** of crabs and baseline for <kbd>`Time`</kbd> is time point **5**.
 
 ::::
 
@@ -646,7 +655,7 @@ Before looking at the results, look at the residual plot to check the assumption
 plot(slug_glm)
 ```
 
-It's hard to say whether there is any non-linearity in this plot, this is because the predictor is binary (treatment vs revegetated). 
+It's hard to say whether there is any non-linearity in this plot, this is because the predictor is binary (control vs revegetated). 
 
 Looking at the mean-variance assumption, it does appear as though there is a fan shape. The residuals are more spread out on the right than the left - we call this **overdispersion**. 
 
@@ -681,7 +690,7 @@ Both tests indicate treatment has an effect (p<0.01).
 
 ## Communicating the results
  
-You could write "There is strong evidence of a positive effect of bush regeneration on the abundance of slugs from the order Soleolifera (p < 0.001)". For multiple predictors it's best to display the results in a table. 
+You could write "There is strong evidence of a positive effect of bush regeneration on the abundance of slugs from the order Soleolifera (p < 0.01)". For multiple predictors it's best to display the results in a table. 
 
 You should also indicate which distribution was used (e.g. negative-binomial) and if resampling was used. "We used a negative-binomial generalised linear model due to overdispersion evident in the data. Bootstrap resampling was used with 1000 resamples" (1000 is the default when using `manyglm()`).
 
