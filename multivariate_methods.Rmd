@@ -231,7 +231,7 @@ Cluster analysis is used to group samples based on multiple variables that have 
 
 [Ding et al., 2022](https://doi.org/10.3390/genes13081364) measured the expression of over 100,000 genes in 6 individuals (named FM, SM, FF, SF, EA and LA) of a wax-producing bug. The dendrogram in (a) below, shows how cluster analysis revealed one of the three technical replicates from the insect EA was not reliable and should be excluded. 
 
-(c) below, demonstrates how cluster analysis grouped these 100,000 genes into 19 "modules". Further analyses could then narrow down what groups of genes were associated with higher wax secretions. 
+The graph in (c) below, demonstrates how cluster analysis grouped these 100,000 genes into 19 "modules". Further analyses could then narrow down what groups of genes were associated with higher wax secretions. 
 
 ![alt.text=four images from a paper. The top diagram is a dendrogram ending in the names of samples such as FF2, FF1, FF3, FM3, FM2 etc. A table on the right is alligned to show the sex and amount of wax secreted by the samples. The middle graphs are not relevant to cluster analysis. The bottom graph is a dendrogram ending in over 100,000 lines. A wide horizontal bar underneath is divided into 19 repeating colours corresponding to 19 groups of genes.](./images/genes_dendrogram.jpg)
 <br>

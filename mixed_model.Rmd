@@ -49,7 +49,7 @@ View the 'Code Explained' if using lm is new to you.
 
 **Challenge**
 
-If you have learned how to run models using lm, write out how you would interpret the output from the summary.
+Write out how you could report the output from the summary. (You may want to look back at the Linear Models lesson.)
 
 <details>
   <summary>**Answer**</summary>

@@ -85,19 +85,15 @@ Spatial autocorrelation can be measured using **Moran's I** (I the letter not 1 
 
 We can use the function `spline.correlog()` in the package `ncf` to create a **correlogram**. This tells us if we have autocorrelation. 
 
-**Challenge**
-
 Install and library load the `ncf` package.
 
-<details>
-  <summary>**Answer**</summary>
 ```{r, eval = FALSE}
 install.packages("ncf") 
 ```
 ```{r, eval = TRUE}
 library(ncf) 
 ```
-</details>
+
 
 <br>
 
@@ -224,7 +220,7 @@ You can see the data clusters by continent.
 
 ## Models for Spatial Data
 
-Having established that we need to account for the spatial autocorrelation, we can run a model. However, there are many model to choose from.
+Having established that we need to account for the spatial autocorrelation, we can run a model. However, there are many models to choose from.
 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}
