@@ -453,7 +453,7 @@ Generalised linear models need link functions. In simple terms, these vary with 
 
 Save this [crabs.csv](./data/crabs.csv) and read into R. The `CrabPres` column is whether a crab was present in that area of the beach surveyed. This response variable is binomial: the presence or absence of a crab.
 
-```{r,echo=F}
+```{r,echo=T}
 crabs <- read.csv("data/crabs.csv", header = T)
 ```
   
@@ -582,7 +582,7 @@ exp(coef(crab_glm)) # calculates the exponential of the coefficients in the mode
 ```
 Odds ratios above 1 mean crabs are more likely to be present (present is coded as 1 in the response `CrabPres`). Odds ratios below 1 mean crabs are less likely to be present. 
 
-The odds ratio for `Time` is 1.29. We report "Crabs are 1.29 more likely to be present at time point 10 compared to time point 5".
+The odds ratio for `Time` is 3.6. We report "Crabs are 3.6 times more likely to be present at time point 10 compared to time point 5".
 
 :::: {.cadetbluebox data-latex=""}
 ::: {.center data-latex=""}

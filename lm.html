@@ -902,6 +902,7 @@ link function is <code>logit()</code> and for count data it’s
 The <code>CrabPres</code> column is whether a crab was present in that
 area of the beach surveyed. This response variable is binomial: the
 presence or absence of a crab.</p>
+<pre class="r"><code>crabs &lt;- read.csv(&quot;data/crabs.csv&quot;, header = T)</code></pre>
 <div id="running-the-analysis-2" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Running the
 analysis</h2>
@@ -1110,8 +1111,8 @@ called <strong>odds ratios</strong> to report them.</p>
 <p>Odds ratios above 1 mean crabs are more likely to be present (present
 is coded as 1 in the response <code>CrabPres</code>). Odds ratios below
 1 mean crabs are less likely to be present.</p>
-<p>The odds ratio for <code>Time</code> is 1.29. We report “Crabs are
-1.29 more likely to be present at time point 10 compared to time point
+<p>The odds ratio for <code>Time</code> is 3.6. We report “Crabs are 3.6
+times more likely to be present at time point 10 compared to time point
 5”.</p>
 <div class="cadetbluebox">
 <div class="center">
