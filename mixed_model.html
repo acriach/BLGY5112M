@@ -626,10 +626,10 @@ use other ways to determine if <code>bodyLength</code> has an effect on
 <pre><code>               Estimate  Std. Error   t value
 (Intercept) 43.70938024 17.13488692 2.5508998
 bodyLength   0.03316496  0.07864659 0.4216961</code></pre>
-<p>Notice it is smaller than the <code>Std. Error</code> for
-<code>bodyLength</code>. That means that the effect (think of effect as
-the slope of the fitted line in a scatterplot) is no different to 0. In
-other words, there is no effect.</p>
+<p>Notice that the <code>Std. Error</code> suggests the estimate might
+be 0 for <code>bodyLength</code>. That means that the effect (think of
+effect as the slope of the fitted line in a scatterplot) might be no
+different to 0. In other words, there is no effect.</p>
 <p><br></p>
 </div>
 <div id="likelihood-ratio-test" class="section level3" number="1.4.2">
@@ -893,10 +893,10 @@ model</strong>.</p>
 <p><strong>Challenge</strong></p>
 <p>Do an internet search to find the function and the code for a
 binominal mixed model. Adapt the code to run an analysis on this <a
-href="">binomial dragon data</a> where the response variable
-<code>passFail</code> is if the dragon passed (1) or failed (0) the IQ
-test. The fixed effect is <code>bodyLength</code> and random effect is
-<code>mountainRange</code>.</p>
+href="./data/dragons_binomial.csv">binomial dragon data</a> where the
+response variable <code>passFail</code> is if the dragon passed (1) or
+failed (0) the IQ test. The fixed effect is <code>bodyLength</code> and
+random effect is <code>mountainRange</code>.</p>
 <p>Once you have run the analysis, interpret the results (you might want
 to look back at the binomial response section of the linear model
 lesson) and write out the results in your script along with a suitable

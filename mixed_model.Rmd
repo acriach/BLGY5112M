@@ -218,7 +218,7 @@ In the `Fixed effects` section of the output, look at the `Estimate` for `bodyLe
 coef(summary(mixed.lmer))
 ```
 
-Notice it is smaller than the `Std. Error` for `bodyLength`. That means that the effect (think of effect as the slope of the fitted line in a scatterplot) is no different to 0. In other words, there is no effect.
+Notice that the `Std. Error` suggests the estimate might be 0 for `bodyLength`. That means that the effect (think of effect as the slope of the fitted line in a scatterplot) might be no different to 0. In other words, there is no effect.
 
 <br>
 
@@ -452,15 +452,25 @@ For example, imagine each of our dragons was scored as passing or failing the in
 
 **Challenge**
 
-Do an internet search to find the function and the code for a binominal mixed model. Adapt the code to run an analysis on this [binomial dragon data]() where the response variable `passFail` is if the dragon passed (1) or failed (0) the IQ test. The fixed effect is `bodyLength` and random effect is `mountainRange`. 
+Do an internet search to find the function and the code for a binominal mixed model. Adapt the code to run an analysis on this [binomial dragon data](./data/dragons_binomial.csv) where the response variable `passFail` is if the dragon passed (1) or failed (0) the IQ test. The fixed effect is `bodyLength` and random effect is `mountainRange`. 
 
 Once you have run the analysis, interpret the results (you might want to look back at the binomial response section of the linear model lesson) and write out the results in your script along with a suitable graph.
 
 
-```{r, echo = FALSE, eval = FALSE}
-glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons, family = binomial)
+```{r, echo=FALSE, eval=FALSE}
+dragons2 <- read.csv(file = "data/dragons_binomial.csv")
+library(lme4)
 ```
 
+```{r, echo = FALSE, eval = FALSE}
+model <- glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons2, family = binomial)
+# To check for linearity they may try to bootstrap the analysis to get a better graph like in the binomial generalised linear model.
+summary(model) # for glm esp binomial p values are unreliable but if look at the estimate for bodylength is pretty much 0.
+anova(model) # gives F value but not p. Possibly because can't really get p values for mixed models.
+full.model <- glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons2, family = binomial)
+reduced.model <- glmer(passFail ~ 1 + (1|mountainRange), data = dragons2, family = binomial)
+anova(full.model, reduced.model) # only 2 units difference between AIC and p values is 0.9469 so not effect
+```
 
 <br>
 <br>
