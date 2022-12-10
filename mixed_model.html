@@ -892,23 +892,22 @@ model</strong>.</p>
 <p><br></p>
 <p><strong>Challenge</strong></p>
 <p>Do an internet search to find the function and the code for a
-binominal mixed model. Adapt the code imagining that your response
-variable is <code>passFail</code>, the fixed effect is
-<code>bodyLength</code> and random effect is
+binominal mixed model. Adapt the code to run an analysis on this <a
+href="">binomial dragon data</a> where the response variable
+<code>passFail</code> is if the dragon passed (1) or failed (0) the IQ
+test. The fixed effect is <code>bodyLength</code> and random effect is
 <code>mountainRange</code>.</p>
-<details>
-<summary>
-<strong>Answer</strong>
-</summary>
-<pre class="r"><code>glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons, family = binomial)</code></pre>
-</details>
+<p>Once you have run the analysis, interpret the results (you might want
+to look back at the binomial response section of the linear model
+lesson) and write out the results in your script along with a suitable
+graph.</p>
 <p><br> <br></p>
 </div>
 <div id="nested-design" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Nested design</h2>
 <p><strong>Challenge</strong></p>
-<p>Do an internet search to find an example of a study that includes a
-nested design. You have 3 tasks:<br />
+<p>Do an internet search to find an example of a study or experimental
+set up, that includes a nested design. You have 3 tasks:<br />
 * Type a simple description of the experiment<br />
 * Name the variables that are the <strong>response</strong>, the
 <strong>fixed effect</strong>, the <strong>random effects</strong> and
@@ -931,8 +930,6 @@ fully) design. You have 3 tasks:<br />
 explain why it is crossed.<br />
 * Then write out an example of R code that would run a mixed model with
 crossed random effects.</p>
-<p>Tip - searching for a tutorial or similar on a crossed designed mixed
-model will provide both an example and the code.</p>
 <p><br></p>
 <p><br></p>
 <p><a href="https://github.com/acriach/BLGY5112M">Source</a><br />

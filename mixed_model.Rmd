@@ -452,15 +452,15 @@ For example, imagine each of our dragons was scored as passing or failing the in
 
 **Challenge**
 
-Do an internet search to find the function and the code for a binominal mixed model. Adapt the code imagining that your response variable is `passFail`, the fixed effect is `bodyLength` and random effect is `mountainRange`. 
+Do an internet search to find the function and the code for a binominal mixed model. Adapt the code to run an analysis on this [binomial dragon data]() where the response variable `passFail` is if the dragon passed (1) or failed (0) the IQ test. The fixed effect is `bodyLength` and random effect is `mountainRange`. 
 
-<details>
-  <summary>**Answer**</summary>
-```{r, eval = FALSE}
+Once you have run the analysis, interpret the results (you might want to look back at the binomial response section of the linear model lesson) and write out the results in your script along with a suitable graph.
+
+
+```{r, echo = FALSE, eval = FALSE}
 glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons, family = binomial)
 ```
 
-</details>
 
 <br>
 <br>
@@ -469,7 +469,7 @@ glmer(passFail ~ bodyLength + (1|mountainRange), data = dragons, family = binomi
 
 **Challenge**
 
-Do an internet search to find an example of a study that includes a nested design. You have 3 tasks:  
+Do an internet search to find an example of a study or experimental set up, that includes a nested design. You have 3 tasks:  
 * Type a simple description of the experiment  
 * Name the variables that are the **response**, the **fixed effect**, the **random effects** and what is nested in what.  
 * Write out an example of R code for a mixed model with this nested design. 
@@ -487,8 +487,6 @@ Do an internet search to find an example of a crossed (partial or fully) design.
 * Type a simple description of the experiment  
 * Name the variables that are the **response**, the **fixed effect**, the **random effects** and explain why it is crossed.  
 * Then write out an example of R code that would run a mixed model with crossed random effects.
-
-Tip - searching for a tutorial or similar on a crossed designed mixed model will provide both an example and the code.
 
 <br>
 
