@@ -69,9 +69,9 @@ library(tidyverse)  # load the package containing both ggplot2 and dplyr
 ```
 
 ```{r, warning=FALSE, message=FALSE}
-(dragonPlot <- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
+dragonPlot <- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
   geom_point() +
-  geom_smooth(method = "lm"))
+  geom_smooth(method = "lm")
 ```
 
 Okay, both the linear model and the plot, suggest bigger dragons do better in our intelligence test. From our knowledge of dragons, that seems a bit odd: size shouldn’t really affect the test scores.

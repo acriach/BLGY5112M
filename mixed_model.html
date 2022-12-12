@@ -462,10 +462,9 @@ variance in <code>testScore</code> is explained by
 <p><br></p>
 <p>Let’s plot the data with ggplot2:</p>
 <pre class="r"><code>library(tidyverse)  # load the package containing both ggplot2 and dplyr</code></pre>
-<pre class="r"><code>(dragonPlot &lt;- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
+<pre class="r"><code>dragonPlot &lt;- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;))</code></pre>
-<p><img src="mixed_model_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
 <p>Okay, both the linear model and the plot, suggest bigger dragons do
 better in our intelligence test. From our knowledge of dragons, that
 seems a bit odd: size shouldn’t really affect the test scores.</p>
