@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = NA)
 
 ## First a simple lm model
 
-We will use country IQ data from [Hassall and Sherratt's (2011) paper](https://doi.org/10.1016/j.intell.2011.05.001). Use this [simplified form of the data](https://raw.githubusercontent.com/acriach/BLGY5112M/main/data/IQ.txt). Save in your data folder in your R project.
+We will use country IQ data from [Hassall and Sherratt's (2011) paper](https://doi.org/10.1016/j.intell.2011.05.001). Use this [simplified form of the data](./data/IQData.txt). Save in your data folder in your R project.
 
 Read in the data:
 ```{r}
