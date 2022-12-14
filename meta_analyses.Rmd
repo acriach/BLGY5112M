@@ -210,7 +210,7 @@ We can calculate many different kinds of effect sizes with <kbd>`escalc`</kbd>; 
 
 **Challenge**
 
-Do an internet search to find out how to interpret forest plots. What do the squares mean? Why is there a dotted line at 0? What does the diamond that you see on some forest plots represent?
+Do an internet search to find out how to interpret forest plots. What do the squares mean? Why is there a dotted line at 0? Some forest plots you see on the internet might have a diamond. What does the diamond represent?
 
 <br>
 
