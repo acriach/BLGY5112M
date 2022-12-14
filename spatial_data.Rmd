@@ -279,29 +279,27 @@ View the AIC values:
 AIC(model_corExp, model_corGaus, model_corLin, model_corRatio, model_corSpher)
 ```
 
-`model_corLin` and `model_corSpher` have the lowest AIC values so they fit the data best.
+`model_corExp` has the lowest AIC value so it fits the data best.
 
 <br>
 
 **Challenge**
 
-View the output of the model by passing them through `summary()`.
+View the output of the model by passing it through `summary()`.
 
 <details>
   <summary>**Answer**</summary>
 ```{r, eval=FALSE}
-summary(model_corLin)
+summary(model_corExp)
 ```
-```{r, eval=FALSE}
-summary(model_corSpher)
-```
+
 </details>
 
 <br>
 
 **Challenge**
 
-Compare the results of these models where spatial autocorrelation is accounted for with the original lm `model1` where it was not. What are the differences?
+Compare the results of this model where spatial autocorrelation is accounted for with the original lm `model1` where it was not. What are the differences?
 
 <details>
   <summary>**Answer**</summary>

@@ -733,22 +733,21 @@ model_corGaus   5 1089.618
 model_corLin    5 1031.139
 model_corRatio  5 1054.716
 model_corSpher  5 1031.139</code></pre>
-<p><code>model_corLin</code> and <code>model_corSpher</code> have the
-lowest AIC values so they fit the data best.</p>
+<p><code>model_corExp</code> has the lowest AIC value so it fits the
+data best.</p>
 <p><br></p>
 <p><strong>Challenge</strong></p>
-<p>View the output of the model by passing them through
+<p>View the output of the model by passing it through
 <code>summary()</code>.</p>
 <details>
 <summary>
 <strong>Answer</strong>
 </summary>
-<pre class="r"><code>summary(model_corLin)</code></pre>
-<pre class="r"><code>summary(model_corSpher)</code></pre>
+<pre class="r"><code>summary(model_corExp)</code></pre>
 </details>
 <p><br></p>
 <p><strong>Challenge</strong></p>
-<p>Compare the results of these models where spatial autocorrelation is
+<p>Compare the results of this model where spatial autocorrelation is
 accounted for with the original lm <code>model1</code> where it was not.
 What are the differences?</p>
 <details>
