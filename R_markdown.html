@@ -326,6 +326,9 @@ div.tocify {
   <a href="index.html">Advanced Statistics</a>
 </li>
 <li>
+  <a href="lm.html">Linear Models</a>
+</li>
+<li>
   <a href="power_analyses.html">Power Analysis</a>
 </li>
 <li>
@@ -486,6 +489,8 @@ runs the code.</p>
 <p><br></p>
 <p>Now insert another code chunk. Type in the code below to compare
 penguin flipper length with body mass in a lm.</p>
+<pre class="r"><code>model1 &lt;- lm(flipper_length_mm ~ body_mass_g, data = penguins)
+summary(model1)</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = flipper_length_mm ~ body_mass_g, data = penguins)
@@ -505,8 +510,6 @@ penguin flipper length with body mass in a lm.</p>
 ##   (2 observations deleted due to missingness)
 ## Multiple R-squared:  0.759,  Adjusted R-squared:  0.7583 
 ## F-statistic:  1071 on 1 and 340 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code>model1 &lt;- lm(flipper_length_mm ~ body_mass_g, data = penguins)
-summary(model1)</code></pre>
 <p><br></p>
 </div>
 <div id="echo" class="section level2" number="2.4">
@@ -565,7 +568,6 @@ following code.</p>
 <pre class="r"><code>library(ggplot2)
 ggplot(penguins, aes(x=body_mass_g, y=flipper_length_mm)) +
   geom_point()</code></pre>
-<p><img src="R_markdown_files/figure-html/plot-1.png" width="672" /></p>
 <p><strong>Render</strong> to see what happens.</p>
 <p><br></p>
 <p>You can include a figure legend by adding
@@ -607,9 +609,9 @@ select your references. Choose Export at the bottom and choose BibTeX
 <p>If you don’t have a reference manager set up, download <a
 href="./data/export.bib">this BibTeX file</a> and save to your
 Rproj.</p>
-<p>Tell R what your .bib file is by adding another line to your yaml. If
-your file is called <code>export.bib</code> add a line that reads
-<code>bibliography: export.bib</code></p>
+<p>Tell R what your .bib file is called by adding another line to your
+yaml. If your file is called <code>export.bib</code> add a line that
+reads <code>bibliography: export.bib</code></p>
 <p>In the .bib file each reference has an identifying key. It might look
 like <code>Vedenina2020</code> or <code>RN15</code>. Using these keys we
 can insert a citation as below.</p>
@@ -643,8 +645,8 @@ contents page. <code>toc</code> stands for table of contents.
 <div id="page-breaks" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Page Breaks</h2>
 <p>If we wanted to have the abstract and introduction at the top of new
-pages, put <code>{{&lt; pagebreak &gt;}}</code> after the yaml and the
-abstract text.</p>
+pages, put one <code>{{&lt; pagebreak &gt;}}</code> after the yaml and
+another between the abstract and introduction text.</p>
 <p><strong>Render</strong></p>
 <p><br></p>
 </div>
@@ -658,7 +660,7 @@ download <a href="./images/cricket.png">this cricket image file</a> or
 use an image of your own.</p>
 <p>Then we use this code.</p>
 <p><code>![](./images/cricket.jpg)</code></p>
-<p>A caption = part adds a figure legend.</p>
+<p><code>caption =</code> adds a figure legend</p>
 <p><code>![caption = Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg)</code></p>
 <p>Accessible alternative text is added using curly brackets.</p>
 <p><code>![Photo credit by James Lindsey at Ecology of Commanster, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1682204](./images/cricket.jpg){fig-alt="A photo of a green cricket."}</code></p>
@@ -667,13 +669,13 @@ use an image of your own.</p>
 <div id="links" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Links</h2>
 <p>In your <code>Methods</code> section write the following sentence</p>
-<p>Distributions of grasshoppers were taken from orthoptera.org.uk</p>
+<p><code>Distributions of grasshoppers were taken from orthoptera.org.uk</code></p>
 <p>If you wanted that text to be a hyperlink add <code>&lt;</code> and
 <code>&gt;</code></p>
 <p><code>Distributions of grasshoppers were taken from &lt;orthoptera.org.uk&gt;</code></p>
 <p>Alternatively, you could have different text for the link.</p>
 <p><code>Distributions of grasshoppers were taken from the [Orthoptera and</code>
-<code>allied insect webpages](orthoptera.org.uk)</code></p>
+<code>allied insects webpages](orthoptera.org.uk)</code></p>
 <p><strong>Render</strong></p>
 <p><br></p>
 </div>

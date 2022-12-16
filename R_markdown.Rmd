@@ -124,13 +124,13 @@ In the top right corner of the chunk, click the green play arrow so R runs the c
 <br>
 
 Now insert another code chunk. Type in the code below to compare penguin flipper length with body mass in a lm.
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = FALSE}
 model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
 summary(model1)
 ```
 
 
-```{r runmodel, echo = TRUE, eval = FALSE}
+```{r runmodel, echo = TRUE, eval = TRUE}
 model1 <- lm(flipper_length_mm ~ body_mass_g, data = penguins)
 summary(model1)
 ```
