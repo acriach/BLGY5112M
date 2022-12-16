@@ -247,7 +247,7 @@ Add the heading `# References` to the bottom of your quarto file.
 Adjusting the YAML as below will add title page information and a contents page. `toc` stands for table of contents. `depth` relates to the level of hashtag headings.
 
 `title: "My Report"`
-`subheading: "other information that needs to be on title page"`
+`subtitle: "other information that needs to be on title page"`
 `author: "Your Name"`  
 `format: docx`  
 `editor: source`  
